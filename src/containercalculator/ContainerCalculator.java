@@ -12,7 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
+import containerMath.*;
 /**
  *
  * @author igorbashka
@@ -45,7 +45,10 @@ public class ContainerCalculator extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        launch(args);
+       // launch(args);
+        containerMath container = new containerMath();
+        container.readFromExcel();
+        container.testWrite();
     }
     
 }
