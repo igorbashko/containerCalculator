@@ -58,4 +58,8 @@ public class Items {
     public double getSumVolume(){
         return sumVolume;
     }
+    public double getRatio(){
+        double ratio = weightOfPack/volumeOfPack;
+        return ratio;
+    }
 }

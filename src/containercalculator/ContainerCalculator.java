@@ -49,6 +49,7 @@ public class ContainerCalculator extends Application {
         containerMath container = new containerMath();
         container.readFromExcel();
         container.testWrite();
+        container.findClosest();
     }
     
 }
