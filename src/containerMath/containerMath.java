@@ -32,7 +32,8 @@ import weka.core.neighboursearch.LinearNNSearch;
 public class containerMath {
     private List<Items> items;
    private List<Double> ratios;
-   private int index;
+   private int index; //index of a needed for sorting item
+   private List<Items> sortedItems; 
     //private Instances itemsList;
     //private Cell cell;
     /*
@@ -84,5 +85,15 @@ public class containerMath {
                 index = n;
              }
         }        
+    }
+    
+    /*Initializing the right list*/
+    public void rightListInitialize(){
+        sortedItems = new ArrayList<Items>(); 
+    }
+    
+    /*Adding item to the right list*/    
+    public void addToRightList(){
+        sortedItems.add(items.get(index));
     }
 }
