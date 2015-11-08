@@ -34,6 +34,13 @@ public class containerMath {
    private List<Double> ratios;
    private int index; //index of a needed for sorting item
    private List<Items> sortedItems; 
+   private double sumWeight; //sum weight of all matched elements
+   private double sumVolume;// sum volume of all matched elements
+   private double weightLeft;// left weight in the container
+   private double volumeLeft; // left volume in the container
+   private double weightCapacity; // weight capacity of the container
+   private double volumeCapacity; // volume capacity of the container
+   private int numberOfItems; // number of items to sort
     //private Instances itemsList;
     //private Cell cell;
     /*
@@ -59,6 +66,7 @@ public class containerMath {
             items.add(item);
             ratios.add(item.getRatio());
             }
+           numberOfItems = items.size();
            } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -84,7 +92,9 @@ public class containerMath {
                 min = dif;
                 index = n;
              }
-        }        
+        }
+        sumWeight = items.get(index).getSumWeight();
+        sumVolume = items.get(index).getSumVolume();
     }
     
     /*Initializing the right list*/
@@ -95,5 +105,48 @@ public class containerMath {
     /*Adding item to the right list*/    
     public void addToRightList(){
         sortedItems.add(items.get(index));
+    }
+    public void setWeightCapacity(double weightCapacity){
+        this.weightCapacity = weightCapacity;
+    }
+    public void setVolumeCapacity(double volumeCapacity){
+        this.volumeCapacity = volumeCapacity;
+    }
+   /*Method for getting left weight*/
+    private double getLeftWeight(){
+                this.weightLeft = weightCapacity - sumWeight;
+                return weightLeft;
+    }
+    private double formula(Items item, int count){
+        return (item.getRatio()+sumWeight/sumVolume)/count;
+    }
+    private double getLeftVolume(){
+        this.volumeLeft = volumeCapacity - sumVolume;
+        return volumeLeft;
+    }
+    /*Method for sorting items to fit in the container*/
+    public void sortItems(){
+        double diff = 0;
+        double idealRatio = 80;
+        double itemVolume;
+        double itemWeight;
+             for(int i=0; i<=numberOfItems; i++){
+                 double min = abs(idealRatio - items.get(0).getRatio());
+                 index = 0;
+                 int count = 0;
+                 for(Items item:items){
+                     count ++;
+                     diff = abs(idealRatio - item.getRatio());
+                     if (diff<min && item.getSumWeight()<getLeftWeight() &&
+                             item.getSumVolume()<getLeftVolume()){
+                         
+                         min = diff;
+                         index = count-1;
+                         itemWeight = item.getSumWeight();
+                         itemVolume = item.getSumVolume();
+                         }
+                       }
+                 
+             }
     }
 }
