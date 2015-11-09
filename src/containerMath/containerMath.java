@@ -41,6 +41,8 @@ public class containerMath {
    private double weightCapacity; // weight capacity of the container
    private double volumeCapacity; // volume capacity of the container
    private int numberOfItems; // number of items to sort
+   private double allWeight; // weight of all items which we need to sort
+   private double allVolume; // volume of all items which we need to sort
     //private Instances itemsList;
     //private Cell cell;
     /*
@@ -165,5 +167,10 @@ public class containerMath {
                   }
                  }
              System.out.println(volumeLeft+" " + weightLeft+" " +sumWeight + " " +sumVolume);
+    }
+    private void printUnsorted(){
+        for(Items item: items){
+            System.out.println(item.getName()+" "+item.getSumWeight()+" "+item.getSumVolume()+"\n");
+        }
     }
 }
