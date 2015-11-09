@@ -48,7 +48,7 @@ public class ContainerCalculator extends Application {
        // launch(args);
         containerMath container = new containerMath();
         container.readFromExcel();
-        container.setWeightCapacity(28000);
+        container.setWeightCapacity(25000);
         container.setVolumeCapacity(60);
         container.findClosest();
         container.sortItems();

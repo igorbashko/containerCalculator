@@ -127,8 +127,8 @@ public class containerMath {
     /*Method for sorting items to fit in the container*/
     public void sortItems(){
         rightListInitialize();
-        double diff = 0;
-        double idealRatio = 80;
+        double diff; // ratio difference
+        double idealRatio = weightCapacity/volumeCapacity;
         double itemVolume;
         double itemWeight;
         setLeftVolume();
@@ -161,7 +161,7 @@ public class containerMath {
                      setLeftVolume();
                      setLeftWeight();
                      numOfSortItems++;
-                     System.out.println(items.get(index).getName()+" "+items.get(index).getSumWeight()+" "+items.get(index).getSumVolume()+"\n");
+                     System.out.println(items.get(index-1).getName()+" "+items.get(index-1).getSumWeight()+" "+items.get(index-1).getSumVolume()+"\n");
                   }
                  }
              System.out.println(volumeLeft+" " + weightLeft+" " +sumWeight + " " +sumVolume);
