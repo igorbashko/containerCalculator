@@ -32,6 +32,7 @@ public class Items {
         this.weightOfPack = weightOfPacks;
         this.volumeOfPack = volumeOfPacks;
         this.sumVolume = sumVolume;
+        this.sumWeight = sumWeight;
     }
     
     public String getName(){

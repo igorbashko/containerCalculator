@@ -63,8 +63,10 @@ public class containerMath {
                     row.getCell(7).getNumericCellValue(), row.getCell(8).getNumericCellValue(),
             row.getCell(10).getNumericCellValue(), row.getCell(11).getNumericCellValue(),
             row.getCell(12).getNumericCellValue(), row.getCell(13).getNumericCellValue());
+            if (item.getNumOfPacks()!=0){
             items.add(item);
             ratios.add(item.getRatio());
+             }
             }
            numberOfItems = items.size();
            } catch (IOException ex) {
@@ -76,11 +78,8 @@ public class containerMath {
     }
     
     /*Writing output to system.out to test the method*/
-    public void testWrite(){
-        System.out.println(items.get(25).getName()+"  "+items.get(25).getSumVolume());
-    }
-    public void findClosest(){
-        double ideal = 1.4;
+     public void findClosest(){
+        double ideal = 80;
         double dif;
         double min = ratios.get(0)-ideal;
         int n = 0;
@@ -95,6 +94,8 @@ public class containerMath {
         }
         sumWeight = items.get(index).getSumWeight();
         sumVolume = items.get(index).getSumVolume();
+        items.remove(index);
+        System.out.println(items.get(index).getName()+" "+items.get(index).getSumWeight()+" "+items.get(index).getSumVolume()+"\n");
     }
     
     /*Initializing the right list*/
@@ -113,32 +114,38 @@ public class containerMath {
         this.volumeCapacity = volumeCapacity;
     }
    /*Method for getting left weight*/
-    private double getLeftWeight(){
-                this.weightLeft = weightCapacity - sumWeight;
-                return weightLeft;
+    private void setLeftWeight(){
+         this.weightLeft = weightCapacity - sumWeight;
+               
     }
-    private double formula(Items item, int count){
+    private double formula(Items item, double count){
         return (item.getRatio()+sumWeight/sumVolume)/count;
     }
-    private double getLeftVolume(){
+    private void setLeftVolume(){
         this.volumeLeft = volumeCapacity - sumVolume;
-        return volumeLeft;
     }
     /*Method for sorting items to fit in the container*/
     public void sortItems(){
+        rightListInitialize();
         double diff = 0;
         double idealRatio = 80;
         double itemVolume;
         double itemWeight;
+        setLeftVolume();
+        setLeftWeight();
+        int numOfSortItems = 2; // number of sorted items for calculation
              for(int i=0; i<=numberOfItems; i++){
-                 double min = abs(idealRatio - items.get(0).getRatio());
+                 itemVolume = items.get(0).getSumVolume();
+                 itemWeight = items.get(0).getSumWeight();
+                 double min = abs(idealRatio - formula(items.get(0), numOfSortItems));
                  index = 0;
                  int count = 0;
                  for(Items item:items){
                      count ++;
-                     diff = abs(idealRatio - item.getRatio());
-                     if (diff<min && item.getSumWeight()<getLeftWeight() &&
-                             item.getSumVolume()<getLeftVolume()){
+                     double b = item.getRatio();
+                     diff = abs(idealRatio - formula(item, numOfSortItems));
+                     if (diff<min && item.getSumWeight()<weightLeft &&
+                             item.getSumVolume()<volumeLeft){
                          
                          min = diff;
                          index = count-1;
@@ -146,7 +153,17 @@ public class containerMath {
                          itemVolume = item.getSumVolume();
                          }
                        }
-                 
-             }
+                 if(itemVolume<volumeLeft && itemWeight<weightLeft){
+                     sortedItems.add(items.get(index));
+                     sumWeight = sumWeight + items.get(index).getSumWeight();
+                     sumVolume = sumVolume + items.get(index).getSumVolume();
+                     items.remove(index);
+                     setLeftVolume();
+                     setLeftWeight();
+                     numOfSortItems++;
+                     System.out.println(items.get(index).getName()+" "+items.get(index).getSumWeight()+" "+items.get(index).getSumVolume()+"\n");
+                  }
+                 }
+             System.out.println(volumeLeft+" " + weightLeft+" " +sumWeight + " " +sumVolume);
     }
 }
