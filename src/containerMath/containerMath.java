@@ -43,11 +43,25 @@ public class containerMath {
    private int numberOfItems; // number of items to sort
    private double allWeight; // weight of all items which we need to sort
    private double allVolume; // volume of all items which we need to sort
+   private double numOfContainers; //number of containers to sort the items
     //private Instances itemsList;
     //private Cell cell;
     /*
     Reading excell file method
     */
+   /*Method to get weight of all elements*/
+    private void allWeight(){
+        for (Items item:items){
+            allWeight = item.getSumWeight();
+        }
+    } 
+    /*Get volume of all elements*/
+    private void allVolume(){
+        for (Items item: items){
+            allVolume = item.getSumVolume();
+        }
+    }
+  
     public void readFromExcel(){
         try {
             OPCPackage pkg;
@@ -71,12 +85,22 @@ public class containerMath {
              }
             }
            numberOfItems = items.size();
+           allWeight();
+           allVolume();
            } catch (IOException ex) {
             ex.printStackTrace();
         }
             } catch (InvalidFormatException ex) {
                 ex.printStackTrace();
             }
+    }
+    
+    public void getNumberOfContainers(){
+        if(allWeight % weightCapacity == 0){
+            numOfContainers = allWeight/weightCapacity;
+        }else{
+            numOfContainers = (int) allWeight/weightCapacity+1;
+        }
     }
     
     /*Writing output to system.out to test the method*/
@@ -168,7 +192,7 @@ public class containerMath {
                  }
              System.out.println(volumeLeft+" " + weightLeft+" " +sumWeight + " " +sumVolume);
     }
-    private void printUnsorted(){
+    public void printUnsorted(){
         for(Items item: items){
             System.out.println(item.getName()+" "+item.getSumWeight()+" "+item.getSumVolume()+"\n");
         }
