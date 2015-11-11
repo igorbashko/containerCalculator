@@ -44,6 +44,8 @@ public class containerMath {
    private double allWeight; // weight of all items which we need to sort
    private double allVolume; // volume of all items which we need to sort
    private double numOfContainers; //number of containers to sort the items
+   private int numOfFourties;
+   private int numOfTwenties;
     //private Instances itemsList;
     //private Cell cell;
     /*
@@ -61,7 +63,11 @@ public class containerMath {
             allVolume = item.getSumVolume();
         }
     }
-  
+  public void findContainers(){
+      if(allVolume/(numOfContainers*volumeCapacity)<=1){
+          numOfTwenties = (int) numOfContainers;
+      }
+  }
     public void readFromExcel(){
         try {
             OPCPackage pkg;
