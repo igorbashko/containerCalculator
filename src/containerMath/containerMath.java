@@ -46,6 +46,7 @@ public class containerMath {
    private double numOfContainers; //number of containers to sort the items
    private int numOfFourties;
    private int numOfTwenties;
+   private double capacityFourty; // capacity of 40ft container
     //private Instances itemsList;
     //private Cell cell;
     /*
@@ -63,8 +64,24 @@ public class containerMath {
             allVolume = item.getSumVolume();
         }
     }
+  public void setFourty(double fourty){
+      this.capacityFourty = fourty;
+  }  
   public void findContainers(){
       if(allVolume/(numOfContainers*volumeCapacity)<=1){
+          numOfTwenties = (int) numOfContainers;
+      }else if(allVolume/(numOfContainers*capacityFourty) == 1){
+          numOfFourties = (int) numOfContainers;
+      }else if(allVolume/(numOfContainers*capacityFourty) >1){
+          System.out.println("You need a vagon, not enough space");
+      }
+      else if(allVolume/(numOfContainers*volumeCapacity)>1 && allVolume/(numOfContainers*capacityFourty)<1){
+          numOfFourties = 1;
+          while(allVolume/(numOfContainers*volumeCapacity)>1){
+              allVolume = allVolume - numOfFourties*capacityFourty;
+              numOfContainers--;
+              numOfFourties++;
+          }
           numOfTwenties = (int) numOfContainers;
       }
   }
