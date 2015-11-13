@@ -125,7 +125,18 @@ public class containerMath {
             numOfContainers = (int) allWeight/weightCapacity+1;
         }
     }
-    
+    private void writeOutput(List wrightItems, Sheet sheet){
+        Row row1 = sheet.createRow(0);//creating headings
+        Cell name = row1.createCell(0); name.setCellValue("Наименование"); 
+        Cell quantity = row1.createCell(1); quantity.setCellValue("Количество");
+        Cell inPacks = row1.createCell(2); inPacks.setCellValue("Количество в упаковке");
+        Cell numOfPacks = row1.createCell(3); numOfPacks.setCellValue("Количество упаковок");
+        Cell weightOfPack = row1.createCell(4); weightOfPack.setCellValue("Вес коробки");
+        Cell weightPacks = row1.createCell(5); weightPacks.setCellValue("Суммарный вес");
+        Cell volumeOfPack = row1.createCell(6); volumeOfPack.setCellValue("Объем коробки");
+        Cell volumeOfPacks = row1.createCell(7); volumeOfPack.setCellValue("Суммарный объем");
+        
+    }
     /*Writing output to system.out to test the method*/
      public void findClosest(){
         double ideal = 80;
