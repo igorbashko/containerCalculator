@@ -47,6 +47,7 @@ public class containerMath {
    private int numOfFourties;
    private int numOfTwenties;
    private double capacityFourty; // capacity of 40ft container
+   private int lastRow;
     //private Instances itemsList;
     //private Cell cell;
     /*
@@ -125,7 +126,8 @@ public class containerMath {
             numOfContainers = (int) allWeight/weightCapacity+1;
         }
     }
-    private void writeOutput(List wrightItems, Sheet sheet){
+    private Sheet writeOutput(List <Items> rightItems, Sheet sheet, int lastRow){
+        this.lastRow = lastRow;
         Row row1 = sheet.createRow(0);//creating headings
         Cell name = row1.createCell(0); name.setCellValue("Наименование"); 
         Cell quantity = row1.createCell(1); quantity.setCellValue("Количество");
@@ -135,7 +137,18 @@ public class containerMath {
         Cell weightPacks = row1.createCell(5); weightPacks.setCellValue("Суммарный вес");
         Cell volumeOfPack = row1.createCell(6); volumeOfPack.setCellValue("Объем коробки");
         Cell volumeOfPacks = row1.createCell(7); volumeOfPack.setCellValue("Суммарный объем");
-        
+        for(int i= lastRow; i<=rightItems.size(); i++){
+            Row rowN = sheet.createRow(i);
+            name.setCellValue(rightItems.get(i).getName());
+            quantity.setCellValue(rightItems.get(i).getQuantity());
+            inPacks.setCellValue(rightItems.get(i).getItemsInPack());
+            numOfPacks.setCellValue(rightItems.get(i).getNumOfPacks());
+            weightOfPack.setCellValue(rightItems.get(i).getWeightOfPacks());
+            weightPacks.setCellValue(rightItems.get(i).getSumWeight());
+            volumeOfPacks.setCellValue(rightItems.get(i).getVolumeOfPack());
+            volumeOfPack.setCellValue(rightItems.get(i).getSumVolume());
+        }
+        return sheet;
     }
     /*Writing output to system.out to test the method*/
      public void findClosest(){
@@ -185,7 +198,13 @@ public class containerMath {
         this.volumeLeft = volumeCapacity - sumVolume;
     }
     /*Method for sorting items to fit in the container*/
-    public void sortItems(){
+    public void sortItems(int containerType){
+        while(numOfContainers!=0){
+            if(numOfTwenties != 0){
+                numOfTwenties--;
+            }else{
+                this.volumeCapacity = capacityFourty;
+            }
         rightListInitialize();
         double diff; // ratio difference
         double idealRatio = weightCapacity/volumeCapacity;
@@ -225,6 +244,8 @@ public class containerMath {
                   }
                  }
              System.out.println(volumeLeft+" " + weightLeft+" " +sumWeight + " " +sumVolume);
+             numOfContainers--;
+        }
     }
     public void printUnsorted(){
         for(Items item: items){
