@@ -7,6 +7,7 @@ package containerMath;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.AbstractList;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import java.io.FileOutputStream;
 /*
 import weka.core.Instance;
 import weka.core.Instances;
@@ -55,14 +57,16 @@ public class containerMath {
     */
    /*Method to get weight of all elements*/
     private void allWeight(){
+        allWeight =0;
         for (Items item:items){
-            allWeight = item.getSumWeight();
+            allWeight = allWeight + item.getSumWeight();
         }
     } 
     /*Get volume of all elements*/
     private void allVolume(){
+        allVolume = 0;
         for (Items item: items){
-            allVolume = item.getSumVolume();
+            allVolume =allVolume + item.getSumVolume();
         }
     }
   public void setFourty(double fourty){
@@ -85,12 +89,13 @@ public class containerMath {
           }
           numOfTwenties = (int) numOfContainers;
       }
+      numOfContainers = numOfFourties + numOfTwenties; 
   }
     public void readFromExcel(){
         try {
             OPCPackage pkg;
             try {
-            pkg = OPCPackage.open(new File("/home/igor/Documents/China/HDHardware/all the goods in  251018+251019-1+251019-2 обновление_change_4.xlsx"));
+            pkg = OPCPackage.open(new File("/home/igor/Documents/China/HDHardware/test.xlsx"));
                             
             XSSFWorkbook book = new XSSFWorkbook(pkg);
             Sheet sheet1 = book.getSheetAt(0);
@@ -99,11 +104,12 @@ public class containerMath {
             //itemsList = new Instances();
             for (int n=0; n<96; n++){
             Row row = sheet1.getRow(n);
-            Items item = new Items(row.getCell(2).toString(),row.getCell(3).getNumericCellValue(),
-                    row.getCell(7).getNumericCellValue(), row.getCell(8).getNumericCellValue(),
-            row.getCell(10).getNumericCellValue(), row.getCell(11).getNumericCellValue(),
-            row.getCell(12).getNumericCellValue(), row.getCell(13).getNumericCellValue());
-            if (item.getNumOfPacks()!=0){
+            Items item = new Items(row.getCell(0).toString(),row.getCell(1).getNumericCellValue(),
+                    row.getCell(9).getNumericCellValue(), row.getCell(10).getNumericCellValue(),
+            row.getCell(11).getNumericCellValue(), row.getCell(13).getNumericCellValue(),
+            row.getCell(14).getNumericCellValue(), 
+                    row.getCell(16).getNumericCellValue());
+            if (item.getNumOfPacks()!=0 && item.getSumWeight() != 0){
             items.add(item);
             ratios.add(item.getRatio());
              }
@@ -126,7 +132,7 @@ public class containerMath {
             numOfContainers = (int) allWeight/weightCapacity+1;
         }
     }
-    private Sheet writeOutput(List <Items> rightItems, Sheet sheet, int lastRow){
+    private void writeOutput(List <Items> rightItems, Sheet sheet, int lastRow){
         this.lastRow = lastRow;
         Row row1 = sheet.createRow(0);//creating headings
         Cell name = row1.createCell(0); name.setCellValue("Наименование"); 
@@ -137,7 +143,7 @@ public class containerMath {
         Cell weightPacks = row1.createCell(5); weightPacks.setCellValue("Суммарный вес");
         Cell volumeOfPack = row1.createCell(6); volumeOfPack.setCellValue("Объем коробки");
         Cell volumeOfPacks = row1.createCell(7); volumeOfPack.setCellValue("Суммарный объем");
-        for(int i= lastRow; i<=rightItems.size(); i++){
+        for(int i= lastRow; i<rightItems.size(); i++){
             Row rowN = sheet.createRow(i);
             name.setCellValue(rightItems.get(i).getName());
             quantity.setCellValue(rightItems.get(i).getQuantity());
@@ -148,16 +154,15 @@ public class containerMath {
             volumeOfPacks.setCellValue(rightItems.get(i).getVolumeOfPack());
             volumeOfPack.setCellValue(rightItems.get(i).getSumVolume());
         }
-        return sheet;
+       
     }
     /*Writing output to system.out to test the method*/
-     public void findClosest(){
-        double ideal = 80;
+     public void findClosest(double ideal){
         double dif;
-        double min = ratios.get(0)-ideal;
+        double min = items.get(0).getRatio()-ideal;
         int n = 0;
-        for(double ratio: ratios){
-            dif = abs((ratio-ideal));
+        for(Items item : items){
+            dif = abs((item.getRatio()-ideal));
             n++;
          //min = min(min, dif);
             if(dif< min){
@@ -168,7 +173,7 @@ public class containerMath {
         sumWeight = items.get(index).getSumWeight();
         sumVolume = items.get(index).getSumVolume();
         items.remove(index);
-        System.out.println(items.get(index).getName()+" "+items.get(index).getSumWeight()+" "+items.get(index).getSumVolume()+"\n");
+       System.out.println(items.get(index).getName()+" "+items.get(index).getSumWeight()+" "+items.get(index).getSumVolume()+"\n");
     }
     
     /*Initializing the right list*/
@@ -198,8 +203,11 @@ public class containerMath {
         this.volumeLeft = volumeCapacity - sumVolume;
     }
     /*Method for sorting items to fit in the container*/
-    public void sortItems(int containerType){
-        while(numOfContainers!=0){
+    public void sortItems(){
+        XSSFWorkbook output = new XSSFWorkbook();
+        Sheet s = output.createSheet();
+        lastRow = 0;
+        while(numOfContainers!=0 && items.size()>2){
             if(numOfTwenties != 0){
                 numOfTwenties--;
             }else{
@@ -208,12 +216,13 @@ public class containerMath {
         rightListInitialize();
         double diff; // ratio difference
         double idealRatio = weightCapacity/volumeCapacity;
+         findClosest(idealRatio);
         double itemVolume;
         double itemWeight;
         setLeftVolume();
         setLeftWeight();
         int numOfSortItems = 2; // number of sorted items for calculation
-             for(int i=0; i<=numberOfItems; i++){
+             for(int i=0; i<numberOfItems; i++){
                  itemVolume = items.get(0).getSumVolume();
                  itemWeight = items.get(0).getSumWeight();
                  double min = abs(idealRatio - formula(items.get(0), numOfSortItems));
@@ -240,13 +249,28 @@ public class containerMath {
                      setLeftVolume();
                      setLeftWeight();
                      numOfSortItems++;
-                     System.out.println(items.get(index-1).getName()+" "+items.get(index-1).getSumWeight()+" "+items.get(index-1).getSumVolume()+"\n");
+                    if (index==items.size()) index=index-1;
+                    System.out.println(items.get(index).getName()+" "+items.get(index).getSumWeight()+" "+items.get(index).getSumVolume()+"\n");
                   }
                  }
              System.out.println(volumeLeft+" " + weightLeft+" " +sumWeight + " " +sumVolume);
              numOfContainers--;
+             writeOutput(sortedItems, s, lastRow+2);
+             lastRow = lastRow + sortedItems.size()+2;
         }
-    }
+        try {         
+            FileOutputStream write = new FileOutputStream("/home/igor/Documents/China/testOutput.xlsx");
+            try {
+                output.write(write);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+           } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
+      
+        
+     }
     public void printUnsorted(){
         for(Items item: items){
             System.out.println(item.getName()+" "+item.getSumWeight()+" "+item.getSumVolume()+"\n");
