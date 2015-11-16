@@ -95,7 +95,8 @@ public class containerMath {
         try {
             OPCPackage pkg;
             try {
-            pkg = OPCPackage.open(new File("/home/igor/Documents/China/HDHardware/test.xlsx"));
+            pkg = OPCPackage.open(new File("/home/igorbashka/Documents/ДокиМаша/test.xlsx"));
+            //pkg = OPCPackage.open(new File("/home/igor/Documents/China/HDHardware/test.xlsx"));
                             
             XSSFWorkbook book = new XSSFWorkbook(pkg);
             Sheet sheet1 = book.getSheetAt(0);
@@ -259,7 +260,8 @@ public class containerMath {
              lastRow = lastRow + sortedItems.size()+2;
         }
         try {         
-            FileOutputStream write = new FileOutputStream("/home/igor/Documents/China/testOutput.xlsx");
+            FileOutputStream write = new FileOutputStream("/home/igorbashka/Documents/ДокиМаша/testOutput.xlsx");
+           //FileOutputStream write = new FileOutputStream("/home/igor/Documents/China/testOutput.xlsx");
             try {
                 output.write(write);
             } catch (IOException ex) {

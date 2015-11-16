@@ -55,6 +55,7 @@ public class ContainerCalculator extends Application {
         container.findContainers();
        //container.findClosest();
         container.sortItems();
+        container.printUnsorted();
     }
     
 }
