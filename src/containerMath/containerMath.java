@@ -95,8 +95,8 @@ public class containerMath {
         try {
             OPCPackage pkg;
             try {
-            //pkg = OPCPackage.open(new File("/home/igorbashka/Documents/ДокиМаша/test.xlsx"));
-            pkg = OPCPackage.open(new File("/home/igor/Documents/China/HDHardware/test.xlsx"));
+            pkg = OPCPackage.open(new File("/home/igorbashka/Documents/ДокиМаша/test.xlsx"));
+            //pkg = OPCPackage.open(new File("/home/igor/Documents/China/HDHardware/test.xlsx"));
                             
             XSSFWorkbook book = new XSSFWorkbook(pkg);
             Sheet sheet1 = book.getSheetAt(0);
@@ -161,7 +161,7 @@ public class containerMath {
      public void findClosest(double ideal){
         double dif;
         double min = items.get(0).getRatio()-ideal;
-        int n = 0;
+        int n = -1;
         for(Items item : items){
             dif = abs((item.getRatio()-ideal));
             n++;
@@ -208,13 +208,13 @@ public class containerMath {
     public void sortItems(){
         XSSFWorkbook output = new XSSFWorkbook();
         Sheet s = output.createSheet();
-        lastRow = 0;
-        while(numOfContainers!=0 && items.size()>2){
+        //lastRow = 0;
+        /*while(numOfContainers!=0 && items.size()>2){
             if(numOfTwenties != 0){
                 numOfTwenties--;
             }else{
                 this.volumeCapacity = capacityFourty;
-            }
+            }*/
         rightListInitialize();
         double diff; // ratio difference
         double idealRatio = weightCapacity/volumeCapacity;
@@ -231,38 +231,39 @@ public class containerMath {
                  index = 0;
                  int count = 0;
                  for(Items item:items){
-                     count ++;
-                     double b = item.getRatio();
+                    
+                    // double b = item.getRatio();
                      diff = abs(idealRatio - formula(item, numOfSortItems));
                      if (diff<min && item.getSumWeight()<weightLeft &&
                              item.getSumVolume()<volumeLeft){
                          
                          min = diff;
-                         index = count-1;
+                         index = count;
                          itemWeight = item.getSumWeight();
                          itemVolume = item.getSumVolume();
                          }
+                      count ++;
                        }
                  if(itemVolume<volumeLeft && itemWeight<weightLeft){
                      sortedItems.add(items.get(index));
-                     sumWeight = sumWeight + items.get(index).getSumWeight();
-                     sumVolume = sumVolume + items.get(index).getSumVolume();
-                     items.remove(index);
+                     sumWeight = sumWeight + itemWeight;
+                     sumVolume = sumVolume + itemVolume;
                      setLeftVolume();
                      setLeftWeight();
-                     numOfSortItems++;
-                    if (index==items.size()) index=index-1;
+                    // numOfSortItems++;
+                    //if (index==items.size()) index=index-1;
                     System.out.println(items.get(index).getName()+" "+items.get(index).getSumWeight()+" "+items.get(index).getSumVolume()+"\n");
+                    items.remove(index);
                   }
                  }
              System.out.println(volumeLeft+" " + weightLeft+" " +sumWeight + " " +sumVolume);
              numOfContainers--;
-             writeOutput(sortedItems, s, lastRow+2);
-             lastRow = lastRow + sortedItems.size()+2;
-        }
+          //   writeOutput(sortedItems, s, lastRow+2);
+            // lastRow = lastRow + sortedItems.size()+2;
+        //}
         try {         
-            //FileOutputStream write = new FileOutputStream("/home/igorbashka/Documents/ДокиМаша/testOutput.xlsx");
-           FileOutputStream write = new FileOutputStream("/home/igor/Documents/China/testOutput.xlsx");
+            FileOutputStream write = new FileOutputStream("/home/igorbashka/Documents/ДокиМаша/testOutput.xlsx");
+           //FileOutputStream write = new FileOutputStream("/home/igor/Documents/China/testOutput.xlsx");
             try {
                 output.write(write);
             } catch (IOException ex) {
@@ -279,4 +280,13 @@ public class containerMath {
             System.out.println(item.getName()+" "+item.getSumWeight()+" "+item.getSumVolume()+"\n");
         }
     }
+        
+        public double printSumVolume(){
+            double sum = 0;
+            for(Items item: sortedItems){
+                sum = sum + item.getSumVolume();
+                            }
+            return sum;
+        }
+    
 }
