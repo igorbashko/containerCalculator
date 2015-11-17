@@ -95,22 +95,22 @@ public class containerMath {
         try {
             OPCPackage pkg;
             try {
-            pkg = OPCPackage.open(new File("/home/igorbashka/Documents/ДокиМаша/test.xlsx"));
-            //pkg = OPCPackage.open(new File("/home/igor/Documents/China/HDHardware/test.xlsx"));
+            //pkg = OPCPackage.open(new File("/home/igorbashka/Documents/ДокиМаша/test.xlsx"));
+            pkg = OPCPackage.open(new File("/home/igor/Documents/China/HDHardware/test.xlsx"));
                             
             XSSFWorkbook book = new XSSFWorkbook(pkg);
             Sheet sheet1 = book.getSheetAt(0);
             items = new ArrayList<Items>();
             ratios = new ArrayList<Double>();
             //itemsList = new Instances();
-            for (int n=0; n<96; n++){
+            for (int n=0; n<117; n++){
             Row row = sheet1.getRow(n);
             Items item = new Items(row.getCell(0).toString(),row.getCell(1).getNumericCellValue(),
                     row.getCell(9).getNumericCellValue(), row.getCell(10).getNumericCellValue(),
-            row.getCell(11).getNumericCellValue(), row.getCell(13).getNumericCellValue(),
-            row.getCell(14).getNumericCellValue(), 
+            row.getCell(12).getNumericCellValue(), row.getCell(14).getNumericCellValue(),
+            row.getCell(15).getNumericCellValue(), 
                     row.getCell(16).getNumericCellValue());
-            if (item.getNumOfPacks()!=0 && item.getSumWeight() != 0){
+            if (item.getNumOfPacks()!=0 && item.getSumWeight() != 0 && item.getSumVolume() !=0){
             items.add(item);
             ratios.add(item.getRatio());
              }
@@ -146,14 +146,14 @@ public class containerMath {
         Cell volumeOfPacks = row1.createCell(7); volumeOfPack.setCellValue("Суммарный объем");
         for(int i= lastRow; i<rightItems.size(); i++){
             Row rowN = sheet.createRow(i);
-            name.setCellValue(rightItems.get(i).getName());
-            quantity.setCellValue(rightItems.get(i).getQuantity());
-            inPacks.setCellValue(rightItems.get(i).getItemsInPack());
-            numOfPacks.setCellValue(rightItems.get(i).getNumOfPacks());
-            weightOfPack.setCellValue(rightItems.get(i).getWeightOfPacks());
-            weightPacks.setCellValue(rightItems.get(i).getSumWeight());
-            volumeOfPacks.setCellValue(rightItems.get(i).getVolumeOfPack());
-            volumeOfPack.setCellValue(rightItems.get(i).getSumVolume());
+            Cell nameN = rowN.createCell(0); nameN.setCellValue(rightItems.get(i).getName());
+            Cell quantityN = rowN.createCell(1); quantityN.setCellValue(rightItems.get(i).getQuantity());
+            Cell inPacksN = rowN.createCell(2); inPacksN.setCellValue(rightItems.get(i).getItemsInPack());
+            Cell numOfPacksN = rowN.createCell(3); numOfPacksN.setCellValue(rightItems.get(i).getNumOfPacks());
+            Cell weightOfPackN = rowN.createCell(4); weightOfPackN.setCellValue(rightItems.get(i).getWeightOfPacks());
+            Cell weightPacksN = rowN.createCell(5); weightPacksN.setCellValue(rightItems.get(i).getSumWeight());
+            Cell volumeOfPackN = rowN.createCell(6); volumeOfPackN.setCellValue(rightItems.get(i).getVolumeOfPack());
+            Cell volumeOfPacksN = rowN.createCell(7); volumeOfPacksN.setCellValue(rightItems.get(i).getSumVolume());
         }
        
     }
@@ -173,6 +173,7 @@ public class containerMath {
         }
         sumWeight = items.get(index).getSumWeight();
         sumVolume = items.get(index).getSumVolume();
+        sortedItems.add(items.get(index));
         items.remove(index);
        System.out.println(items.get(index).getName()+" "+items.get(index).getSumWeight()+" "+items.get(index).getSumVolume()+"\n");
     }
@@ -260,8 +261,8 @@ public class containerMath {
              lastRow = lastRow + sortedItems.size()+2;
         }
         try {         
-            FileOutputStream write = new FileOutputStream("/home/igorbashka/Documents/ДокиМаша/testOutput.xlsx");
-           //FileOutputStream write = new FileOutputStream("/home/igor/Documents/China/testOutput.xlsx");
+            //FileOutputStream write = new FileOutputStream("/home/igorbashka/Documents/ДокиМаша/testOutput.xlsx");
+           FileOutputStream write = new FileOutputStream("/home/igor/Documents/China/testOutput.xlsx");
             try {
                 output.write(write);
             } catch (IOException ex) {

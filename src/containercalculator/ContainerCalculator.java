@@ -50,7 +50,7 @@ public class ContainerCalculator extends Application {
         container.readFromExcel();
         container.setWeightCapacity(25000);
         container.setVolumeCapacity(56);
-        container.setFourty(25);
+        container.setFourty(56);
         container.getNumberOfContainers();
         container.findContainers();
        //container.findClosest();
