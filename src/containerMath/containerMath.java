@@ -135,6 +135,7 @@ public class containerMath {
     }
     private void writeOutput(List <Items> rightItems, Sheet sheet, int lastRow){
         this.lastRow = lastRow;
+        int j=0;
         Row row1 = sheet.createRow(0);//creating headings
         Cell name = row1.createCell(0); name.setCellValue("Наименование"); 
         Cell quantity = row1.createCell(1); quantity.setCellValue("Количество");
@@ -154,11 +155,14 @@ public class containerMath {
             Cell weightPacksN = rowN.createCell(5); weightPacksN.setCellValue(rightItems.get(i).getSumWeight());
             Cell volumeOfPackN = rowN.createCell(6); volumeOfPackN.setCellValue(rightItems.get(i).getVolumeOfPack());
             Cell volumeOfPacksN = rowN.createCell(7); volumeOfPacksN.setCellValue(rightItems.get(i).getSumVolume());
+        j=lastRow+i;   
         }
-       
-    }
+       Row last = sheet.createRow(j+2);
+       Cell cellLast = last.createCell(0); cellLast.setCellValue("chheck");
+     }
     /*Writing output to system.out to test the method*/
      public void findClosest(double ideal){
+         
         double dif;
         double min = items.get(0).getRatio()-ideal;
         int n = -1;
@@ -174,9 +178,10 @@ public class containerMath {
         sumWeight = items.get(index).getSumWeight();
         sumVolume = items.get(index).getSumVolume();
         sortedItems.add(items.get(index));
-        items.remove(index);
-       System.out.println(items.get(index).getName()+" "+items.get(index).getSumWeight()+" "+items.get(index).getSumVolume()+"\n");
-    }
+        System.out.println(items.get(index).getName()+" "+items.get(index).getSumWeight()+" "+items.get(index).getSumVolume()+"\n");
+    items.remove(index);
+    numberOfItems --;
+     }
     
     /*Initializing the right list*/
     public void rightListInitialize(){
@@ -208,22 +213,24 @@ public class containerMath {
     public void sortItems(){
         XSSFWorkbook output = new XSSFWorkbook();
         Sheet s = output.createSheet();
-        //lastRow = 0;
-        /*while(numOfContainers!=0 && items.size()>2){
+        lastRow = 0;
+        while(numOfContainers!=0&&items.size()>2){
             if(numOfTwenties != 0){
                 numOfTwenties--;
             }else{
                 this.volumeCapacity = capacityFourty;
-            }*/
+            }
         rightListInitialize();
         double diff; // ratio difference
         double idealRatio = weightCapacity/volumeCapacity;
+        
          findClosest(idealRatio);
         double itemVolume;
         double itemWeight;
         setLeftVolume();
         setLeftWeight();
         int numOfSortItems = 2; // number of sorted items for calculation
+        numberOfItems=items.size();
              for(int i=0; i<numberOfItems; i++){
                  itemVolume = items.get(0).getSumVolume();
                  itemWeight = items.get(0).getSumWeight();
@@ -250,17 +257,16 @@ public class containerMath {
                      sumVolume = sumVolume + itemVolume;
                      setLeftVolume();
                      setLeftWeight();
-                    // numOfSortItems++;
-                    //if (index==items.size()) index=index-1;
-                    System.out.println(items.get(index).getName()+" "+items.get(index).getSumWeight()+" "+items.get(index).getSumVolume()+"\n");
+                     System.out.println(items.get(index).getName()+" "+items.get(index).getSumWeight()+" "+items.get(index).getSumVolume()+"\n");
                     items.remove(index);
-                  }
+                   }
+                  
                  }
              System.out.println(volumeLeft+" " + weightLeft+" " +sumWeight + " " +sumVolume);
              numOfContainers--;
-          //   writeOutput(sortedItems, s, lastRow+2);
-            // lastRow = lastRow + sortedItems.size()+2;
-        //}
+            writeOutput(sortedItems, s, lastRow);
+             lastRow = lastRow + sortedItems.size()+3;
+        }
         try {         
             FileOutputStream write = new FileOutputStream("/home/igorbashka/Documents/ДокиМаша/testOutput.xlsx");
            //FileOutputStream write = new FileOutputStream("/home/igor/Documents/China/testOutput.xlsx");
