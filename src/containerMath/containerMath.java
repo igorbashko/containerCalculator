@@ -95,15 +95,15 @@ public class containerMath {
         try {
             OPCPackage pkg;
             try {
-            //pkg = OPCPackage.open(new File("/home/igorbashka/Documents/ДокиМаша/test.xlsx"));
-            pkg = OPCPackage.open(new File("/home/igor/Documents/China/HDHardware/test.xlsx"));
+            pkg = OPCPackage.open(new File("/home/igorbashka/Documents/ДокиМаша/test.xlsx"));
+            //pkg = OPCPackage.open(new File("/home/igor/Documents/China/HDHardware/test.xlsx"));
                             
             XSSFWorkbook book = new XSSFWorkbook(pkg);
             Sheet sheet1 = book.getSheetAt(0);
             items = new ArrayList<Items>();
             ratios = new ArrayList<Double>();
             //itemsList = new Instances();
-            for (int n=0; n<135; n++){
+            for (int n=0; n<117; n++){
             Row row = sheet1.getRow(n);
             Items item = new Items(row.getCell(0).toString(),row.getCell(1).getNumericCellValue(),
                     row.getCell(9).getNumericCellValue(), row.getCell(10).getNumericCellValue(),
@@ -133,6 +133,7 @@ public class containerMath {
         }
     }
     private void writeOutput(List <Items> rightItems, Sheet sheet, int lastRow){
+      sheet.setColumnWidth(0, 13000);
         this.lastRow = lastRow;
         int j=0;
         Row row1 = sheet.createRow(0);//creating headings
@@ -156,11 +157,20 @@ public class containerMath {
             Cell volumeOfPacksN = rowN.createCell(7); volumeOfPacksN.setCellValue(rightItems.get(i).getSumVolume());
         j=lastRow+i;   
         }
-       Row last = sheet.createRow(j+2); //Headings
-       Cell cellLast = last.createCell(0); cellLast.setCellValue("Итого");
-       Row lastData = sheet.createRow(j+3);
-       Cell cellFinalWeight = lastData.createCell(5); cellFinalWeight.setCellValue(sumWeight);
-       Cell cellFinalVolume = lastData.createCell(7); cellFinalVolume.setCellValue(sumVolume);
+       Row secondHeadings = sheet.createRow(j+2); //Headings
+       Cell cellFinal = secondHeadings.createCell(0); cellFinal.setCellValue("Итого");
+       Cell cellWeight = secondHeadings.createCell(5); cellWeight.setCellValue("Суммарный вес");
+       Cell cellVolume = secondHeadings.createCell(7); cellVolume.setCellValue("Суммарный объем");
+       Row sumData = sheet.createRow(j+3);
+       Cell cellFinalWeight = sumData.createCell(5); cellFinalWeight.setCellValue(sumWeight);
+       Cell cellFinalVolume = sumData.createCell(7); cellFinalVolume.setCellValue(sumVolume);
+        Row rest = sheet.createRow(j+4); //row for rest space in the container
+        Cell restFinal = rest.createCell(0); restFinal.setCellValue("Остаток");
+        Cell restWeight = rest.createCell(5); restWeight.setCellValue("Остаток, кг");
+        Cell restVolume = rest.createCell(7); restVolume.setCellValue("Остаток, м3");
+        Row restNumbers = sheet.createRow(j+5);
+        Cell restWeightNumber = restNumbers.createCell(5); restWeightNumber.setCellValue(weightLeft);
+        Cell restVolumeNumber = restNumbers.createCell(7); restVolumeNumber.setCellValue(volumeLeft);
      }
     /*Writing output to system.out to test the method*/
      public void findClosest(double ideal){
@@ -267,11 +277,11 @@ public class containerMath {
              System.out.println(volumeLeft+" " + weightLeft+" " +sumWeight + " " +sumVolume);
              numOfContainers--;
             writeOutput(sortedItems, s, lastRow);
-             lastRow = lastRow + sortedItems.size()+3;
+             lastRow = lastRow + sortedItems.size()+6;
         }
         try {         
-           // FileOutputStream write = new FileOutputStream("/home/igorbashka/Documents/ДокиМаша/testOutput.xlsx");
-           FileOutputStream write = new FileOutputStream("/home/igor/Documents/China/testOutput.xlsx");
+           FileOutputStream write = new FileOutputStream("/home/igorbashka/Documents/ДокиМаша/testOutput.xlsx");
+           //FileOutputStream write = new FileOutputStream("/home/igor/Documents/China/testOutput.xlsx");
             try {
                 output.write(write);
             } catch (IOException ex) {
