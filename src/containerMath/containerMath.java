@@ -95,26 +95,25 @@ public class containerMath {
         try {
             OPCPackage pkg;
             try {
-            pkg = OPCPackage.open(new File("/home/igorbashka/Documents/ДокиМаша/test.xlsx"));
-            //pkg = OPCPackage.open(new File("/home/igor/Documents/China/HDHardware/test.xlsx"));
+            //pkg = OPCPackage.open(new File("/home/igorbashka/Documents/ДокиМаша/test.xlsx"));
+            pkg = OPCPackage.open(new File("/home/igor/Documents/China/HDHardware/test.xlsx"));
                             
             XSSFWorkbook book = new XSSFWorkbook(pkg);
             Sheet sheet1 = book.getSheetAt(0);
             items = new ArrayList<Items>();
             ratios = new ArrayList<Double>();
             //itemsList = new Instances();
-            for (int n=0; n<117; n++){
+            for (int n=0; n<135; n++){
             Row row = sheet1.getRow(n);
             Items item = new Items(row.getCell(0).toString(),row.getCell(1).getNumericCellValue(),
                     row.getCell(9).getNumericCellValue(), row.getCell(10).getNumericCellValue(),
             row.getCell(12).getNumericCellValue(), row.getCell(14).getNumericCellValue(),
             row.getCell(15).getNumericCellValue(), 
                     row.getCell(16).getNumericCellValue());
-            if (item.getNumOfPacks()!=0 && item.getSumWeight() != 0 && item.getSumVolume() !=0){
+           
             items.add(item);
             ratios.add(item.getRatio());
-             }
-            }
+              }
            numberOfItems = items.size();
            allWeight();
            allVolume();
@@ -145,8 +144,8 @@ public class containerMath {
         Cell weightPacks = row1.createCell(5); weightPacks.setCellValue("Суммарный вес");
         Cell volumeOfPack = row1.createCell(6); volumeOfPack.setCellValue("Объем коробки");
         Cell volumeOfPacks = row1.createCell(7); volumeOfPack.setCellValue("Суммарный объем");
-        for(int i= lastRow; i<rightItems.size(); i++){
-            Row rowN = sheet.createRow(i);
+        for(int i= 0; i<rightItems.size(); i++){
+            Row rowN = sheet.createRow(lastRow+i);
             Cell nameN = rowN.createCell(0); nameN.setCellValue(rightItems.get(i).getName());
             Cell quantityN = rowN.createCell(1); quantityN.setCellValue(rightItems.get(i).getQuantity());
             Cell inPacksN = rowN.createCell(2); inPacksN.setCellValue(rightItems.get(i).getItemsInPack());
@@ -157,8 +156,11 @@ public class containerMath {
             Cell volumeOfPacksN = rowN.createCell(7); volumeOfPacksN.setCellValue(rightItems.get(i).getSumVolume());
         j=lastRow+i;   
         }
-       Row last = sheet.createRow(j+2);
-       Cell cellLast = last.createCell(0); cellLast.setCellValue("chheck");
+       Row last = sheet.createRow(j+2); //Headings
+       Cell cellLast = last.createCell(0); cellLast.setCellValue("Итого");
+       Row lastData = sheet.createRow(j+3);
+       Cell cellFinalWeight = lastData.createCell(5); cellFinalWeight.setCellValue(sumWeight);
+       Cell cellFinalVolume = lastData.createCell(7); cellFinalVolume.setCellValue(sumVolume);
      }
     /*Writing output to system.out to test the method*/
      public void findClosest(double ideal){
@@ -213,7 +215,7 @@ public class containerMath {
     public void sortItems(){
         XSSFWorkbook output = new XSSFWorkbook();
         Sheet s = output.createSheet();
-        lastRow = 0;
+        lastRow = 1;
         while(numOfContainers!=0&&items.size()>2){
             if(numOfTwenties != 0){
                 numOfTwenties--;
@@ -268,8 +270,8 @@ public class containerMath {
              lastRow = lastRow + sortedItems.size()+3;
         }
         try {         
-            FileOutputStream write = new FileOutputStream("/home/igorbashka/Documents/ДокиМаша/testOutput.xlsx");
-           //FileOutputStream write = new FileOutputStream("/home/igor/Documents/China/testOutput.xlsx");
+           // FileOutputStream write = new FileOutputStream("/home/igorbashka/Documents/ДокиМаша/testOutput.xlsx");
+           FileOutputStream write = new FileOutputStream("/home/igor/Documents/China/testOutput.xlsx");
             try {
                 output.write(write);
             } catch (IOException ex) {
