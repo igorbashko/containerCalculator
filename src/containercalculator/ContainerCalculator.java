@@ -45,6 +45,16 @@ public class ContainerCalculator extends Application {
         //creating and adding file upload field
         TextField pathToSource = new TextField();
         grid.add(pathToSource, 1, 1);
+        //Creating and adding rows of items label and field
+        Label ItemsLabel = new Label("");
+        grid.add(ItemsLabel, 0, 2);
+        TextField ItemsField = new TextField();
+        grid.add(ItemsField, 1, 2);
+        //Creating and adding number of items label and field
+        Label NILabel = new Label("");
+        grid.add(NILabel, 0, 3);
+        TextField NIField= new TextField();
+        grid.add(NIField, 1, 3);
         /*
         Button btn = new Button();
         
