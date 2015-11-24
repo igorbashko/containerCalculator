@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import containerMath.*;
+import java.io.File;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
@@ -23,6 +24,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 /**
  *
  * @author igorbashka
@@ -49,7 +51,9 @@ public class ContainerCalculator extends Application {
         HBox uploadBtnH = new HBox();
         uploadBtnH.setAlignment(Pos.BOTTOM_RIGHT);
         Button uploadBtn = new Button("Upload File");
-        
+        uploadBtnH.getChildren().add(uploadBtn);
+        grid.add(uploadBtnH, 2, 1);
+        FileChooser chooseFile = new FileChooser();
         //Creating and adding rows of items label and field
         Label ItemsLabel = new Label("");
         grid.add(ItemsLabel, 0, 2);
@@ -119,6 +123,17 @@ public class ContainerCalculator extends Application {
         calculateBtnH.getChildren().add(btn);
         calculateBtnH.setAlignment(Pos.BOTTOM_RIGHT);
         grid.add(calculateBtnH, 2, 12);
+        //Actions on buttons
+        //Choose source file button
+        uploadBtn.setOnAction(new EventHandler <ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event ){
+                File selectedFile = chooseFile.showOpenDialog(primaryStage);
+                if(selectedFile != null){
+                    pathToSource.setText(openFile(selectedFile).getAbsolutePath());
+                }
+            }
+        });
         btn.setOnAction(new EventHandler<ActionEvent>() {
             
             @Override
@@ -136,7 +151,10 @@ public class ContainerCalculator extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
+    /*Method for accessing file through the file dialog*/
+private File openFile(File file){
+    return file;
+}
     /**
      * @param args the command line arguments
      */
