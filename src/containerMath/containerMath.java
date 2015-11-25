@@ -299,12 +299,24 @@ public class containerMath {
         }
     }
         
-        public double printSumVolume(){
+        public double getSumVolume(){
             double sum = 0;
             for(Items item: sortedItems){
                 sum = sum + item.getSumVolume();
                             }
             return sum;
-        }
-    
+       }
+        
+    public double getSumWeight(){
+        return sumWeight;
+    }
+    public double getNumOfContainers(){
+        return numOfContainers;
+    }
+    public int getFourties(){
+        return numOfFourties;
+    }
+    public int getTwenties(){
+        return numOfTwenties;
+    }
 }
