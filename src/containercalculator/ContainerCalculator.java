@@ -29,6 +29,7 @@ import javafx.scene.text.Text;
  */
 public class ContainerCalculator extends Application {
     
+    private containerMath containerCalc = new containerMath();
     @Override
     public void start(Stage primaryStage) {
         GridPane grid = new GridPane();
@@ -142,8 +143,9 @@ public class ContainerCalculator extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-        /*
+       /* 
         containerMath container = new containerMath();
+       
         container.readFromExcel();
         container.setWeightCapacity(28000);
         container.setVolumeCapacity(27);
@@ -157,4 +159,10 @@ public class ContainerCalculator extends Application {
                 */
     }
     
+ private void showReport(){
+    String message = "containers loaded: "+ 
+            containerCalc.getNumberOfContainers().;
+            
+   }
+         
 }
