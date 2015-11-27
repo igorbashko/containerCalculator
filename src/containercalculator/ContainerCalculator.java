@@ -160,8 +160,8 @@ public class ContainerCalculator extends Application {
     }
     
  private void showReport(){
-    String message = "containers loaded: "+ 
-            containerCalc.getNumberOfContainers().;
+    String message = "containers loaded: "; 
+          //  containerCalc.getNumberOfContainers().;
             
    }
          
