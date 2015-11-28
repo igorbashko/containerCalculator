@@ -47,7 +47,7 @@ public class Items {
     public double getNumOfPacks(){
         return numOfPacks;
     }
-    public double getWeightOfPacks(){
+    public double getWeightOfPack(){
         return weightOfPack;
     }
     public double getSumWeight(){

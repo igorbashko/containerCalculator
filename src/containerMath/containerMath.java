@@ -151,7 +151,7 @@ public class containerMath {
             Cell quantityN = rowN.createCell(1); quantityN.setCellValue(rightItems.get(i).getQuantity());
             Cell inPacksN = rowN.createCell(2); inPacksN.setCellValue(rightItems.get(i).getItemsInPack());
             Cell numOfPacksN = rowN.createCell(3); numOfPacksN.setCellValue(rightItems.get(i).getNumOfPacks());
-            Cell weightOfPackN = rowN.createCell(4); weightOfPackN.setCellValue(rightItems.get(i).getWeightOfPacks());
+            Cell weightOfPackN = rowN.createCell(4); weightOfPackN.setCellValue(rightItems.get(i).getWeightOfPack());
             Cell weightPacksN = rowN.createCell(5); weightPacksN.setCellValue(rightItems.get(i).getSumWeight());
             Cell volumeOfPackN = rowN.createCell(6); volumeOfPackN.setCellValue(rightItems.get(i).getVolumeOfPack());
             Cell volumeOfPacksN = rowN.createCell(7); volumeOfPacksN.setCellValue(rightItems.get(i).getSumVolume());
@@ -271,6 +271,11 @@ public class containerMath {
                      setLeftWeight();
                      System.out.println(items.get(index).getName()+" "+items.get(index).getSumWeight()+" "+items.get(index).getSumVolume()+"\n");
                     items.remove(index);
+                   }else if(items.get(index).getWeightOfPack()<weightLeft && 
+                           items.get(index).getVolumeOfPack()<volumeLeft &&
+                           items.get(index).getNumOfPacks()!=0){
+                       sortedItems.add(splitItem(true));
+                       items.add(splitItem(false));
                    }
                   
                  }
@@ -324,5 +329,40 @@ public class containerMath {
     }
     public double getWeightLeft(){
         return weightLeft;
+    }
+    
+    /*Method so slipt item on packs to fit in the container*/
+    private Items splitItem(boolean splitedItem){
+        double numberOfPacks = items.get(index).getNumOfPacks();
+        double weightOfSorted = 0;
+        double volumeOfSorted = 0;
+        double numberOfItems = items.get(index).getQuantity();
+        while(numberOfPacks !=-1 && weightOfSorted <weightLeft && 
+                volumeOfSorted<volumeLeft){
+            weightOfSorted+= items.get(index).getWeightOfPack();
+            volumeOfSorted+= items.get(index).getVolumeOfPack();
+            numberOfPacks--;
+            numberOfItems -= items.get(index).getItemsInPack();
+        }
+        Items splitItem = new Items(items.get(index).getName(),//the quantity of items to fit in the container 
+                numberOfItems, items.get(index).getItemsInPack(), numberOfPacks,
+        items.get(index).getWeightOfPack(), weightOfSorted, 
+        items.get(index).getVolumeOfPack(), volumeOfSorted);
+        Items splitItem2 = new Items(items.get(index).getName(), 
+                minus(items.get(index).getQuantity(), numberOfItems), items.get(index).getItemsInPack(),
+        minus(items.get(index).getNumOfPacks(), numberOfPacks), 
+        items.get(index).getWeightOfPack(), minus(items.get(index).getSumWeight(),
+                weightOfSorted), items.get(index).getVolumeOfPack(),
+        minus(items.get(index).getSumVolume(), volumeOfSorted));
+        items.remove(index);
+        //return item to add or item into unsorted
+        if(splitedItem) return splitItem;
+        else
+            return splitItem2;
+    }
+    /*Method to compare quantities of splitted item and minus*/
+    private double minus(double var1, double var2){
+        return var1-var2;
+              
     }
 }
