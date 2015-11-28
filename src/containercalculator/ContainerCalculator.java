@@ -32,7 +32,8 @@ import javafx.stage.FileChooser;
  */
 public class ContainerCalculator extends Application {
     
-    private containerMath containerCalc = new containerMath();
+    private containerMath containerCalc = new containerMath();//container insatance
+    
     @Override
     public void start(Stage primaryStage) {
         GridPane grid = new GridPane();
@@ -140,7 +141,14 @@ public class ContainerCalculator extends Application {
             
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
+               containerCalc.readFromExcel(pathToSource.toString());
+               containerCalc.setWeightCapacity(28000);
+               containerCalc.setVolumeCapacity(27);
+               containerCalc.setFourty(56);
+               containerCalc.getNumberOfContainers();
+               containerCalc.findContainers();
+              containerCalc.printUnsorted();
+              showReport(primaryStage);
             }
         });
         /*
@@ -178,9 +186,15 @@ private File openFile(File file){
                 */
     }
     
- private void showReport(){
-    String message = "containers loaded: "; 
-          //  containerCalc.getNumberOfContainers().;
+ private void showReport(Stage stage2){
+    String message = "containers loaded: " + 
+            containerCalc.getNumOfContainers()+"\n"+
+                    "Fourties: " + containerCalc.getFourties()+"\n"+
+             "Number of twenties: "+containerCalc.getTwenties()+"\n"+
+              "Volume left: "+ containerCalc.getVolumeLeft() + "\n"+
+            "Weight left: " + containerCalc.getWeightLeft();
+          popupReport report = new popupReport();
+          report.showPopup(message, stage2);
             
    }
          

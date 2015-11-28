@@ -34,7 +34,7 @@ public class popupReport {
        popup.getContent().add(okBtn);
        return popup;
     }
-    public static void showPopup(String message, Stage stage){
+    public void showPopup(String message, Stage stage){
         final Popup popup = createPopup(message);
         popup.setOnShown(new EventHandler <WindowEvent>(){
 

@@ -91,11 +91,11 @@ public class containerMath {
       }
       numOfContainers = numOfFourties + numOfTwenties; 
   }
-    public void readFromExcel(){
+    public void readFromExcel(String pathToFile){
         try {
             OPCPackage pkg;
             try {
-            pkg = OPCPackage.open(new File("/home/igorbashka/Documents/ДокиМаша/test.xlsx"));
+            pkg = OPCPackage.open(new File(pathToFile));
             //pkg = OPCPackage.open(new File("/home/igor/Documents/China/HDHardware/test.xlsx"));
                             
             XSSFWorkbook book = new XSSFWorkbook(pkg);
@@ -318,5 +318,11 @@ public class containerMath {
     }
     public int getTwenties(){
         return numOfTwenties;
+    }
+    public double getVolumeLeft(){
+        return volumeLeft;
+    }
+    public double getWeightLeft(){
+        return weightLeft;
     }
 }
