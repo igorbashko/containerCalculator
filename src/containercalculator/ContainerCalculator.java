@@ -26,6 +26,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 /**
  *
  * @author igorbashka
@@ -141,15 +142,17 @@ public class ContainerCalculator extends Application {
             
             @Override
             public void handle(ActionEvent event) {
-        //       containerCalc.readFromExcel(pathToSource.getText());
-               containerCalc.setWeightCapacity(28000);
+               final Stage newStage = new Stage();
+              newStage.initModality(Modality.WINDOW_MODAL);
+             containerCalc.readFromExcel(pathToSource.getText());
+               containerCalc.setWeightCapacity(27000);
                containerCalc.setVolumeCapacity(27);
                containerCalc.setFourty(56);
                containerCalc.getNumberOfContainers();
                containerCalc.findContainers();
                containerCalc.sortItems();
               containerCalc.printUnsorted();
-              showReport();
+              showReport(newStage);
             }
         });
         /*
@@ -170,8 +173,8 @@ private File openFile(File file){
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-       // launch(args);
-       
+        launch(args);
+       /*
         containerMath container = new containerMath();
        
         container.readFromExcel();
@@ -184,11 +187,11 @@ private File openFile(File file){
         container.sortItems();
         container.printUnsorted();
       // System.out.println(container.printSumVolume());
-               
+         */      
     }
     
- private void showReport(){
-    Stage secondStage = new Stage();
+ private void showReport(Stage stage){
+   // Stage secondStage = new Stage();
     String message = "containers loaded: " + 
             containerCalc.getNumOfContainers()+"\n"+
                     "Fourties: " + containerCalc.getFourties()+"\n"+
@@ -196,7 +199,7 @@ private File openFile(File file){
               "Volume left: "+ containerCalc.getVolumeLeft() + "\n"+
             "Weight left: " + containerCalc.getWeightLeft();
           popupReport report = new popupReport();
-          report.showPopup(message, secondStage);
+          report.showPopup(message, stage);
             
    }
          
