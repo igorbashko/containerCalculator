@@ -141,14 +141,15 @@ public class ContainerCalculator extends Application {
             
             @Override
             public void handle(ActionEvent event) {
-               containerCalc.readFromExcel(pathToSource.toString());
+        //       containerCalc.readFromExcel(pathToSource.getText());
                containerCalc.setWeightCapacity(28000);
                containerCalc.setVolumeCapacity(27);
                containerCalc.setFourty(56);
                containerCalc.getNumberOfContainers();
                containerCalc.findContainers();
+               containerCalc.sortItems();
               containerCalc.printUnsorted();
-              showReport(primaryStage);
+              showReport();
             }
         });
         /*
@@ -169,8 +170,8 @@ private File openFile(File file){
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        launch(args);
-       /* 
+       // launch(args);
+       
         containerMath container = new containerMath();
        
         container.readFromExcel();
@@ -182,11 +183,12 @@ private File openFile(File file){
        //container.findClosest();
         container.sortItems();
         container.printUnsorted();
-        System.out.println(container.printSumVolume());
-                */
+      // System.out.println(container.printSumVolume());
+               
     }
     
- private void showReport(Stage stage2){
+ private void showReport(){
+    Stage secondStage = new Stage();
     String message = "containers loaded: " + 
             containerCalc.getNumOfContainers()+"\n"+
                     "Fourties: " + containerCalc.getFourties()+"\n"+
@@ -194,7 +196,7 @@ private File openFile(File file){
               "Volume left: "+ containerCalc.getVolumeLeft() + "\n"+
             "Weight left: " + containerCalc.getWeightLeft();
           popupReport report = new popupReport();
-          report.showPopup(message, stage2);
+          report.showPopup(message, secondStage);
             
    }
          

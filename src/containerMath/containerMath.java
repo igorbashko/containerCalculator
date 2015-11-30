@@ -91,17 +91,17 @@ public class containerMath {
       }
       numOfContainers = numOfFourties + numOfTwenties; 
   }
-    public void readFromExcel(String pathToFile){
+    public void readFromExcel()//String pathToFile){
+    {
         try {
             OPCPackage pkg;
             try {
-            pkg = OPCPackage.open(new File(pathToFile));
-            //pkg = OPCPackage.open(new File("/home/igor/Documents/China/HDHardware/test.xlsx"));
+            //pkg = OPCPackage.open(new File(pathToFile));
+            pkg = OPCPackage.open(new File("/home/igor/Documents/China/HDHardware/test.xlsx"));
                             
             XSSFWorkbook book = new XSSFWorkbook(pkg);
             Sheet sheet1 = book.getSheetAt(0);
             items = new ArrayList<Items>();
-            ratios = new ArrayList<Double>();
             //itemsList = new Instances();
             for (int n=0; n<117; n++){
             Row row = sheet1.getRow(n);
@@ -112,7 +112,7 @@ public class containerMath {
                     row.getCell(16).getNumericCellValue());
            
             items.add(item);
-            ratios.add(item.getRatio());
+            //ratios.add(item.getRatio());
               }
            numberOfItems = items.size();
            allWeight();
@@ -226,7 +226,7 @@ public class containerMath {
         XSSFWorkbook output = new XSSFWorkbook();
         Sheet s = output.createSheet();
         lastRow = 1;
-        while(numOfContainers!=0&&items.size()>2){
+        while(numOfContainers!=0 && !items.isEmpty()){
             if(numOfTwenties != 0){
                 numOfTwenties--;
             }else{
@@ -241,7 +241,7 @@ public class containerMath {
         double itemWeight;
         setLeftVolume();
         setLeftWeight();
-        int numOfSortItems = 2; // number of sorted items for calculation
+        int numOfSortItems=2; // number of sorted items for calculation
         numberOfItems=items.size();
              for(int i=0; i<numberOfItems; i++){
                  itemVolume = items.get(0).getSumVolume();
@@ -273,9 +273,9 @@ public class containerMath {
                     items.remove(index);
                    }else if(items.get(index).getWeightOfPack()<weightLeft && 
                            items.get(index).getVolumeOfPack()<volumeLeft &&
-                           items.get(index).getNumOfPacks()!=0){
-                       sortedItems.add(splitItem(true));
-                       items.add(splitItem(false));
+                           items.get(index).getNumOfPacks()!=0 && !items.isEmpty()){
+                      sortedItems.add(splitItem());
+                      
                    }
                   
                  }
@@ -285,8 +285,8 @@ public class containerMath {
              lastRow = lastRow + sortedItems.size()+6;
         }
         try {         
-           FileOutputStream write = new FileOutputStream("/home/igorbashka/Documents/ДокиМаша/testOutput.xlsx");
-           //FileOutputStream write = new FileOutputStream("/home/igor/Documents/China/testOutput.xlsx");
+          // FileOutputStream write = new FileOutputStream("/home/igorbashka/Documents/ДокиМаша/testOutput.xlsx");
+           FileOutputStream write = new FileOutputStream("/home/igor/Documents/China/testOutput.xlsx");
             try {
                 output.write(write);
             } catch (IOException ex) {
@@ -332,12 +332,12 @@ public class containerMath {
     }
     
     /*Method so slipt item on packs to fit in the container*/
-    private Items splitItem(boolean splitedItem){
+    private Items splitItem(){
         double numberOfPacks = items.get(index).getNumOfPacks();
         double weightOfSorted = 0;
         double volumeOfSorted = 0;
         double numberOfItems = items.get(index).getQuantity();
-        while(numberOfPacks !=-1 && weightOfSorted <weightLeft && 
+        while(numberOfPacks !=4 && weightOfSorted <weightLeft && 
                 volumeOfSorted<volumeLeft){
             weightOfSorted+= items.get(index).getWeightOfPack();
             volumeOfSorted+= items.get(index).getVolumeOfPack();
@@ -355,11 +355,9 @@ public class containerMath {
                 weightOfSorted), items.get(index).getVolumeOfPack(),
         minus(items.get(index).getSumVolume(), volumeOfSorted));
         items.remove(index);
-        //return item to add or item into unsorted
-        if(splitedItem) return splitItem;
-        else
-            return splitItem2;
-    }
+        items.add(splitItem2);//add splitted aitem back for further calculation
+       return splitItem;
+      }
     /*Method to compare quantities of splitted item and minus*/
     private double minus(double var1, double var2){
         return var1-var2;
