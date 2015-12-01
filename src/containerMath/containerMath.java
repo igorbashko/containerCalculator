@@ -337,11 +337,14 @@ public class containerMath {
         double numberOfPacks = items.get(index).getNumOfPacks();
         double weightOfSorted = 0;
         double volumeOfSorted = 0;
+        double addWeight = items.get(index).getWeightOfPack();
+        double addVolume = items.get(index).getVolumeOfPack();
         double numberOfItems = items.get(index).getQuantity();
-        while(numberOfPacks !=0 && weightOfSorted <weightLeft && 
-                volumeOfSorted<volumeLeft){
+        while(numberOfPacks !=0 && addWeight<weightLeft && addVolume<volumeLeft){
             weightOfSorted+= items.get(index).getWeightOfPack();
             volumeOfSorted+= items.get(index).getVolumeOfPack();
+             addWeight+= items.get(index).getWeightOfPack();
+            addVolume+= items.get(index).getVolumeOfPack();
             numberOfPacks--;
             numberOfItems -= items.get(index).getItemsInPack();
         }
