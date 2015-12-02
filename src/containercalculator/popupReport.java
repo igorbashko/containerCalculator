@@ -57,4 +57,19 @@ public class popupReport {
         stage.show();
         popup.show(stage);
     }
+    public void createAndShowPopup(String message, Stage stage){
+        StackPane popupPane = new StackPane();
+        Label report = new Label(message);
+        Button okBtn = new Button("Ok");
+        okBtn.setOnAction(new EventHandler <ActionEvent>(){
+            public void handle(ActionEvent event){
+                stage.close();
+            }
+        });
+        popupPane.getChildren().add(report);
+        popupPane.getChildren().add(okBtn);
+        Scene scene2 = new Scene(popupPane, 300, 250);
+        stage.setScene(scene2);
+        stage.show();
+    }
 }

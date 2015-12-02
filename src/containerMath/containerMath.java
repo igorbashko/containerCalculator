@@ -334,16 +334,15 @@ public class containerMath {
     /*Method so slipt item on packs to fit in the container*/
     private Items splitItem(){
         double numberOfPacks = items.get(index).getNumOfPacks();
-        double weightOfSorted = 0;
-        double volumeOfSorted = 0;
-        double addWeight = items.get(index).getWeightOfPack();
-        double addVolume = items.get(index).getVolumeOfPack();
+        double weightOfSorted = items.get(index).getWeightOfPack();
+        double volumeOfSorted = items.get(index).getVolumeOfPack();
         double numberOfItems = items.get(index).getQuantity();
-        while(numberOfPacks !=0 && addWeight<weightLeft && addVolume<volumeLeft){
+        while(numberOfPacks !=0 && (weightOfSorted+
+                items.get(index).getWeightOfPack())<weightLeft && 
+                (volumeOfSorted+
+                items.get(index).getVolumeOfPack())<volumeLeft){
             weightOfSorted+= items.get(index).getWeightOfPack();
             volumeOfSorted+= items.get(index).getVolumeOfPack();
-             addWeight+= items.get(index).getWeightOfPack();
-            addVolume+= items.get(index).getVolumeOfPack();
             numberOfPacks--;
             numberOfItems -= items.get(index).getItemsInPack();
         }
