@@ -144,7 +144,7 @@ public class ContainerCalculator extends Application {
             public void handle(ActionEvent event) {
                final Stage newStage = new Stage();
               newStage.initModality(Modality.WINDOW_MODAL);
-             containerCalc.readFromExcel(pathToSource.getText());
+             //containerCalc.readFromExcel(pathToSource.getText());
                containerCalc.setWeightCapacity(27000);
                containerCalc.setVolumeCapacity(27);
                containerCalc.setFourty(56);
@@ -173,8 +173,8 @@ private File openFile(File file){
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        launch(args);
-       /*
+        //launch(args);
+       
         containerMath container = new containerMath();
        
         container.readFromExcel();
@@ -187,7 +187,7 @@ private File openFile(File file){
         container.sortItems();
         container.printUnsorted();
       // System.out.println(container.printSumVolume());
-         */      
+             
     }
     
  private void showReport(Stage stage){

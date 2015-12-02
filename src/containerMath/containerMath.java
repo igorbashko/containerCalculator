@@ -91,13 +91,13 @@ public class containerMath {
       }
       numOfContainers = numOfFourties + numOfTwenties; 
   }
-    public void readFromExcel(String pathToFile){
-   //{
+    public void readFromExcel()//String pathToFile){
+   {
         try {
             OPCPackage pkg;
             try {
-            pkg = OPCPackage.open(new File(pathToFile));
-           // pkg = OPCPackage.open(new File("/home/igor/Documents/China/HDHardware/test.xlsx"));
+            //pkg = OPCPackage.open(new File(pathToFile));
+           pkg = OPCPackage.open(new File("/home/igor/Documents/China/HDHardware/test.xlsx"));
                             
             XSSFWorkbook book = new XSSFWorkbook(pkg);
             Sheet sheet1 = book.getSheetAt(0);
@@ -251,8 +251,7 @@ public class containerMath {
                  index = 0;
                  int count = 0;
                  for(Items item:items){
-                    
-                    // double b = item.getRatio();
+                      // double b = item.getRatio();
                      diff = abs(idealRatio - formula(item, numOfSortItems));
                      if (diff<min && item.getSumWeight()<weightLeft &&
                              item.getSumVolume()<volumeLeft){
@@ -286,8 +285,8 @@ public class containerMath {
              lastRow = lastRow + sortedItems.size()+6;
         }
         try {         
-          FileOutputStream write = new FileOutputStream("/home/igorbashka/Documents/ДокиМаша/testOutput.xlsx");
-          // FileOutputStream write = new FileOutputStream("/home/igor/Documents/China/testOutput.xlsx");
+         // FileOutputStream write = new FileOutputStream("/home/igorbashka/Documents/ДокиМаша/testOutput.xlsx");
+          FileOutputStream write = new FileOutputStream("/home/igor/Documents/China/testOutput.xlsx");
             try {
                 output.write(write);
             } catch (IOException ex) {
@@ -363,6 +362,8 @@ public class containerMath {
         items.add(splitItem2);//add splitted item back for further calculation
         sumWeight +=splitItem.getSumWeight();
         sumVolume +=splitItem.getSumVolume();
+        setLeftWeight();
+        setLeftVolume();
        return splitItem;
       }
     /*Method to compare quantities of splitted item and minus*/
