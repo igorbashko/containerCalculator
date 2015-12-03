@@ -24,9 +24,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
+import containerController.controller;
 /**
  *
  * @author igorbashka
@@ -34,6 +34,7 @@ import javafx.stage.Modality;
 public class ContainerCalculator extends Application {
     
     private containerMath containerCalc = new containerMath();//container insatance
+    private controller cont = controller.getController();
     
     @Override
     public void start(Stage primaryStage) {
@@ -67,6 +68,7 @@ public class ContainerCalculator extends Application {
         Label NILabel = new Label("");
         grid.add(NILabel, 0, 3);
         TextField NIField= new TextField();
+        NIField.setText("123 vnhO,1,3  .");
         grid.add(NIField, 1, 3);
         //Cresting and adding number of items in pack label, field and checkBox
          Label ItemsInPackLabel = new Label("");
@@ -142,6 +144,7 @@ public class ContainerCalculator extends Application {
             
             @Override
             public void handle(ActionEvent event) {
+                /*
                final Stage newStage = new Stage();
               newStage.initModality(Modality.WINDOW_MODAL);
              //containerCalc.readFromExcel(pathToSource.getText());
@@ -153,7 +156,9 @@ public class ContainerCalculator extends Application {
                containerCalc.sortItems();
               containerCalc.printUnsorted();
               showReport(newStage);
-            }
+                */
+              System.out.println(cont.formatedValue(NIField.getText()));
+           }
         });
         /*
         StackPane root = new StackPane();
@@ -173,8 +178,8 @@ private File openFile(File file){
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //launch(args);
-       
+        launch(args);
+       /*
         containerMath container = new containerMath();
        
         container.readFromExcel();
@@ -187,7 +192,7 @@ private File openFile(File file){
         container.sortItems();
         container.printUnsorted();
       // System.out.println(container.printSumVolume());
-             
+             */
     }
     
  private void showReport(Stage stage){

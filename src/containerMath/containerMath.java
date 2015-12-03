@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.AbstractList;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import java.io.FileOutputStream;
+import containerController.controller;
 /*
 import weka.core.Instance;
 import weka.core.Instances;
@@ -50,6 +51,7 @@ public class containerMath {
    private int numOfTwenties;
    private double capacityFourty; // capacity of 40ft container
    private int lastRow;
+   private controller cont = controller.getController();
     //private Instances itemsList;
     //private Cell cell;
     /*
