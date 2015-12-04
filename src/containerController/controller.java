@@ -34,14 +34,14 @@ public class controller {
     }
     return sb.toString();
   }else 
-       return "Empty string";
+       return null;
     }
     /*Method for validating number of rows field. Rregular expression 
     pattern is used. If it does not satisfy the expression false 
     variable is returned otherwise true
     */
     public boolean checkRowsField(String input){
-        if(input.matches("[0-9]+\\-[0-9]+")){
+        if(!input.matches("[0-9]+\\-[0-9]+")){
             return true;
         } else {
             return false;

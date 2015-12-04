@@ -35,6 +35,7 @@ public class ContainerCalculator extends Application {
     
     private containerMath containerCalc = new containerMath();//container insatance
     private controller cont = controller.getController();
+    private TextField ItemsField;
     
     @Override
     public void start(Stage primaryStage) {
@@ -60,12 +61,12 @@ public class ContainerCalculator extends Application {
         grid.add(uploadBtnH, 2, 1);
         FileChooser chooseFile = new FileChooser();
         //Creating and adding rows of items label and field
-        Label ItemsLabel = new Label("");
+        Label ItemsLabel = new Label("Choose rows with items, rows");
         grid.add(ItemsLabel, 0, 2);
-        TextField ItemsField = new TextField();
+        ItemsField = new TextField();
         grid.add(ItemsField, 1, 2);
         //Creating and adding number of items label and field
-        Label NILabel = new Label("");
+        Label NILabel = new Label("Number of items, column");
         grid.add(NILabel, 0, 3);
         TextField NIField= new TextField();
         NIField.setText("123 vnhO,1,3  .");
@@ -144,10 +145,10 @@ public class ContainerCalculator extends Application {
             
             @Override
             public void handle(ActionEvent event) {
-                /*
+                
                final Stage newStage = new Stage();
               newStage.initModality(Modality.WINDOW_MODAL);
-             //containerCalc.readFromExcel(pathToSource.getText());
+             containerCalc.readFromExcel(pathToSource.getText());
                containerCalc.setWeightCapacity(27000);
                containerCalc.setVolumeCapacity(27);
                containerCalc.setFourty(56);
@@ -156,8 +157,8 @@ public class ContainerCalculator extends Application {
                containerCalc.sortItems();
               containerCalc.printUnsorted();
               showReport(newStage);
-                */
-              System.out.println(cont.formatedValue(NIField.getText()));
+                
+              //System.out.println(cont.formatedValue(NIField.getText()));
            }
         });
         /*
@@ -204,8 +205,14 @@ private File openFile(File file){
               "Volume left: "+ containerCalc.getVolumeLeft() + "\n"+
             "Weight left: " + containerCalc.getWeightLeft();
           popupReport report = new popupReport();
-          report.showPopup(message, stage);
+          report.createAndShowPopup(message, stage);
             
    }
-         
+ private popupReport warningMessage(){
+   popupReport warningReport = new popupReport();
+   Stage warningStage = new Stage();
+    if(cont.checkRowsField(ItemsField.getText())){
+        return warningReport.createAndShowPopup(cont.formMessage(STYLESHEET_MODENA), null);
+    }
+ }         
 }
