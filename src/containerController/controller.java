@@ -36,4 +36,40 @@ public class controller {
   }else 
        return "Empty string";
     }
+    /*Method for validating number of rows field. Rregular expression 
+    pattern is used. If it does not satisfy the expression false 
+    variable is returned otherwise true
+    */
+    public boolean checkRowsField(String input){
+        if(input.matches("[0-9]+\\-[0-9]+")){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /*Method for forming warning text message is uer inputs wrong values
+    in fields for specifing columns and rows in excel file*/
+    public String formMessage(String flag){
+        String message = new String("");
+        if(flag.equals("NIFfield")){
+            message = "Fill the number of items field";
+        }else if(flag.equals("inPack")){
+            message = "Fill the intems in pack field";
+        }else if(flag.equals("numberOfPacks")){
+            message = "Fill the number of packs field";
+        }else if(flag.equals("netPack")){
+            message = "Fill net weight field";
+        }else if(flag.equals("sumNet")){
+            message = "Fill the sum net weight field";
+        }else if(flag.equals("grossWeight")){
+            message = "Fill the gross weight field";
+        }else if(flag.equals("sumGrossWeight")){
+            message = "Fill the sum gross weight field";
+        }else if(flag.equals("itemVolume")){
+            message = "Fill the item volume field";
+        }else if(flag.equals("sumVolume")){
+            message = "Fill the sum volume field";
+        }
+            return message;
+      }
    }
