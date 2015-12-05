@@ -36,6 +36,15 @@ public class ContainerCalculator extends Application {
     private containerMath containerCalc = new containerMath();//container insatance
     private controller cont = controller.getController();
     private TextField ItemsField;
+    private TextField NIField;
+    private TextField ItemsInPackField;
+    private TextField NofPacksField;
+    private TextField netWeightField;
+    private TextField sumNwField;
+    private TextField grossWeightField;
+    private TextField sumGwField;
+    private TextField volumeOfPackField;
+    private TextField sumVolumeField;
     
     @Override
     public void start(Stage primaryStage) {
@@ -68,59 +77,59 @@ public class ContainerCalculator extends Application {
         //Creating and adding number of items label and field
         Label NILabel = new Label("Number of items, column");
         grid.add(NILabel, 0, 3);
-        TextField NIField= new TextField();
+        NIField= new TextField();
         NIField.setText("123 vnhO,1,3  .");
         grid.add(NIField, 1, 3);
         //Cresting and adding number of items in pack label, field and checkBox
          Label ItemsInPackLabel = new Label("");
         grid.add(ItemsInPackLabel, 0, 4);
-        TextField ItemsInPackField = new TextField();
+        ItemsInPackField = new TextField();
         grid.add(ItemsInPackField, 1, 4);
         CheckBox ItemsInPackcb = new CheckBox("Don,t use");
         grid.add(ItemsInPackcb, 2, 4);
         //Creating and adding number of packs label and field
         Label NofPacksLabel = new Label("Sign number of Packs, column");
         grid.add(NofPacksLabel, 0, 5);
-        TextField NofPacksField= new TextField();
+        NofPacksField= new TextField();
         grid.add(NofPacksField, 1, 5);
         CheckBox NofPackscb = new CheckBox("Don't use");
         grid.add(NofPackscb, 2, 5);
         //Creating and adding net weight label and field
         Label netWeightLabel  = new Label("Choose net weight column");
-        TextField netWeightField = new TextField();
+        netWeightField = new TextField();
         CheckBox netWeightcb = new CheckBox("Don't use");
         grid.add(netWeightLabel, 0, 6);
         grid.add(netWeightField, 1, 6);
         grid.add(netWeightcb, 2, 6);
         //Creating and adding sum of net Weight
         Label sumNwLabel = new Label("choose sum Net Weight column");
-        TextField sumNwField = new TextField();
+        sumNwField = new TextField();
         CheckBox sumNwcb = new CheckBox("Don't use");
         grid.add(sumNwLabel, 0, 7);
         grid.add(sumNwField, 1, 7);
         grid.add(sumNwcb, 2, 7);
         //Creating and adding gross weight of pack column
         Label grossWeightOfPackLabel = new Label("Sign gross weight, column");
-        TextField grossWeightOfPackField = new TextField();
+        grossWeightField = new TextField();
         CheckBox grossWeightOfPackcb = new CheckBox("Don't use");
         grid.add(grossWeightOfPackLabel, 0, 8);
-        grid.add(grossWeightOfPackField, 1, 8);
+        grid.add(grossWeightField, 1, 8);
         grid.add(grossWeightOfPackcb, 2, 8);
         //Creating and adding gross weight column
         Label sumGwLabel = new Label("Choose gross weight column");
-        TextField sumGwField = new TextField();
+        sumGwField = new TextField();
         grid.add(sumGwLabel, 0, 9);
         grid.add(sumGwField, 1, 9);
         //Creating and adding volume of pack 
         Label volumeOfPackLabel = new Label("Choose volume of pack column");
-        TextField volumeOfPackField = new TextField();
+        volumeOfPackField = new TextField();
         CheckBox volumeOfPackcb = new CheckBox("Don't use it");
         grid.add(volumeOfPackLabel, 0, 10);
         grid.add(volumeOfPackField, 1, 10);
         grid.add(volumeOfPackcb, 2, 10);
         //Creating and adding sum volume if items credentials
         Label sumVolumeLabel = new Label("Choose volume of packs of an item, column");
-        TextField sumVolumeField = new TextField();
+        sumVolumeField = new TextField();
         grid.add(sumVolumeLabel, 0, 11);
         grid.add(sumVolumeField, 1, 11);
         //Creating and setting calculate button
@@ -148,7 +157,9 @@ public class ContainerCalculator extends Application {
                 
                final Stage newStage = new Stage();
               newStage.initModality(Modality.WINDOW_MODAL);
+              if(warningMessage()){
              containerCalc.readFromExcel(pathToSource.getText());
+              }
                containerCalc.setWeightCapacity(27000);
                containerCalc.setVolumeCapacity(27);
                containerCalc.setFourty(56);
@@ -208,11 +219,41 @@ private File openFile(File file){
           report.createAndShowPopup(message, stage);
             
    }
- private popupReport warningMessage(){
+ private boolean warningMessage(){
    popupReport warningReport = new popupReport();
    Stage warningStage = new Stage();
     if(cont.checkRowsField(ItemsField.getText())){
-        return warningReport.createAndShowPopup(cont.formMessage(STYLESHEET_MODENA), null);
+     warningReport.createAndShowPopup(cont.formMessage("ItemsField"), warningStage);
+     return false;
+    }else if(cont.formatedValue(NIField.getText()) == null){
+        warningReport.createAndShowPopup(cont.formMessage("NIField"), warningStage);
+        return false;
+    }else if(cont.formatedValue(ItemsInPackField.getText())==null){
+        warningReport.createAndShowPopup(cont.formMessage("inPack"), warningStage);
+        return false;
+    }else if(cont.formatedValue(NofPacksField.getText()) == null){
+        warningReport.createAndShowPopup(cont.formMessage("numberOfPacks"), warningStage);
+        return false;
+    }else if(cont.formatedValue(netWeightField.getText()) == null){
+        warningReport.createAndShowPopup("netWeight", warningStage);
+        return false;
+    }else if(cont.formatedValue(sumNwField.getText())==null){
+        warningReport.createAndShowPopup(cont.formMessage("sumNet"), warningStage);
+        return false;
+    }else if(cont.formatedValue(grossWeightField.getText())== null){
+        warningReport.createAndShowPopup(cont.formMessage("grossWeight"), warningStage);
+        return false;
+    }else if(cont.formatedValue(sumGwField.getText())==null){
+        warningReport.createAndShowPopup("sumGrossWeight", warningStage);
+        return false;
+    }else if(cont.formatedValue(volumeOfPackField.getText())==null){
+        warningReport.createAndShowPopup(cont.formMessage(("itemVolume")), warningStage);
+        return false;
+    }else if(cont.formMessage(sumVolumeField.getText()) == null){
+        warningReport.createAndShowPopup("sumVolume", warningStage);
+        return false;
+    }else {
+        return true;
     }
  }         
 }

@@ -22,6 +22,7 @@ import java.util.AbstractList;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import java.io.FileOutputStream;
 import containerController.controller;
+import org.apache.poi.hssf.util.CellReference;
 /*
 import weka.core.Instance;
 import weka.core.Instances;
@@ -52,11 +53,7 @@ public class containerMath {
    private double capacityFourty; // capacity of 40ft container
    private int lastRow;
    private controller cont = controller.getController();
-    //private Instances itemsList;
-    //private Cell cell;
-    /*
-    Reading excell file method
-    */
+   
    /*Method to get weight of all elements*/
     private void allWeight(){
         allWeight =0;
@@ -93,8 +90,12 @@ public class containerMath {
       }
       numOfContainers = numOfFourties + numOfTwenties; 
   }
-    public void readFromExcel(String pathToFile){
+    public void readFromExcel(String pathToFile,String name, String range, String 
+            numberOfItems, String inPack, String numberOfPacks, 
+            String netWeight, String sumNetWeight, String grossWeight,
+            String sumGrossWeight, String volumeOfPack, String sumVolume){
    //{
+        int itemName = CellReference.convertColStringToIndex(name);
         try {
             OPCPackage pkg;
             try {
@@ -107,7 +108,7 @@ public class containerMath {
             //itemsList = new Instances();
             for (int n=0; n<117; n++){
             Row row = sheet1.getRow(n);
-            Items item = new Items(row.getCell(0).toString(),row.getCell(1).getNumericCellValue(),
+            Items item = new Items(row.getCell(itemName).toString(),row.getCell(1).getNumericCellValue(),
                     row.getCell(9).getNumericCellValue(), row.getCell(10).getNumericCellValue(),
             row.getCell(12).getNumericCellValue(), row.getCell(14).getNumericCellValue(),
             row.getCell(15).getNumericCellValue(), 
@@ -116,7 +117,7 @@ public class containerMath {
             items.add(item);
             //ratios.add(item.getRatio());
               }
-           numberOfItems = items.size();
+           this.numberOfItems = items.size();
            allWeight();
            allVolume();
            } catch (IOException ex) {

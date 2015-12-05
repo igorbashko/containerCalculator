@@ -51,13 +51,16 @@ public class controller {
     in fields for specifing columns and rows in excel file*/
     public String formMessage(String flag){
         String message = new String("");
+        if (flag.equals("ItemsField")){
+            message = "Fill the Rows range field";
+        }
         if(flag.equals("NIFfield")){
             message = "Fill the number of items field";
         }else if(flag.equals("inPack")){
             message = "Fill the intems in pack field";
         }else if(flag.equals("numberOfPacks")){
             message = "Fill the number of packs field";
-        }else if(flag.equals("netPack")){
+        }else if(flag.equals("netWeight")){
             message = "Fill net weight field";
         }else if(flag.equals("sumNet")){
             message = "Fill the sum net weight field";
