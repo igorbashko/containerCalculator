@@ -45,6 +45,18 @@ public class ContainerCalculator extends Application {
     private TextField sumGwField;
     private TextField volumeOfPackField;
     private TextField sumVolumeField;
+    private TextField namesField;
+    private String names;
+    private String rowsRange;
+    private String itemsNumber;
+    private String inPack;
+    private String numberOfPacks;
+    private String netWeight;
+    private String sumNetWeight;
+    private String grossWeight;
+    private String sumGrossWeight;
+    private String volumeOfPack;
+    private String sumVolume;
     
     @Override
     public void start(Stage primaryStage) {
@@ -74,71 +86,76 @@ public class ContainerCalculator extends Application {
         grid.add(ItemsLabel, 0, 2);
         ItemsField = new TextField();
         grid.add(ItemsField, 1, 2);
+        //Creating and adding column with names if items
+        Label nameLabel = new Label("Write the column with names of items");
+        namesField = new TextField();
+        grid.add(nameLabel, 0, 3);
+        grid.add(namesField, 1, 3);
         //Creating and adding number of items label and field
         Label NILabel = new Label("Number of items, column");
-        grid.add(NILabel, 0, 3);
+        grid.add(NILabel, 0, 4);
         NIField= new TextField();
         NIField.setText("123 vnhO,1,3  .");
-        grid.add(NIField, 1, 3);
+        grid.add(NIField, 1, 4);
         //Cresting and adding number of items in pack label, field and checkBox
          Label ItemsInPackLabel = new Label("");
-        grid.add(ItemsInPackLabel, 0, 4);
+        grid.add(ItemsInPackLabel, 0, 5);
         ItemsInPackField = new TextField();
-        grid.add(ItemsInPackField, 1, 4);
+        grid.add(ItemsInPackField, 1, 5);
         CheckBox ItemsInPackcb = new CheckBox("Don,t use");
-        grid.add(ItemsInPackcb, 2, 4);
+        grid.add(ItemsInPackcb, 2, 5);
         //Creating and adding number of packs label and field
         Label NofPacksLabel = new Label("Sign number of Packs, column");
-        grid.add(NofPacksLabel, 0, 5);
+        grid.add(NofPacksLabel, 0, 6);
         NofPacksField= new TextField();
-        grid.add(NofPacksField, 1, 5);
+        grid.add(NofPacksField, 1, 6);
         CheckBox NofPackscb = new CheckBox("Don't use");
-        grid.add(NofPackscb, 2, 5);
+        grid.add(NofPackscb, 2, 6);
         //Creating and adding net weight label and field
         Label netWeightLabel  = new Label("Choose net weight column");
         netWeightField = new TextField();
         CheckBox netWeightcb = new CheckBox("Don't use");
-        grid.add(netWeightLabel, 0, 6);
-        grid.add(netWeightField, 1, 6);
-        grid.add(netWeightcb, 2, 6);
+        grid.add(netWeightLabel, 0, 7);
+        grid.add(netWeightField, 1, 7);
+        grid.add(netWeightcb, 2, 7);
         //Creating and adding sum of net Weight
         Label sumNwLabel = new Label("choose sum Net Weight column");
         sumNwField = new TextField();
         CheckBox sumNwcb = new CheckBox("Don't use");
-        grid.add(sumNwLabel, 0, 7);
-        grid.add(sumNwField, 1, 7);
-        grid.add(sumNwcb, 2, 7);
+        grid.add(sumNwLabel, 0, 8);
+        grid.add(sumNwField, 1, 8);
+        grid.add(sumNwcb, 2, 8);
         //Creating and adding gross weight of pack column
         Label grossWeightOfPackLabel = new Label("Sign gross weight, column");
         grossWeightField = new TextField();
         CheckBox grossWeightOfPackcb = new CheckBox("Don't use");
-        grid.add(grossWeightOfPackLabel, 0, 8);
-        grid.add(grossWeightField, 1, 8);
-        grid.add(grossWeightOfPackcb, 2, 8);
+        grid.add(grossWeightOfPackLabel, 0, 9);
+        grid.add(grossWeightField, 1, 9);
+        grid.add(grossWeightOfPackcb, 2, 9);
         //Creating and adding gross weight column
         Label sumGwLabel = new Label("Choose gross weight column");
         sumGwField = new TextField();
-        grid.add(sumGwLabel, 0, 9);
-        grid.add(sumGwField, 1, 9);
+        grid.add(sumGwLabel, 0, 10);
+        grid.add(sumGwField, 1, 10);
         //Creating and adding volume of pack 
         Label volumeOfPackLabel = new Label("Choose volume of pack column");
         volumeOfPackField = new TextField();
         CheckBox volumeOfPackcb = new CheckBox("Don't use it");
-        grid.add(volumeOfPackLabel, 0, 10);
-        grid.add(volumeOfPackField, 1, 10);
-        grid.add(volumeOfPackcb, 2, 10);
+        grid.add(volumeOfPackLabel, 0, 11);
+        grid.add(volumeOfPackField, 1, 11);
+        grid.add(volumeOfPackcb, 2, 11);
         //Creating and adding sum volume if items credentials
         Label sumVolumeLabel = new Label("Choose volume of packs of an item, column");
         sumVolumeField = new TextField();
-        grid.add(sumVolumeLabel, 0, 11);
-        grid.add(sumVolumeField, 1, 11);
+        grid.add(sumVolumeLabel, 0, 12);
+        grid.add(sumVolumeField, 1, 12);
         //Creating and setting calculate button
          Button btn = new Button();
         btn.setText("Calculate");
         HBox calculateBtnH = new HBox();
         calculateBtnH.getChildren().add(btn);
         calculateBtnH.setAlignment(Pos.BOTTOM_RIGHT);
-        grid.add(calculateBtnH, 2, 12);
+        grid.add(calculateBtnH, 2, 13);
         //Actions on buttons
         //Choose source file button
         uploadBtn.setOnAction(new EventHandler <ActionEvent>(){
@@ -158,7 +175,11 @@ public class ContainerCalculator extends Application {
                final Stage newStage = new Stage();
               newStage.initModality(Modality.WINDOW_MODAL);
               if(warningMessage()){
-             containerCalc.readFromExcel(pathToSource.getText());
+                  setInputs();
+             containerCalc.readFromExcel(pathToSource.getText(), 
+                     names, rowsRange, itemsNumber,
+                     inPack, numberOfPacks, netWeight, sumNetWeight, grossWeight, 
+                     sumGrossWeight, volumeOfPack, sumVolume);
               }
                containerCalc.setWeightCapacity(27000);
                containerCalc.setVolumeCapacity(27);
@@ -255,5 +276,21 @@ private File openFile(File file){
     }else {
         return true;
     }
- }         
+ }   
+ /*Method for setting input variables from fields to global variables(Decision to
+ put text from input fields to global variables was writtem just for
+ convinience)*/
+ private void setInputs(){
+     names = namesField.getText();
+     rowsRange = ItemsField.getText();
+     itemsNumber = cont.formatedValue(NIField.getText());
+     inPack = cont.formatedValue(ItemsInPackField.getText());
+     numberOfPacks = cont.formatedValue(NofPacksField.getText());
+     netWeight = cont.formatedValue(netWeightField.getText());
+     sumNetWeight = cont.formatedValue(sumNwField.getText());
+     grossWeight = cont.formatedValue(grossWeightField.getText());
+     sumGrossWeight = cont.formatedValue(sumGwField.getText());
+     volumeOfPack = cont.formatedValue(volumeOfPackField.getText());
+     sumVolume = cont.formatedValue(sumVolumeField.getText());
+ }
 }

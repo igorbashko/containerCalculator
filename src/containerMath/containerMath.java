@@ -96,6 +96,15 @@ public class containerMath {
             String sumGrossWeight, String volumeOfPack, String sumVolume){
    //{
         int itemName = CellReference.convertColStringToIndex(name);
+        int itemsQuantity = CellReference.convertColStringToIndex(numberOfItems);
+        int inPackIndex = CellReference.convertColStringToIndex(inPack);
+        int numOfPacksIndex = CellReference.convertColStringToIndex(numberOfPacks);
+        int netWeightIndex = CellReference.convertColStringToIndex(netWeight);
+        int sumNetWeightIndex = CellReference.convertColStringToIndex(sumNetWeight);
+        int grossWeightIndex = CellReference.convertColStringToIndex(grossWeight);
+        int sumGrossWeightIndex = CellReference.convertColStringToIndex(sumGrossWeight);
+        int volumeOfPackIndex = CellReference.convertColStringToIndex(volumeOfPack);
+        int sumVolumeIndex = CellReference.convertColStringToIndex(sumVolume);
         try {
             OPCPackage pkg;
             try {
@@ -108,15 +117,16 @@ public class containerMath {
             //itemsList = new Instances();
             for (int n=0; n<117; n++){
             Row row = sheet1.getRow(n);
-            Items item = new Items(row.getCell(itemName).toString(),row.getCell(1).getNumericCellValue(),
-                    row.getCell(9).getNumericCellValue(), row.getCell(10).getNumericCellValue(),
-            row.getCell(12).getNumericCellValue(), row.getCell(14).getNumericCellValue(),
-            row.getCell(15).getNumericCellValue(), 
-                    row.getCell(16).getNumericCellValue());
-           
+            Items item = new Items(row.getCell(itemName).toString(),
+                    row.getCell(itemsQuantity).getNumericCellValue(),
+                    row.getCell(inPackIndex).getNumericCellValue(), 
+                    row.getCell(numOfPacksIndex).getNumericCellValue(),
+            row.getCell(grossWeightIndex).getNumericCellValue(), 
+                    row.getCell(sumGrossWeightIndex).getNumericCellValue(),
+            row.getCell(volumeOfPackIndex).getNumericCellValue(), 
+                    row.getCell(sumVolumeIndex).getNumericCellValue());
             items.add(item);
-            //ratios.add(item.getRatio());
-              }
+            }
            this.numberOfItems = items.size();
            allWeight();
            allVolume();

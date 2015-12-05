@@ -6,14 +6,19 @@
 
 package containerController;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  *This class will be used in singeltone pattern
  * @author igor
  */
 public class controller {
     private static controller cont = null;
+    private int firstNumber;
+    private int secondNumber;
     
-    private controller(){};
+            private controller(){};
     public static controller getController(){
         if(cont == null){
             cont = new controller();
@@ -75,4 +80,19 @@ public class controller {
         }
             return message;
       }
+    
+    public void rowsRangeProcessing(String message){
+        Pattern firstNumber = Pattern.compile("\\d+(?=\\-)");
+        Pattern secondNumber = Pattern.compile("(?<=\\-)\\d+");
+        Matcher matcher1 = firstNumber.matcher(message);
+        Matcher matcher2 = secondNumber.matcher(message);
+        this.firstNumber = Integer.parseInt(matcher1.group());
+        this.secondNumber = Integer.parseInt(matcher2.group());
+    }
+    private int getFirstNumber(){
+        return this.firstNumber-1;
+    }
+    private int getSecondNumber(){
+        return this.secondNumber-1;
+    }
    }
