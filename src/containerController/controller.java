@@ -8,6 +8,7 @@ package containerController;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+    
 
 /**
  *This class will be used in singeltone pattern
@@ -82,17 +83,19 @@ public class controller {
       }
     
     public void rowsRangeProcessing(String message){
-        Pattern firstNumber = Pattern.compile("\\d+(?=\\-)");
-        Pattern secondNumber = Pattern.compile("(?<=\\-)\\d+");
-        Matcher matcher1 = firstNumber.matcher(message);
-        Matcher matcher2 = secondNumber.matcher(message);
-        this.firstNumber = Integer.parseInt(matcher1.group());
-        this.secondNumber = Integer.parseInt(matcher2.group());
+        String[] split = new String[2] ;
+               int i=0;
+        for (String split2:message.trim().split("-")) {
+            split[i] = split2;
+            i++;
+          }
+      this.firstNumber = Integer.parseInt(split[0]);
+      this.secondNumber = Integer.parseInt(split[1]);
     }
-    private int getFirstNumber(){
+    public int getFirstNumber(){
         return this.firstNumber-1;
     }
-    private int getSecondNumber(){
+    public int getSecondNumber(){
         return this.secondNumber-1;
     }
    }
