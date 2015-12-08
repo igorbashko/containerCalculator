@@ -187,7 +187,7 @@ public class ContainerCalculator extends Application {
                containerCalc.getNumberOfContainers();
                containerCalc.findContainers();
                containerCalc.sortItems();
-              containerCalc.printUnsorted();
+               containerCalc.printUnsorted();
               showReport(newStage);
                 
               //System.out.println(cont.formatedValue(NIField.getText()));

@@ -115,7 +115,7 @@ public class containerMath {
             Sheet sheet1 = book.getSheetAt(0);
             items = new ArrayList<Items>();
             //itemsList = new Instances();
-            for (int n=0; n<117; n++){
+            for (int n=cont.getFirstNumber(); n<cont.getSecondNumber(); n++){
             Row row = sheet1.getRow(n);
             Items item = new Items(row.getCell(itemName).toString(),
                     row.getCell(itemsQuantity).getNumericCellValue(),
