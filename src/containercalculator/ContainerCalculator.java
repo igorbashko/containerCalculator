@@ -156,6 +156,7 @@ public class ContainerCalculator extends Application {
         calculateBtnH.getChildren().add(btn);
         calculateBtnH.setAlignment(Pos.BOTTOM_RIGHT);
         grid.add(calculateBtnH, 2, 13);
+        // textInitialise();
         //Actions on buttons
         //Choose source file button
         uploadBtn.setOnAction(new EventHandler <ActionEvent>(){
@@ -176,6 +177,7 @@ public class ContainerCalculator extends Application {
               newStage.initModality(Modality.WINDOW_MODAL);
               if(warningMessage()){
                   setInputs();
+                 
              containerCalc.readFromExcel(pathToSource.getText(), 
                      names, rowsRange, itemsNumber,
                      inPack, numberOfPacks, netWeight, sumNetWeight, grossWeight, 
@@ -189,6 +191,7 @@ public class ContainerCalculator extends Application {
                containerCalc.sortItems();
                containerCalc.printUnsorted();
               showReport(newStage);
+              System.out.println(sumVolumeField.getText());
                 
               //System.out.println(cont.formatedValue(NIField.getText()));
            }
@@ -198,11 +201,11 @@ public class ContainerCalculator extends Application {
         root.getChildren().add(btn);
         */
         //Scene scene = new Scene(root, 300, 250);
-        Scene scene = new Scene(grid, 500, 500);
+        Scene scene = new Scene(grid, 500, 700);
        // primaryStage.setTitle("Hello World!");
         primaryStage.setScene(scene);
         primaryStage.show();
-        textInitialise();
+       textInitialise();
     }
     /*Method for accessing file through the file dialog*/
 private File openFile(File file){
@@ -296,15 +299,16 @@ private File openFile(File file){
  }
  /*The method to input text in text fields(only in debugging purposes)*/
  private void textInitialise(){
+     this.namesField.setText("a");
      this.ItemsField.setText("1-118");
-     this.NIField.setText("a");
+     this.NIField.setText("b");
      this.ItemsInPackField.setText("j");
      this.NofPacksField.setText("k");
      this.netWeightField.setText("l");
      this.sumNwField.setText("n");
      this.grossWeightField.setText("m");
      this.sumGwField.setText("o");
-     this.volumeOfPackField.setText("q");
+     this.volumeOfPackField.setText("p");
      this.sumVolumeField.setText("q");
  }
 }

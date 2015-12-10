@@ -95,6 +95,7 @@ public class containerMath {
             String netWeight, String sumNetWeight, String grossWeight,
             String sumGrossWeight, String volumeOfPack, String sumVolume){
    //{
+        cont.rowsRangeProcessing(range);
         int itemName = CellReference.convertColStringToIndex(name);
         int itemsQuantity = CellReference.convertColStringToIndex(numberOfItems);
         int inPackIndex = CellReference.convertColStringToIndex(inPack);
@@ -298,8 +299,8 @@ public class containerMath {
              lastRow = lastRow + sortedItems.size()+6;
         }
         try {         
-          FileOutputStream write = new FileOutputStream("/home/igorbashka/Documents/ДокиМаша/testOutput.xlsx");
-         // FileOutputStream write = new FileOutputStream("/home/igor/Documents/China/testOutput.xlsx");
+         // FileOutputStream write = new FileOutputStream("/home/igorbashka/Documents/ДокиМаша/testOutput.xlsx");
+          FileOutputStream write = new FileOutputStream("/home/igor/Documents/China/testOutput.xlsx");
             try {
                 output.write(write);
             } catch (IOException ex) {

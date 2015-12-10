@@ -106,8 +106,7 @@ public class controllerTest {
         String message = "123-456";
         controller instance = controller.getController();
         instance.rowsRangeProcessing(message);
-        assertEquals(456,instance.getSecondNumber());
+        assertEquals(455,instance.getSecondNumber());
         
     }
-    
-}
+ }
