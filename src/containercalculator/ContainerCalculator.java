@@ -202,6 +202,7 @@ public class ContainerCalculator extends Application {
        // primaryStage.setTitle("Hello World!");
         primaryStage.setScene(scene);
         primaryStage.show();
+        textInitialise();
     }
     /*Method for accessing file through the file dialog*/
 private File openFile(File file){
@@ -292,5 +293,18 @@ private File openFile(File file){
      sumGrossWeight = cont.formatedValue(sumGwField.getText());
      volumeOfPack = cont.formatedValue(volumeOfPackField.getText());
      sumVolume = cont.formatedValue(sumVolumeField.getText());
+ }
+ /*The method to input text in text fields(only in debugging purposes)*/
+ private void textInitialise(){
+     this.ItemsField.setText("1-118");
+     this.NIField.setText("a");
+     this.ItemsInPackField.setText("j");
+     this.NofPacksField.setText("k");
+     this.netWeightField.setText("l");
+     this.sumNwField.setText("n");
+     this.grossWeightField.setText("m");
+     this.sumGwField.setText("o");
+     this.volumeOfPackField.setText("q");
+     this.sumVolumeField.setText("q");
  }
 }
