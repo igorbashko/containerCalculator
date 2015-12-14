@@ -109,4 +109,9 @@ public class controllerTest {
         assertEquals(455,instance.getSecondNumber());
         
     }
+    @Test
+    public void testVoid(){
+        demoLicense demo = new demoLicense();
+        demo.readConf();
+    }
  }

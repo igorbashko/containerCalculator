@@ -15,15 +15,23 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import org.ini4j.Profile.Section;
 
 public class demoLicense {
 public void readConf(){
     try{
-       String appData;
+        String appData;
         appData = System.getenv("APPDATA"+"\\ContainerCalc");
-        Ini firstConf = new Ini(new File(appData));
+        File infoFile = new File(appData);
+        if(infoFile.isFile()){
+        Ini firstConf = new Ini(infoFile);
+        Section section1 = firstConf.add("section1"); //number of times application was run 
+        section1.put("runned", "0");
+        
+        }
     }catch(IOException ex){
         ex.printStackTrace();
     }
-}    
+   }
+
 }
