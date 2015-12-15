@@ -41,16 +41,24 @@ import net.iharder.Base64;
 
 public class demoLicense {
     private SecretKey secret; //secret key with the passPhrase
+    private byte [] iv = null; // initialization vector
+    private byte [] encryptedMessage = null; //encrypted message
+    
 public void readConf() throws InvalidParameterSpecException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException{
     String appData;
-    appData = System.getenv("APPDATA"+"\\ContainerCalc\\info.cont");
+    appData = System.getenv("APPDATA")+"\\ContainerCalc\\info";
     File infoFile = new File(appData);
     if(!infoFile.isFile()){
         try {
             String info = "FALSE\n1\n60000\n400";
             infoFile.createNewFile();
             FileOutputStream output = new FileOutputStream(infoFile);
-            output.write(encryptMessage(info));
+            encryptMessage(info);
+            output.write(encryptedMessage);
+            File ivFile = new File(System.getenv("APPDATA")+"\\Container\\info1");
+            ivFile.createNewFile();
+            FileOutputStream ivOutput = new FileOutputStream(ivFile);
+            ivOutput.write(iv);
         } catch (IOException ex) {
             Logger.getLogger(demoLicense.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -78,14 +86,13 @@ private SecretKey generateSecretKey(String passPhrase){
  }
 
 /*Method for encrypting the message*/
-private byte[] encryptMessage(String message) throws InvalidParameterSpecException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException{
-    byte[] encryptedMessage = null;
-        try {
+private void encryptMessage(String message) throws InvalidParameterSpecException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException{
+         try {
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             try {
                 cipher.init(Cipher.ENCRYPT_MODE, generateSecretKey("markiza2531"));
                 AlgorithmParameters params = cipher.getParameters();
-                byte[] iv = params.getParameterSpec(IvParameterSpec.class).getIV();
+                iv = params.getParameterSpec(IvParameterSpec.class).getIV();
                 encryptedMessage = cipher.doFinal(message.getBytes("UTF-8"));
              } catch (InvalidKeyException ex) {
                 ex.printStackTrace();
@@ -95,7 +102,8 @@ private byte[] encryptMessage(String message) throws InvalidParameterSpecExcepti
         } catch (NoSuchPaddingException ex) {
       ex.printStackTrace();
       }
-        return encryptedMessage;
-   }
-
+    }
+private String decryptMessage(){
+    
+}
 }
