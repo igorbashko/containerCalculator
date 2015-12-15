@@ -12,31 +12,48 @@ package containerController;
  */
 //import org.ini4j.*;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.security.AlgorithmParameters;
+import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
+import java.security.spec.InvalidParameterSpecException;
 import java.security.spec.KeySpec;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
+import net.iharder.Base64;
 //import org.ini4j.Profile.Section;
 
 public class demoLicense {
     private SecretKey secret; //secret key with the passPhrase
-public void readConf(){
+public void readConf() throws InvalidParameterSpecException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException{
     String appData;
-    appData = System.getenv("APPDATA"+"\\ContainerCalc\\info.txt");
+    appData = System.getenv("APPDATA"+"\\ContainerCalc\\info.cont");
     File infoFile = new File(appData);
-    if(infoFile.isFile()){
-        String info = "FALSE\n1\n60000\n400";
-        //infoFile.
+    if(!infoFile.isFile()){
+        try {
+            String info = "FALSE\n1\n60000\n400";
+            infoFile.createNewFile();
+            FileOutputStream output = new FileOutputStream(infoFile);
+            output.write(encryptMessage(info));
+        } catch (IOException ex) {
+            Logger.getLogger(demoLicense.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
    }
 /*Method for generation secret key according to passPhrase*/
@@ -61,7 +78,24 @@ private SecretKey generateSecretKey(String passPhrase){
  }
 
 /*Method for encrypting the message*/
-private String encryptMessage(String message){
-    
-}
+private byte[] encryptMessage(String message) throws InvalidParameterSpecException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException{
+    byte[] encryptedMessage = null;
+        try {
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            try {
+                cipher.init(Cipher.ENCRYPT_MODE, generateSecretKey("markiza2531"));
+                AlgorithmParameters params = cipher.getParameters();
+                byte[] iv = params.getParameterSpec(IvParameterSpec.class).getIV();
+                encryptedMessage = cipher.doFinal(message.getBytes("UTF-8"));
+             } catch (InvalidKeyException ex) {
+                ex.printStackTrace();
+            }
+        } catch (NoSuchAlgorithmException ex) {
+            ex.printStackTrace();
+        } catch (NoSuchPaddingException ex) {
+      ex.printStackTrace();
+      }
+        return encryptedMessage;
+   }
+
 }
