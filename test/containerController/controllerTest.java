@@ -19,7 +19,7 @@ import org.junit.Ignore;
  * @author igor
  */
 public class controllerTest {
-    
+    private demoLicense demo;
     public controllerTest() {
     }
     
@@ -100,7 +100,7 @@ public class controllerTest {
     /**
      * Test of rowsRangeProcessing method, of class controller.
      */
-    @Test
+    @Ignore
     public void testRowsRangeProcessing() {
         System.out.println("rowsRangeProcessing");
         String message = "123-456";
@@ -109,9 +109,14 @@ public class controllerTest {
         assertEquals(455,instance.getSecondNumber());
         
     }
-    @Test
-    public void testVoid(){
-        demoLicense demo = new demoLicense();
-       // demo.readConf();
+    
+    
+    @Test 
+    public void testDecryptMessage(){
+        demo = new demoLicense();
+        demo.generateConf();
+        String filePath = new String("/home/igorbashka/Documents/ContainerCalculator/Test");
+        String ivPath = new String("/home/igorbashka/Documents/ContainerCalculator/TestIv");
+        assertEquals("FALSE\n1\n60000\n400",demo.decryptMessage(filePath, ivPath));
     }
  }

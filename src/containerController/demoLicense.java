@@ -12,11 +12,15 @@ package containerController;
  */
 //import org.ini4j.*;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.AlgorithmParameters;
+import java.security.GeneralSecurityException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -37,6 +41,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
+import org.apache.poi.util.IOUtils;
 //import net.iharder.Base64;
 //import org.ini4j.Profile.Section;
 
@@ -45,25 +50,25 @@ public class demoLicense {
     private byte [] iv = null; // initialization vector
     private byte [] encryptedMessage = null; //encrypted message
     
-public void generateConf() throws InvalidParameterSpecException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException{
+public void generateConf(){
     String appData;
-    appData = System.getenv("APPDATA")+"\\ContainerCalc\\info";
+    //appData = System.getenv("APPDATA")+"\\ContainerCalc\\info";
+    appData = "/home/igorbashka/Documents/ContainerCalculator/Test.txt";
     File infoFile = new File(appData);
-    if(!infoFile.isFile()){
         try {
             String info = "FALSE\n1\n60000\n400";
             infoFile.createNewFile();
             FileOutputStream output = new FileOutputStream(infoFile);
             encryptMessage(info);
             output.write(encryptedMessage);
-            File ivFile = new File(System.getenv("APPDATA")+"\\Container\\info1");
+           // File ivFile = new File(System.getenv("APPDATA")+"\\Container\\info1");
+            File ivFile = new File("/home/igorbashka/Documents/ContainerCalculator/TestIv.txt");
             ivFile.createNewFile();
             FileOutputStream ivOutput = new FileOutputStream(ivFile);
             ivOutput.write(iv);
-        } catch (IOException ex) {
+        } catch (IOException | GeneralSecurityException ex) {
             Logger.getLogger(demoLicense.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
    }
 /*Method for generation secret key according to passPhrase*/
 private SecretKey generateSecretKey(String passPhrase){
@@ -71,7 +76,7 @@ private SecretKey generateSecretKey(String passPhrase){
         SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
         byte[] salt = new byte[8];
         SecureRandom rnd = new SecureRandom();
-        rnd.nextBytes(salt);
+       //rnd.nextBytes(salt);
         KeySpec specification= new PBEKeySpec(passPhrase.toCharArray(), salt, 65536, 128);
         try {
             SecretKey tmp = factory.generateSecret(specification);
@@ -104,14 +109,24 @@ private void encryptMessage(String message) throws InvalidParameterSpecException
       ex.printStackTrace();
       }
     }
-private String decryptMessage(byte[] message) throws InvalidKeyException, 
-          NoSuchPaddingException, NoSuchAlgorithmException, 
-                InvalidAlgorithmParameterException, IllegalBlockSizeException, UnsupportedEncodingException, 
-                BadPaddingException{
+/* Method for writing encrypted message from a file and decrypt it*/
+
+public String decryptMessage(String pathToFile, String pathToIV ){
+    
+     String decryptedMessage = new String("Something went wrong");
+    try{
+    InputStream fileReader = new FileInputStream(new File(pathToFile));
+    InputStream ivReader = new FileInputStream(new File(pathToIV));
+    byte [] message = IOUtils.toByteArray(fileReader);
+    byte [] iv = IOUtils.toByteArray(ivReader);
     Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
     cipher.init(Cipher.DECRYPT_MODE, generateSecretKey("markiza2531"), 
             new IvParameterSpec(iv) );//chage iv to initialization vector, taken from readed file
-    String decryptedMessage = new String(cipher.doFinal(message), "UTF-8");
+    decryptedMessage = new String(cipher.doFinal(message), "UTF-8");
     return decryptedMessage;
-}
+    } catch(GeneralSecurityException | IOException ex){
+            ex.printStackTrace();
+            }
+return decryptedMessage;
+  }
 }
