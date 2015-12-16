@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.AlgorithmParameters;
+import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -36,7 +37,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
-import net.iharder.Base64;
+//import net.iharder.Base64;
 //import org.ini4j.Profile.Section;
 
 public class demoLicense {
@@ -44,7 +45,7 @@ public class demoLicense {
     private byte [] iv = null; // initialization vector
     private byte [] encryptedMessage = null; //encrypted message
     
-public void readConf() throws InvalidParameterSpecException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException{
+public void generateConf() throws InvalidParameterSpecException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException{
     String appData;
     appData = System.getenv("APPDATA")+"\\ContainerCalc\\info";
     File infoFile = new File(appData);
@@ -103,7 +104,14 @@ private void encryptMessage(String message) throws InvalidParameterSpecException
       ex.printStackTrace();
       }
     }
-private String decryptMessage(){
-    
+private String decryptMessage(byte[] message) throws InvalidKeyException, 
+          NoSuchPaddingException, NoSuchAlgorithmException, 
+                InvalidAlgorithmParameterException, IllegalBlockSizeException, UnsupportedEncodingException, 
+                BadPaddingException{
+    Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+    cipher.init(Cipher.DECRYPT_MODE, generateSecretKey("markiza2531"), 
+            new IvParameterSpec(iv) );//chage iv to initialization vector, taken from readed file
+    String decryptedMessage = new String(cipher.doFinal(message), "UTF-8");
+    return decryptedMessage;
 }
 }
