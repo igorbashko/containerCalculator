@@ -19,7 +19,7 @@ import org.junit.Ignore;
  * @author igor
  */
 public class controllerTest {
-    private demoLicense demo;
+    private crypto demo;
     public controllerTest() {
     }
     
@@ -109,14 +109,18 @@ public class controllerTest {
         assertEquals(455,instance.getSecondNumber());
         
     }
-    
-    
-    @Test 
+    @Ignore
     public void testDecryptMessage(){
-        demo = new demoLicense();
+        demo = new crypto();
         demo.generateConf();
-        String filePath = new String("/home/igorbashka/Documents/ContainerCalculator/Test");
-        String ivPath = new String("/home/igorbashka/Documents/ContainerCalculator/TestIv");
+        String filePath = new String(System.getenv("APPDATA")+"\\containerCalculator\\info.txt");
+        String ivPath = new String(System.getenv("APPDATA")+"\\containerCalculator\\info1.txt");
         assertEquals("FALSE\n1\n60000\n400",demo.decryptMessage(filePath, ivPath));
+    }
+    @Test
+    public void architecture(){
+       // System.out.println(System.getProperty("java.library.path"));
+        demo = new crypto();
+        demo.getUniqueId();
     }
  }

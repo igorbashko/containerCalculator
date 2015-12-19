@@ -42,32 +42,39 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 import org.apache.poi.util.IOUtils;
+import com.jacob.com.*;
+import com.jacob.activeX.*;
+import java.util.Enumeration;
 //import net.iharder.Base64;
 //import org.ini4j.Profile.Section;
 
-public class demoLicense {
+public class crypto {
     private SecretKey secret; //secret key with the passPhrase
     private byte [] iv = null; // initialization vector
     private byte [] encryptedMessage = null; //encrypted message
     
 public void generateConf(){
     String appData;
-    //appData = System.getenv("APPDATA")+"\\ContainerCalc\\info";
-    appData = "/home/igorbashka/Documents/ContainerCalculator/Test.txt";
+    appData = System.getenv("APPDATA")+"\\containerCalculator\\info.txt";
+    //appData = "C:\\Program Files\\info.txt";
+    //appData = "/home/igorbashka/Documents/ContainerCalculator/Test.txt";
     File infoFile = new File(appData);
         try {
             String info = "FALSE\n1\n60000\n400";
+            infoFile.getParentFile().mkdir();
             infoFile.createNewFile();
             FileOutputStream output = new FileOutputStream(infoFile);
             encryptMessage(info);
             output.write(encryptedMessage);
-           // File ivFile = new File(System.getenv("APPDATA")+"\\Container\\info1");
-            File ivFile = new File("/home/igorbashka/Documents/ContainerCalculator/TestIv.txt");
-            ivFile.createNewFile();
+            File ivFile = new File(System.getenv("APPDATA")+"\\containerCalculator\\info1.txt");
+           // File ivFile = new File("C:\\Program Files\\info2.txt");
+            //File ivFile = new File("/home/igorbashka/Documents/ContainerCalculator/TestIv.txt");
+           ivFile.getParentFile().mkdir();
+           ivFile.createNewFile();
             FileOutputStream ivOutput = new FileOutputStream(ivFile);
             ivOutput.write(iv);
         } catch (IOException | GeneralSecurityException ex) {
-            Logger.getLogger(demoLicense.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(crypto.class.getName()).log(Level.SEVERE, null, ex);
         }
    }
 /*Method for generation secret key according to passPhrase*/
@@ -128,5 +135,22 @@ public String decryptMessage(String pathToFile, String pathToIV ){
             ex.printStackTrace();
             }
 return decryptedMessage;
+  }
+public void getUniqueId(){
+ ComThread.InitMTA();
+        try {
+            ActiveXComponent wmi = new ActiveXComponent("winmgmts:\\\\.");
+            Variant instances = wmi.invoke("InstancesOf", "Win32_USBController");
+            Enumeration<Variant> en = new EnumVariant(instances.getDispatch());
+            while (en.hasMoreElements())
+            {
+                ActiveXComponent bb = new ActiveXComponent(en.nextElement().getDispatch());
+                System.out.println(bb.getPropertyAsString("DeviceID"));
+                break;
+            }
+        } finally {
+            ComThread.Release();
+        }
+
   }
 }
