@@ -6,6 +6,8 @@
 
 package containerController;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.poi.*;
@@ -20,6 +22,11 @@ public class controller {
     private static controller cont = null;
     private int firstNumber;
     private int secondNumber;
+    private String info1Path; 
+    private String info2Path; 
+    private File info1;
+    private File info2;
+    private crypto encryption;
     
             private controller(){};
     public static controller getController(){
@@ -100,4 +107,41 @@ public class controller {
     public int getSecondNumber(){
         return this.secondNumber-1;
     }
+    /**
+     * Check if the file with license info exists or not
+     */
+    public boolean infoExist(){
+        info1Path = new String(System.getenv("APPDATA")+"\\containerCalculator\\info1.txt");
+        info2Path = new String(System.getenv("APPDATA")+"\\containerCalculator\\info1.txt");
+        info1 = new File(info1Path);
+        info2 = new File(info2Path);
+        if(info1.isFile() && info2.isFile())
+            return true;
+        else 
+            return false;
+    }
+    /**
+     * If the file with infoLicense does not exist create it with license information
+     */
+    public void createInfo(){
+        try {
+        info1.getParentFile().mkdir();
+        info1.createNewFile();
+        info2.createNewFile();
+        }catch(IOException ex){
+            ex.printStackTrace();
+        }
+    }
+    /**
+     * Writes content to the info file
+     */
+     public void writeInfo(String activated, String rumTimes, ){
+      String message = new String("")  
+    }
+    /**
+     * Initialize crypto instance
+     */
+   public void cryptoInitialize(){
+       this.encryption = new crypto();
+   }
 }

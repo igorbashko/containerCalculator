@@ -53,28 +53,17 @@ public class crypto {
     private byte [] iv = null; // initialization vector
     private byte [] encryptedMessage = null; //encrypted message
     
-public void generateConf(){
-    String appData;
-    appData = System.getenv("APPDATA")+"\\containerCalculator\\info.txt";
-    //appData = "C:\\Program Files\\info.txt";
-    //appData = "/home/igorbashka/Documents/ContainerCalculator/Test.txt";
-    File infoFile = new File(appData);
-        try {
-            String info = "FALSE\n1\n60000\n400";
-            infoFile.getParentFile().mkdir();
-            infoFile.createNewFile();
+public void generateConf(File infoFile, File ivFile, String data, String passphrase){
+            try {
             FileOutputStream output = new FileOutputStream(infoFile);
-            encryptMessage(info);
+            encryptMessage(data, passphrase);
             output.write(encryptedMessage);
-            File ivFile = new File(System.getenv("APPDATA")+"\\containerCalculator\\info1.txt");
-           // File ivFile = new File("C:\\Program Files\\info2.txt");
-            //File ivFile = new File("/home/igorbashka/Documents/ContainerCalculator/TestIv.txt");
-           ivFile.getParentFile().mkdir();
-           ivFile.createNewFile();
+            output.close(); //probably may cause a problem
             FileOutputStream ivOutput = new FileOutputStream(ivFile);
             ivOutput.write(iv);
+            ivOutput.close(); //probably may cause a problem
         } catch (IOException | GeneralSecurityException ex) {
-            Logger.getLogger(crypto.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
    }
 /*Method for generation secret key according to passPhrase*/
@@ -82,8 +71,6 @@ private SecretKey generateSecretKey(String passPhrase){
     try {
         SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
         byte[] salt = new byte[8];
-        SecureRandom rnd = new SecureRandom();
-       //rnd.nextBytes(salt);
         KeySpec specification= new PBEKeySpec(passPhrase.toCharArray(), salt, 65536, 128);
         try {
             SecretKey tmp = factory.generateSecret(specification);
@@ -99,11 +86,11 @@ private SecretKey generateSecretKey(String passPhrase){
  }
 
 /*Method for encrypting the message*/
-private void encryptMessage(String message) throws InvalidParameterSpecException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException{
+private void encryptMessage(String message, String passphrase) throws InvalidParameterSpecException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException{
          try {
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             try {
-                cipher.init(Cipher.ENCRYPT_MODE, generateSecretKey("markiza2531"));
+                cipher.init(Cipher.ENCRYPT_MODE, generateSecretKey(passphrase));
                 AlgorithmParameters params = cipher.getParameters();
                 iv = params.getParameterSpec(IvParameterSpec.class).getIV();
                 encryptedMessage = cipher.doFinal(message.getBytes("UTF-8"));
@@ -136,6 +123,10 @@ public String decryptMessage(String pathToFile, String pathToIV ){
             }
 return decryptedMessage;
   }
+/**
+ * Get unique identifier of the current machine In our case this is the usb 
+ * controller number
+ */
 public void getUniqueId(){
  ComThread.InitMTA();
         try {

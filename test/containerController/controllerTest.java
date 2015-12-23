@@ -112,7 +112,7 @@ public class controllerTest {
     @Ignore
     public void testDecryptMessage(){
         demo = new crypto();
-        demo.generateConf();
+       // demo.generateConf();
         String filePath = new String(System.getenv("APPDATA")+"\\containerCalculator\\info.txt");
         String ivPath = new String(System.getenv("APPDATA")+"\\containerCalculator\\info1.txt");
         assertEquals("FALSE\n1\n60000\n400",demo.decryptMessage(filePath, ivPath));

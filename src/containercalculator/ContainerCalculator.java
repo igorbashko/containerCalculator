@@ -58,7 +58,7 @@ public class ContainerCalculator extends Application {
     private String volumeOfPack;
     private String sumVolume;
     
-    @Override
+  @Override
     public void start(Stage primaryStage) {
         GridPane grid = new GridPane();
        grid.gridLinesVisibleProperty().setValue(Boolean.TRUE);
@@ -160,7 +160,7 @@ public class ContainerCalculator extends Application {
         //Actions on buttons
         //Choose source file button
         uploadBtn.setOnAction(new EventHandler <ActionEvent>(){
-            @Override
+          @Override
             public void handle(ActionEvent event ){
                 File selectedFile = chooseFile.showOpenDialog(primaryStage);
                 if(selectedFile != null){
