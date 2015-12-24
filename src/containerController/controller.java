@@ -6,10 +6,13 @@
 
 package containerController;
 
+import containerView.view;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.stage.Stage;
 import org.apache.poi.*;
 import org.apache.poi.ss.util.CellReference;
     
@@ -27,6 +30,10 @@ public class controller {
     private File info1;
     private File info2;
     private crypto encryption;
+    private boolean activated = false;
+    private int runTimes = 0;
+    private String licenseKey =new String();
+    private String uniqueId = new String();
     
             private controller(){};
     public static controller getController(){
@@ -135,13 +142,34 @@ public class controller {
     /**
      * Writes content to the info file
      */
-     public void writeInfo(String activated, String rumTimes, ){
-      String message = new String("")  
+     public void writeInfo(String activated, String runTimes, String licenseKey){
+      String message = new String(activated +"\\n"+runTimes +"\\n"+licenseKey+"\\n");
+      String uniqueId = encryption.getUniqueId();
+      message+=uniqueId+"\\n";
+      
     }
     /**
      * Initialize crypto instance
      */
    public void cryptoInitialize(){
        this.encryption = new crypto();
+   }
+   /**
+    * Method for reading license info from the file 
+    */
+   public void readInfo(){
+       String decryptedData = encryption.decryptMessage(info1Path, info2Path);
+       licenseInfo info = new licenseInfo(decryptedData);
+       activated = info.getActivated();
+       runTimes = info.getRunTimes();
+       licenseKey = info.getKey();
+       uniqueId = info.getId();
+   }
+   /**
+    * Starting the application
+    */
+   public void startApp(Stage stage){
+       view newView = new view();
+       newView.start(stage);
    }
 }

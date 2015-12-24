@@ -127,8 +127,9 @@ return decryptedMessage;
  * Get unique identifier of the current machine In our case this is the usb 
  * controller number
  */
-public void getUniqueId(){
+public String getUniqueId(){
  ComThread.InitMTA();
+ String uniqueId = new String();
         try {
             ActiveXComponent wmi = new ActiveXComponent("winmgmts:\\\\.");
             Variant instances = wmi.invoke("InstancesOf", "Win32_USBController");
@@ -136,12 +137,13 @@ public void getUniqueId(){
             while (en.hasMoreElements())
             {
                 ActiveXComponent bb = new ActiveXComponent(en.nextElement().getDispatch());
+                uniqueId = bb.getPropertyAsString("DeviceID");
                 System.out.println(bb.getPropertyAsString("DeviceID"));
-                break;
+                //break;
             }
         } finally {
             ComThread.Release();
         }
-
+return uniqueId;
   }
 }

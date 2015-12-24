@@ -24,10 +24,11 @@ public class licenseInfo {
     private boolean activated;
     private int runTimes;
     private String licenseKey;
+    private String uniqueId;
     
     /*Process data in input file for license checking purposes*/
     public licenseInfo(String data){
-        variables = new String[3];
+        variables = new String[4];
       InputStream stream = new ByteArrayInputStream(data.getBytes(StandardCharsets.UTF_8));
       BufferedReader rd = new BufferedReader(new InputStreamReader(stream));
       int index = 0;
@@ -55,5 +56,9 @@ public class licenseInfo {
     public String getKey(){
         this.licenseKey = variables[2].trim();
         return licenseKey;
+    }
+    public String getId(){
+        this.uniqueId = variables[3];
+        return uniqueId;
     }
  }
