@@ -144,9 +144,9 @@ public class controller {
      */
      public void writeInfo(String activated, String runTimes, String licenseKey){
       String message = new String(activated +"\\n"+runTimes +"\\n"+licenseKey+"\\n");
-      String uniqueId = encryption.getUniqueId();
+      /*String uniqueId = encryption.getUniqueId();
       message+=uniqueId+"\\n";
-      
+      */
     }
     /**
      * Initialize crypto instance
@@ -171,5 +171,14 @@ public class controller {
    public void startApp(Stage stage){
        view newView = new view();
        newView.start(stage);
+   }
+   /**
+    * Define existence of configuration file and creating a new file 
+    * if there is no config
+    */
+   private void startDemo(){
+       if (infoExist()){
+           
+       }
    }
 }

@@ -35,7 +35,7 @@ public class ContainerCalculator extends Application{
     @Override
     public void start(Stage primaryStage){
          controller cont = controller.getController();   
-        // cont.startApp(primaryStage);
+         cont.startApp(primaryStage);
   
     }
     /**
