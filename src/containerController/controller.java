@@ -6,7 +6,7 @@
 
 package containerController;
 
-import containerView.view;
+import containerView.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -168,7 +168,7 @@ public class controller {
    /**
     * Starting the application
     */
-   public void startApp(Stage stage){
+   public void createView(Stage stage){
        view newView = new view();
        newView.start(stage);
    }
@@ -176,9 +176,42 @@ public class controller {
     * Define existence of configuration file and creating a new file 
     * if there is no config
     */
-   private void startDemo(){
+   public void startApp(Stage primaryStage){
        if (infoExist()){
-           
+          readInfo();
+          processLicense(primaryStage);
+      }else{
+           createInfo();
+           writeInfo("FALSE", "0", null);
        }
    }
+   /**
+    * Work with info from the license file. 
+    * Define if software was activated,
+    * and how many times it was run if not.
+    */
+   private void processLicense(Stage primaryStage){
+       if(activated){
+          createView(primaryStage);
+       }else{
+           if(runTimes <=10){
+               int leftTimes = 10 -(runTimes+1);
+               String demoMessage = new  String("Приложение запщено в "
+                       + "демонстрационной версии\n"
+                       + "Осталось "+Integer.toString(leftTimes)+" запусков");
+               Stage demoMessageStage = new Stage();
+               popupReport demoPopUp = new popupReport();
+               demoPopUp.createAndShowPopup(demoMessage, demoMessageStage);
+               writeInfo("FALSE", Integer.toString(runTimes+1), null);
+               createView(primaryStage);
+           }else{
+               popupReport prohibitPopup = new popupReport();
+               String warningMessage = new String("Ваша демо версия истелка"
+                       + " пожалуйста приобретите лицензию");
+               prohibitPopup.createAndShowPopup(warningMessage, primaryStage);
+           }
+       }
+           
+   }
+   
 }
