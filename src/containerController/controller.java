@@ -119,7 +119,7 @@ public class controller {
      */
     public boolean infoExist(){
         info1Path = new String(System.getenv("APPDATA")+"\\containerCalculator\\info1.txt");
-        info2Path = new String(System.getenv("APPDATA")+"\\containerCalculator\\info1.txt");
+        info2Path = new String(System.getenv("APPDATA")+"\\containerCalculator\\info2.txt");
         info1 = new File(info1Path);
         info2 = new File(info2Path);
         if(info1.isFile() && info2.isFile())
@@ -143,7 +143,10 @@ public class controller {
      * Writes content to the info file
      */
      public void writeInfo(String activated, String runTimes, String licenseKey){
-      String message = new String(activated +"\\n"+runTimes +"\\n"+licenseKey+"\\n");
+      String message = new String(activated + runTimes + licenseKey);
+      cryptoInitialize();
+      encryption.setPassphrase("markiza2531");
+      encryption.generateConf(info1, info2, message);
       /*String uniqueId = encryption.getUniqueId();
       message+=uniqueId+"\\n";
       */
@@ -158,6 +161,8 @@ public class controller {
     * Method for reading license info from the file 
     */
    public void readInfo(){
+       cryptoInitialize();
+       encryption.setPassphrase("markiza2531");
        String decryptedData = encryption.decryptMessage(info1Path, info2Path);
        licenseInfo info = new licenseInfo(decryptedData);
        activated = info.getActivated();
@@ -182,7 +187,8 @@ public class controller {
           processLicense(primaryStage);
       }else{
            createInfo();
-           writeInfo("FALSE", "0", null);
+           writeInfo("FALSE\n", "0\n", null);
+           createView(primaryStage);
        }
    }
    /**
@@ -194,15 +200,15 @@ public class controller {
        if(activated){
           createView(primaryStage);
        }else{
-           if(runTimes <=10){
-               int leftTimes = 10 -(runTimes+1);
+           if(runTimes <4){
+               int leftTimes = 4 -(runTimes+1);
                String demoMessage = new  String("Приложение запщено в "
                        + "демонстрационной версии\n"
                        + "Осталось "+Integer.toString(leftTimes)+" запусков");
                Stage demoMessageStage = new Stage();
                popupReport demoPopUp = new popupReport();
                demoPopUp.createAndShowPopup(demoMessage, demoMessageStage);
-               writeInfo("FALSE", Integer.toString(runTimes+1), null);
+               writeInfo("FALSE\n", Integer.toString(runTimes+1)+"\n", null);
                createView(primaryStage);
            }else{
                popupReport prohibitPopup = new popupReport();

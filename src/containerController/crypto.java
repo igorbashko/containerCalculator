@@ -52,11 +52,21 @@ public class crypto {
     private SecretKey secret; //secret key with the passPhrase
     private byte [] iv = null; // initialization vector
     private byte [] encryptedMessage = null; //encrypted message
-    
-public void generateConf(File infoFile, File ivFile, String data, String passphrase){
+    private String passphrase;
+    /**
+     * Setting the passphrase for encryption
+     * @param passphrase
+     * @return 
+     */
+public String setPassphrase(String passphrase){
+    this.passphrase = passphrase;
+    return this.passphrase;
+}  
+
+public void generateConf(File infoFile, File ivFile, String data){
             try {
             FileOutputStream output = new FileOutputStream(infoFile);
-            encryptMessage(data, passphrase);
+            encryptMessage(data);
             output.write(encryptedMessage);
             output.close(); //probably may cause a problem
             FileOutputStream ivOutput = new FileOutputStream(ivFile);
@@ -86,7 +96,7 @@ private SecretKey generateSecretKey(String passPhrase){
  }
 
 /*Method for encrypting the message*/
-private void encryptMessage(String message, String passphrase) throws InvalidParameterSpecException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException{
+private void encryptMessage(String message) throws InvalidParameterSpecException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException{
          try {
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             try {
@@ -114,7 +124,7 @@ public String decryptMessage(String pathToFile, String pathToIV ){
     byte [] message = IOUtils.toByteArray(fileReader);
     byte [] iv = IOUtils.toByteArray(ivReader);
     Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-    cipher.init(Cipher.DECRYPT_MODE, generateSecretKey("markiza2531"), 
+    cipher.init(Cipher.DECRYPT_MODE, generateSecretKey(passphrase), 
             new IvParameterSpec(iv) );//chage iv to initialization vector, taken from readed file
     decryptedMessage = new String(cipher.doFinal(message), "UTF-8");
     return decryptedMessage;
