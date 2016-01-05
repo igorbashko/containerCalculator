@@ -142,13 +142,13 @@ public String getUniqueId(){
  String uniqueId = new String();
         try {
             ActiveXComponent wmi = new ActiveXComponent("winmgmts:\\\\.");
-            Variant instances = wmi.invoke("InstancesOf", "Win32_USBController");
+            Variant instances = wmi.invoke("InstancesOf", "Win32_OperatingSystem");
             Enumeration<Variant> en = new EnumVariant(instances.getDispatch());
             while (en.hasMoreElements())
             {
                 ActiveXComponent bb = new ActiveXComponent(en.nextElement().getDispatch());
-                uniqueId = bb.getPropertyAsString("DeviceID");
-                System.out.println(bb.getPropertyAsString("DeviceID"));
+                uniqueId = bb.getPropertyAsString("SerialNumber")+"\n"+bb.getPropertyAsString("InstallDate");
+                System.out.println(uniqueId);
                 //break;
             }
         } finally {

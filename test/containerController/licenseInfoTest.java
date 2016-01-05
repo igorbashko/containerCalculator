@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package containerController;
 
 import org.junit.After;
@@ -38,7 +37,6 @@ public class licenseInfoTest {
     @After
     public void tearDown() {
     }
-
     /**
      * Test of getActivated method, of class licenseInfo.
      */
@@ -51,7 +49,6 @@ public class licenseInfoTest {
         assertEquals(expResult, result);
        
     }
-
     /**
      * Test of getRunTimes method, of class licenseInfo.
      */
@@ -62,9 +59,7 @@ public class licenseInfoTest {
         int expResult = 1;
         int result = instance.getRunTimes();
         assertEquals(expResult, result);
-       
-    }
-
+   }
     /**
      * Test of getKey method, of class licenseInfo.
      */
@@ -77,5 +72,4 @@ public class licenseInfoTest {
         assertEquals(expResult, result);
        
     }
-    
 }
