@@ -9,10 +9,16 @@ package containerController;
 import containerView.*;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidParameterSpecException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.stage.Stage;
+import licensegenerator.Generator;
 import org.apache.poi.*;
 import org.apache.poi.ss.util.CellReference;
     
@@ -21,7 +27,7 @@ import org.apache.poi.ss.util.CellReference;
  *This class will be used in singeltone pattern
  * @author igor
  */
-public class controller {
+public class controller{
     private static controller cont = null;
     private int firstNumber;
     private int secondNumber;
@@ -33,8 +39,7 @@ public class controller {
     private boolean activated = false;
     private int runTimes = 0;
     private String licenseKey =new String();
-    private String uniqueId = new String();
-    
+    private File verification;    
             private controller(){};
     public static controller getController(){
         if(cont == null){
@@ -135,6 +140,23 @@ public class controller {
         info1.getParentFile().mkdir();
         info1.createNewFile();
         info2.createNewFile();
+        verification = new File("license.txt");
+        verification.createNewFile();
+        }catch(IOException ex){
+            ex.printStackTrace();
+        }
+    }
+    /**
+     * Writes encrypted information of the computer unique identifier
+     */
+    private void writeEncryptedId(){
+        try{
+        FileOutputStream output = new FileOutputStream(verification);
+        encryption.setPassphrase("testPas2");
+        encryption.encryptMessage(encryption.getUniqueId());
+        output.write(encryption.getEncrypted());
+        output.write(encryption.getIv());
+        output.close();
         }catch(IOException ex){
             ex.printStackTrace();
         }
@@ -147,6 +169,7 @@ public class controller {
       cryptoInitialize();
       encryption.setPassphrase("markiza2531");
       encryption.generateConf(info1, info2, message);
+      writeEncryptedId();
       /*String uniqueId = encryption.getUniqueId();
       message+=uniqueId+"\\n";
       */
@@ -168,7 +191,7 @@ public class controller {
        activated = info.getActivated();
        runTimes = info.getRunTimes();
        licenseKey = info.getKey();
-       uniqueId = info.getId();
+      
    }
    /**
     * Starting the application
@@ -178,16 +201,25 @@ public class controller {
        newView.start(stage);
    }
    /**
+    * Generating unique indentifier 
+    * and creating a key from it
+    */
+   private void setKey() throws NoSuchAlgorithmException{
+       Generator generator = new Generator();
+       this.licenseKey = generator.returnKey(encryption.getUniqueId(), "testPas");
+   }
+   /**
     * Define existence of configuration file and creating a new file 
     * if there is no config
     */
-   public void startApp(Stage primaryStage){
+   public void startApp(Stage primaryStage) throws NoSuchAlgorithmException{
        if (infoExist()){
           readInfo();
           processLicense(primaryStage);
       }else{
            createInfo();
-           writeInfo("FALSE\n", "0\n", null);
+           setKey();
+           writeInfo("FALSE\n", "0\n", licenseKey);
            createView(primaryStage);
        }
    }

@@ -72,7 +72,7 @@ public void generateConf(File infoFile, File ivFile, String data){
             FileOutputStream ivOutput = new FileOutputStream(ivFile);
             ivOutput.write(iv);
             ivOutput.close(); //probably may cause a problem
-        } catch (IOException | GeneralSecurityException ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
    }
@@ -96,7 +96,7 @@ private SecretKey generateSecretKey(String passPhrase){
  }
 
 /*Method for encrypting the message*/
-private void encryptMessage(String message) throws InvalidParameterSpecException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException{
+public void encryptMessage(String message){
          try {
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             try {
@@ -111,6 +111,10 @@ private void encryptMessage(String message) throws InvalidParameterSpecException
             ex.printStackTrace();
         } catch (NoSuchPaddingException ex) {
       ex.printStackTrace();
+      }catch(GeneralSecurityException ex){
+          ex.printStackTrace();
+      }catch(UnsupportedEncodingException ex){
+          ex.printStackTrace();
       }
     }
 /* Method for writing encrypted message from a file and decrypt it*/
@@ -156,4 +160,10 @@ public String getUniqueId(){
         }
 return uniqueId;
   }
+public byte [] getEncrypted(){
+    return encryptedMessage;
+}
+public byte [] getIv(){
+   return iv; 
+   }
 }
