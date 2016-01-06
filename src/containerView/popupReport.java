@@ -20,42 +20,40 @@ import javafx.stage.WindowEvent;
  * @author igorbashka
  */
 public class popupReport {
-    private static Stage stage;
-    
-    private static Popup createPopup(String message){
-       final Popup popup = new Popup();
-       //popup.setAutoHide(true);
-       Label report = new Label(message);
-       Button okBtn = new Button("Ok");
-       okBtn.setOnAction(new EventHandler <ActionEvent>(){
-        @Override
-        public void handle(ActionEvent e){
-           stage.close();
-       }
-    });
-       popup.getContent().add(report);
-       popup.getContent().add(okBtn);
-       return popup;
-    }
-    public void showPopup(String message, Stage stage2){
-        stage = stage2;
-        final Popup popup = createPopup(message);
-        StackPane root = new StackPane();
-    //    root.getChildren().add(popup);
-      // Scene scene2 = new Scene(root, 300, 250);
-       //stage.setScene(scene2);
-      //*/
-        popup.setOnShown(new EventHandler <WindowEvent>(){
-
-            @Override
-            public void handle(WindowEvent event) {
-                popup.setX(stage.getX()+stage.getWidth()/2-popup.getWidth()/2);
-                popup.setY(stage.getY()+stage.getHeight()/2-popup.getHeight()/2);
+    private Stage stage;
+    /**
+     * Creates formatted label from specified string 
+     * @return formattedLabel 
+     */
+    private Label setPopupLabel(String message){
+        Label formattedLabel = new Label(message);
+        formattedLabel.setWrapText(true);
+        return formattedLabel;
+    }/**
+     * Method for creating ok(close) button
+     * @return okButton 
+     */
+    private Button createOkButton(){
+        Button okBtn = new Button("OK");
+        okBtn.setOnAction(new EventHandler <ActionEvent>(){
+            public void handle(ActionEvent event){
+                stage.close();
             }
-            
         });
-        stage.show();
-        popup.show(stage);
+        return okBtn;
+    } 
+    /**
+     * Method for creating button for license 
+     * activation
+     */
+    private Button activateBtn(){
+        Button activate = new Button("Activate");
+        activate.setOnAction(new EventHandler <ActionEvent>(){
+            public void handle(ActionEvent event){
+                
+            } 
+        });
+        return activate;
     }
     public void createAndShowPopup(String message, Stage stage){
         StackPane popupPane = new StackPane();
