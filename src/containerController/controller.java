@@ -251,5 +251,16 @@ public class controller{
        }
            
    }
-   
+   /**
+    * Method for verification key supplied by user
+    * and generated in the system
+    */
+   private void verify(String key){
+    if(key.equals(licenseKey)){
+        activated = true;  
+    }else{
+        //Figure out with the stage write invalid 
+        //key popup
+    }   
+   }
 }
