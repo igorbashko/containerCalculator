@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -20,7 +21,10 @@ import javafx.stage.WindowEvent;
  * @author igorbashka
  */
 public class popupReport {
-    private Stage stage;
+    private final Stage activationStage;
+    public popupReport(){
+        activationStage = new Stage();
+    }
     /**
      * Creates formatted label from specified string 
      * @return formattedLabel 
@@ -33,7 +37,7 @@ public class popupReport {
      * Method for creating ok(close) button
      * @return okButton 
      */
-    private Button createOkButton(){
+    private Button createOkButton(Stage stage){
         Button okBtn = new Button("OK");
         okBtn.setOnAction(new EventHandler <ActionEvent>(){
             public void handle(ActionEvent event){
@@ -55,6 +59,11 @@ public class popupReport {
         });
         return activate;
     }
+    /**
+     * Change later for correct appearance
+     * @param message
+     * @param stage 
+     */
     public void createAndShowPopup(String message, Stage stage){
         StackPane popupPane = new StackPane();
         Label report = new Label(message);
@@ -69,5 +78,11 @@ public class popupReport {
         Scene scene2 = new Scene(popupPane, 300, 250);
         stage.setScene(scene2);
         stage.show();
+    }
+    /**
+     * Constracting license activation warning window
+     */
+    public void activateWarningWindow(){
+        
     }
 }
