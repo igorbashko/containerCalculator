@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Popup;
@@ -22,8 +23,12 @@ import javafx.stage.WindowEvent;
  */
 public class popupReport {
     private final Stage activationStage;
+    private final Stage inputKeyStage;
+    
     public popupReport(){
         activationStage = new Stage();
+        inputKeyStage = new Stage();
+        activationStage.initModality(Modality.APPLICATION_MODAL);
     }
     /**
      * Creates formatted label from specified string 
@@ -50,7 +55,7 @@ public class popupReport {
      * Method for creating button for license 
      * activation
      */
-    private Button activateBtn(){
+    private Button inputKeyBtn(){
         Button activate = new Button("Activate");
         activate.setOnAction(new EventHandler <ActionEvent>(){
             public void handle(ActionEvent event){
@@ -79,10 +84,61 @@ public class popupReport {
         stage.setScene(scene2);
         stage.show();
     }
+    private Button verifyBtn(){
+        Button verifyBtn = new Button("Activate");
+        verifyBtn.setOnAction(new EventHandler <ActionEvent>(){
+            public void handle(ActionEvent event){
+               //write verification method in the controller
+               //call it from here
+            }
+        });
+        return verifyBtn;
+    }
+    /**
+     * Success or not message window
+     */
+    public void successPopup(String message){
+        StackPane success = new StackPane();
+        Label successLabel = setPopupLabel(message);
+        Stage successStage = new Stage();
+        successStage.initOwner(inputKeyStage);
+        successStage.initModality(Modality.WINDOW_MODAL);
+        Button okBtn = createOkButton(successStage);
+        success.getChildren().add(successLabel);
+        success.getChildren().add(okBtn);
+        Scene scene = new Scene(success, 300, 100);
+        successStage.setScene(scene);
+        successStage.show();
+    }
+    /**
+     * Method for creating input key popup form
+     */
+    public void inputKeyWindow(){
+      //  Stage inputKeyStage = new Stage();
+        StackPane inputPane = new StackPane();
+        TextField inputField = new TextField();
+        Button verifyBtn = verifyBtn();
+        inputPane.getChildren().add(inputField);
+        inputPane.getChildren().add(verifyBtn);
+        Scene scene = new Scene(inputPane);
+        inputKeyStage.initOwner(activationStage);
+        inputKeyStage.initModality(Modality.WINDOW_MODAL);
+        inputKeyStage.setScene(scene);
+        inputKeyStage.show();
+       }
     /**
      * Constracting license activation warning window
      */
-    public void activateWarningWindow(){
-        
+    public void activateWarningWindow(String message){
+        StackPane warningPane = new StackPane();
+        Label warningLabel = setPopupLabel(message);
+        Button inputKeyButton =  inputKeyBtn();
+        Button closeBtn = createOkButton(activationStage);
+        warningPane.getChildren().add(warningLabel);
+        warningPane.getChildren().add(inputKeyButton);
+        warningPane.getChildren().add(closeBtn);
+        Scene scene = new Scene(warningPane, 300, 200);
+        activationStage.setScene(scene);
+        activationStage.show();
     }
 }
