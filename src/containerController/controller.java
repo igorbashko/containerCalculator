@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidParameterSpecException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.stage.Stage;
@@ -38,7 +40,7 @@ public class controller{
     private crypto encryption;
     private boolean activated = false;
     private int runTimes = 0;
-    private String licenseKey = new String();
+    private String licenseKey;
     private File verification; 
     private String inputKey;
     private popupReport demoPopUp;
@@ -144,7 +146,7 @@ public class controller{
         info2.createNewFile();
         verification = new File("license.txt");
         verification.createNewFile();
-        }catch(IOException ex){
+         }catch(IOException ex){
             ex.printStackTrace();
         }
     }
@@ -171,10 +173,6 @@ public class controller{
       cryptoInitialize();
       encryption.setPassphrase("markiza2531");
       encryption.generateConf(info1, info2, message);
-      writeEncryptedId();
-      /*String uniqueId = encryption.getUniqueId();
-      message+=uniqueId+"\\n";
-      */
     }
     /**
      * Initialize crypto instance
@@ -208,7 +206,10 @@ public class controller{
     */
    private void setKey(){
        Generator generator = new Generator();
-       this.licenseKey = generator.returnKey(encryption.getUniqueId(), "testPas");
+       this.licenseKey = new String();
+           this.licenseKey = generator.returnKey(encryption.getUniqueId(), "testPas");
+            
+        
    }
    /**
     * Define existence of configuration file and creating a new file 
@@ -220,8 +221,10 @@ public class controller{
           processLicense(primaryStage);
       }else{
            createInfo();
+           cryptoInitialize();
            setKey();
            writeInfo("FALSE\n", "0\n", licenseKey);
+           writeEncryptedId();
            createView(primaryStage);
        }
    }

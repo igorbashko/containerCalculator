@@ -144,6 +144,7 @@ return decryptedMessage;
 public String getUniqueId(){
  ComThread.InitMTA();
  String uniqueId = new String();
+
         try {
             ActiveXComponent wmi = new ActiveXComponent("winmgmts:\\\\.");
             Variant instances = wmi.invoke("InstancesOf", "Win32_OperatingSystem");
