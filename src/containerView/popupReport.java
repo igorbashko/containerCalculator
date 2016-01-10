@@ -5,6 +5,7 @@
  */
 package containerView;
 
+import containerController.controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -22,6 +23,8 @@ import javafx.stage.WindowEvent;
  * @author igorbashka
  */
 public class popupReport {
+    private controller cont = controller.getController();
+    private TextField inputField;
     private final Stage activationStage;
     private final Stage inputKeyStage;
     
@@ -59,7 +62,7 @@ public class popupReport {
         Button activate = new Button("Activate");
         activate.setOnAction(new EventHandler <ActionEvent>(){
             public void handle(ActionEvent event){
-                
+            cont.callInputWindow();
             } 
         });
         return activate;
@@ -88,8 +91,8 @@ public class popupReport {
         Button verifyBtn = new Button("Activate");
         verifyBtn.setOnAction(new EventHandler <ActionEvent>(){
             public void handle(ActionEvent event){
-               //write verification method in the controller
-               //call it from here
+               cont.seInputKey(inputField.getText());
+               cont.verify();
             }
         });
         return verifyBtn;
@@ -114,9 +117,8 @@ public class popupReport {
      * Method for creating input key popup form
      */
     public void inputKeyWindow(){
-      //  Stage inputKeyStage = new Stage();
         StackPane inputPane = new StackPane();
-        TextField inputField = new TextField();
+        inputField = new TextField();
         Button verifyBtn = verifyBtn();
         inputPane.getChildren().add(inputField);
         inputPane.getChildren().add(verifyBtn);

@@ -38,8 +38,10 @@ public class controller{
     private crypto encryption;
     private boolean activated = false;
     private int runTimes = 0;
-    private String licenseKey =new String();
-    private File verification;    
+    private String licenseKey = new String();
+    private File verification; 
+    private String inputKey;
+    private popupReport demoPopUp;
             private controller(){};
     public static controller getController(){
         if(cont == null){
@@ -237,9 +239,9 @@ public class controller{
                String demoMessage = new  String("Приложение запщено в "
                        + "демонстрационной версии\n"
                        + "Осталось "+Integer.toString(leftTimes)+" запусков");
-               Stage demoMessageStage = new Stage();
-               popupReport demoPopUp = new popupReport();
-               demoPopUp.createAndShowPopup(demoMessage, demoMessageStage);
+               demoPopUp = new popupReport();
+               //demoPopUp.createAndShowPopup(demoMessage, demoMessageStage);
+               demoPopUp.activateWarningWindow(demoMessage);
                writeInfo("FALSE\n", Integer.toString(runTimes+1)+"\n", null);
                createView(primaryStage);
            }else{
@@ -252,15 +254,30 @@ public class controller{
            
    }
    /**
+    * Call window with input key Text Field
+    */
+   public void callInputWindow(){
+       demoPopUp.inputKeyWindow();
+   }
+   /**
     * Method for verification key supplied by user
     * and generated in the system
     */
-   private void verify(String key){
-    if(key.equals(licenseKey)){
-        activated = true;  
+   public void verify(){
+    setKey();
+    if(inputKey.equals(licenseKey)){
+        activated = true;
+        writeInfo("TRUE\n", Integer.toString(runTimes+1), licenseKey);
+        demoPopUp.successPopup("Поздравляем. Активация прошла успешно");
     }else{
-        //Figure out with the stage write invalid 
-        //key popup
+       demoPopUp.successPopup("Ошибка ! Вы ввели неверный ключ ! "
+               + "Попробуйте еще раз");
     }   
    }
+   /**
+    * Setting inputKey variable variable from input key window
+    */
+   public void seInputKey(String inputKey){
+       this.inputKey = inputKey;  
+               }
 }
