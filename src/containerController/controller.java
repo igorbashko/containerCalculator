@@ -206,7 +206,7 @@ public class controller{
     * Generating unique indentifier 
     * and creating a key from it
     */
-   private void setKey() throws NoSuchAlgorithmException{
+   private void setKey(){
        Generator generator = new Generator();
        this.licenseKey = generator.returnKey(encryption.getUniqueId(), "testPas");
    }
@@ -214,7 +214,7 @@ public class controller{
     * Define existence of configuration file and creating a new file 
     * if there is no config
     */
-   public void startApp(Stage primaryStage) throws NoSuchAlgorithmException{
+   public void startApp(Stage primaryStage) {
        if (infoExist()){
           readInfo();
           processLicense(primaryStage);
