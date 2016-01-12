@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -132,14 +133,14 @@ public class popupReport {
      * Constracting license activation warning window
      */
     public void activateWarningWindow(String message){
-        StackPane warningPane = new StackPane();
+        VBox warningBox = new VBox();
         Label warningLabel = setPopupLabel(message);
         Button inputKeyButton =  inputKeyBtn();
         Button closeBtn = createOkButton(activationStage);
-        warningPane.getChildren().add(warningLabel);
-        warningPane.getChildren().add(inputKeyButton);
-        warningPane.getChildren().add(closeBtn);
-        Scene scene = new Scene(warningPane, 300, 200);
+        warningBox.getChildren().add(warningLabel);
+        warningBox.getChildren().add(inputKeyButton);
+        warningBox.getChildren().add(closeBtn);
+        Scene scene = new Scene(warningBox);
         activationStage.setScene(scene);
         activationStage.show();
     }
