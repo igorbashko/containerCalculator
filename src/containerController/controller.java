@@ -248,14 +248,13 @@ public class controller{
                writeInfo("FALSE\n", Integer.toString(runTimes+1)+"\n", null);
                createView(primaryStage);
            }else{
-               popupReport prohibitPopup = new popupReport();
-               String warningMessage = new String("Ваша демо версия истелка"
+               demoPopUp = new popupReport();
+               String warningMessage = new String("Ваша демо версия истелка,"
                        + " пожалуйста приобретите лицензию");
-               prohibitPopup.createAndShowPopup(warningMessage, primaryStage);
+               demoPopUp.activateWarningWindow(warningMessage);
            }
        }
-           
-   }
+    }
    /**
     * Call window with input key Text Field
     */
