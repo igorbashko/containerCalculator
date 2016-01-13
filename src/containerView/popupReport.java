@@ -6,6 +6,8 @@
 package containerView;
 
 import containerController.controller;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -14,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -31,6 +34,8 @@ public class popupReport {
     private TextField inputField;
     private final Stage activationStage;
     private final Stage inputKeyStage;
+    private HBox inputField2;
+    private List<TextField> keyInputs;
     
     public popupReport(){
         activationStage = new Stage();
@@ -98,7 +103,8 @@ public class popupReport {
             public void handle(ActionEvent event){
                cont.seInputKey(inputField.getText());
                cont.verify();
-            }
+               System.out.println(keyInputs.get(0).getText());
+           }
         });
         return verifyBtn;
     }
@@ -125,10 +131,12 @@ public class popupReport {
         VBox inputBox = formatedVbox();
         Label inputLabel = setPopupLabel("Введи активационный ключ, полученный"
                 + "по почте");
+        inputField2 = keyInputBox();
         inputField = new TextField();
         Button verifyBtn = verifyBtn();
         Button closeBtn = createOkButton(inputKeyStage);
         inputBox.getChildren().add(inputLabel);
+        inputBox.getChildren().add(inputField2);
         inputBox.getChildren().add(inputField);
         inputBox.getChildren().add(verifyBtn);
         inputBox.getChildren().add(closeBtn);
@@ -158,5 +166,15 @@ public class popupReport {
         box.setSpacing(9);
         box.setAlignment(Pos.CENTER);
         return box;
+    }
+    private HBox keyInputBox(){
+        HBox keyBox = new HBox();
+        keyBox.setSpacing(8);
+        keyInputs = new ArrayList<TextField>();
+        for (int i=0; i<=5; i++){
+            keyInputs.add(new TextField());
+        }
+        keyBox.getChildren().addAll(keyInputs);
+        return keyBox;
     }
 }
