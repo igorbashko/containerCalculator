@@ -243,7 +243,6 @@ public class controller{
                        + "демонстрационной версии\n"
                        + "Осталось "+Integer.toString(leftTimes)+" запусков");
                demoPopUp = new popupReport();
-               //demoPopUp.createAndShowPopup(demoMessage, demoMessageStage);
                demoPopUp.activateWarningWindow(demoMessage);
                writeInfo("FALSE\n", Integer.toString(runTimes+1)+"\n", null);
                createView(primaryStage);
@@ -279,7 +278,10 @@ public class controller{
    /**
     * Setting inputKey variable variable from input key window
     */
-   public void seInputKey(String inputKey){
-       this.inputKey = inputKey;  
-               }
+   public void setInputKey(){
+       for (int i = 0; i<=5; i++){
+           this.licenseKey +=demoPopUp.getkey(i);
+           if (i!=5) licenseKey +="-";
+       }
+   }
 }

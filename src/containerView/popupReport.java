@@ -31,10 +31,9 @@ import javafx.stage.WindowEvent;
  */
 public class popupReport {
     private controller cont = controller.getController();
-    private TextField inputField;
     private final Stage activationStage;
     private final Stage inputKeyStage;
-    private HBox inputField2;
+    private HBox inputField;
     private List<TextField> keyInputs;
     
     public popupReport(){
@@ -82,26 +81,11 @@ public class popupReport {
      * @param message
      * @param stage 
      */
-    public void createAndShowPopup(String message, Stage stage){
-        StackPane popupPane = new StackPane();
-        Label report = new Label(message);
-        Button okBtn = new Button("Закрыть");
-        okBtn.setOnAction(new EventHandler <ActionEvent>(){
-            public void handle(ActionEvent event){
-                stage.close();
-            }
-        });
-        popupPane.getChildren().add(report);
-        popupPane.getChildren().add(okBtn);
-        Scene scene2 = new Scene(popupPane, 300, 250);
-        stage.setScene(scene2);
-        stage.show();
-    }
-    private Button verifyBtn(){
+   private Button verifyBtn(){
         Button verifyBtn = new Button("Активировать");
         verifyBtn.setOnAction(new EventHandler <ActionEvent>(){
             public void handle(ActionEvent event){
-               cont.seInputKey(inputField.getText());
+               cont.setInputKey();
                cont.verify();
                System.out.println(keyInputs.get(0).getText());
            }
@@ -131,12 +115,10 @@ public class popupReport {
         VBox inputBox = formatedVbox();
         Label inputLabel = setPopupLabel("Введи активационный ключ, полученный"
                 + "по почте");
-        inputField2 = keyInputBox();
-        inputField = new TextField();
+        inputField = keyInputBox();
         Button verifyBtn = verifyBtn();
         Button closeBtn = createOkButton(inputKeyStage);
         inputBox.getChildren().add(inputLabel);
-        inputBox.getChildren().add(inputField2);
         inputBox.getChildren().add(inputField);
         inputBox.getChildren().add(verifyBtn);
         inputBox.getChildren().add(closeBtn);
@@ -176,5 +158,8 @@ public class popupReport {
         }
         keyBox.getChildren().addAll(keyInputs);
         return keyBox;
+    }
+    public String getkey(int keyIndex){
+        return keyInputs.get(keyIndex).getText();
     }
 }
