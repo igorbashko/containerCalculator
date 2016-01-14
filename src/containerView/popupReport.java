@@ -143,6 +143,17 @@ public class popupReport {
         activationStage.setScene(scene);
         activationStage.show();
     }
+    /**
+     * Window for for message to fill all the items in 
+     * main form for calculating containers
+     */
+    public void fillItemsWarning(String message){
+        VBox box = new VBox();
+        Label warningLabel = setPopupLabel(message);
+        box.setSpacing(8);
+        Button okBtn = createOkButton();
+        
+    }
     private VBox formatedVbox(){
         VBox box = new VBox();
         box.setSpacing(9);
