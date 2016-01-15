@@ -36,8 +36,8 @@ public class popupReport {
     private HBox inputField;
     private List<TextField> keyInputs;
     
-    public popupReport(){
-        activationStage = new Stage();
+    public popupReport(Stage activationStage){
+        this.activationStage = activationStage;
         inputKeyStage = new Stage();
         activationStage.initModality(Modality.APPLICATION_MODAL);
     }
@@ -144,15 +144,19 @@ public class popupReport {
         activationStage.show();
     }
     /**
-     * Window for for message to fill all the items in 
-     * main form for calculating containers
+     * Window for messages with general purpose
+     * Just message and ok button to close
      */
-    public void fillItemsWarning(String message){
+    public void generalWarning(String message){
         VBox box = new VBox();
         Label warningLabel = setPopupLabel(message);
         box.setSpacing(8);
-        Button okBtn = createOkButton();
-        
+        Button okBtn = createOkButton(activationStage);
+        box.getChildren().add(warningLabel);
+        box.getChildren().add(okBtn);
+        Scene scene = new Scene(box, 500, 100);
+        activationStage.setScene(scene);
+        activationStage.show();
     }
     private VBox formatedVbox(){
         VBox box = new VBox();

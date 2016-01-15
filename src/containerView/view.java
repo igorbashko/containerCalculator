@@ -158,7 +158,6 @@ public class view {
         calculateBtnH.getChildren().add(btn);
         calculateBtnH.setAlignment(Pos.BOTTOM_RIGHT);
         grid.add(calculateBtnH, 2, 13);
-        // textInitialise();
         //Actions on buttons
         //Choose source file button
         uploadBtn.setOnAction(new EventHandler <ActionEvent>(){
@@ -214,43 +213,43 @@ private File openFile(File file){
              "Number of twenties: "+containerCalc.getTwenties()+"\n"+
               "Volume left: "+ containerCalc.getVolumeLeft() + "\n"+
             "Weight left: " + containerCalc.getWeightLeft();
-          popupReport report = new popupReport();
-          report.createAndShowPopup(message, stage);
+          popupReport report = new popupReport(stage);
+          report.generalWarning(message);
             
    }
  
  private boolean warningMessage(){
-   popupReport warningReport = new popupReport();
+   popupReport warningReport = new popupReport(cont.getPopupStage());
    Stage warningStage = new Stage();
     if(cont.checkRowsField(ItemsField.getText())){
-     warningReport.createAndShowPopup(cont.formMessage("ItemsField"), warningStage);
+     warningReport.generalWarning(cont.formMessage("ItemsField"));
      return false;
     }else if(cont.formatedValue(NIField.getText()) == null){
-        warningReport.createAndShowPopup(cont.formMessage("NIField"), warningStage);
+        warningReport.generalWarning(cont.formMessage("NIField"));
         return false;
     }else if(cont.formatedValue(ItemsInPackField.getText())==null){
-        warningReport.createAndShowPopup(cont.formMessage("inPack"), warningStage);
+        warningReport.generalWarning(cont.formMessage("inPack"));
         return false;
     }else if(cont.formatedValue(NofPacksField.getText()) == null){
-        warningReport.createAndShowPopup(cont.formMessage("numberOfPacks"), warningStage);
+        warningReport.generalWarning(cont.formMessage("numberOfPacks"));
         return false;
     }else if(cont.formatedValue(netWeightField.getText()) == null){
-        warningReport.createAndShowPopup("netWeight", warningStage);
+        warningReport.generalWarning(cont.formMessage("netWeight"));
         return false;
     }else if(cont.formatedValue(sumNwField.getText())==null){
-        warningReport.createAndShowPopup(cont.formMessage("sumNet"), warningStage);
+        warningReport.generalWarning(cont.formMessage("sumNet"));
         return false;
     }else if(cont.formatedValue(grossWeightField.getText())== null){
-        warningReport.createAndShowPopup(cont.formMessage("grossWeight"), warningStage);
+        warningReport.generalWarning(cont.formMessage("grossWeight"));
         return false;
     }else if(cont.formatedValue(sumGwField.getText())==null){
-        warningReport.createAndShowPopup("sumGrossWeight", warningStage);
+        warningReport.generalWarning(cont.formMessage("sumGrossWeight"));
         return false;
     }else if(cont.formatedValue(volumeOfPackField.getText())==null){
-        warningReport.createAndShowPopup(cont.formMessage(("itemVolume")), warningStage);
+        warningReport.generalWarning(cont.formMessage("itemVolume"));
         return false;
     }else if(cont.formMessage(sumVolumeField.getText()) == null){
-        warningReport.createAndShowPopup("sumVolume", warningStage);
+        warningReport.generalWarning(cont.formMessage("sumVolume"));
         return false;
     }else {
         return true;

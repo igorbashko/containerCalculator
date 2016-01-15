@@ -44,6 +44,8 @@ public class controller{
     private File verification; 
     private String inputKey;
     private popupReport demoPopUp;
+    private Stage popupStage = new Stage(); //Stage for initializing popup messages 
+    
             private controller(){};
     public static controller getController(){
         if(cont == null){
@@ -159,6 +161,7 @@ public class controller{
         encryption.setPassphrase("testPas2");
         encryption.encryptMessage(encryption.getUniqueId());
         output.write(encryption.getEncrypted());
+        //output.write("\n".getBytes());
         output.write(encryption.getIv());
         output.close();
         }catch(IOException ex){
@@ -234,6 +237,7 @@ public class controller{
     * and how many times it was run if not.
     */
    private void processLicense(Stage primaryStage){
+       popupStage.initOwner(primaryStage);
        if(activated){
           createView(primaryStage);
        }else{
@@ -242,12 +246,12 @@ public class controller{
                String demoMessage = new  String("Приложение запщено в "
                        + "демонстрационной версии\n"
                        + "Осталось "+Integer.toString(leftTimes)+" запусков");
-               demoPopUp = new popupReport();
+               demoPopUp = new popupReport(popupStage);
                demoPopUp.activateWarningWindow(demoMessage);
                writeInfo("FALSE\n", Integer.toString(runTimes+1)+"\n", null);
                createView(primaryStage);
            }else{
-               demoPopUp = new popupReport();
+               demoPopUp = new popupReport(popupStage);
                String warningMessage = new String("Ваша демо версия истелка,"
                        + " пожалуйста приобретите лицензию");
                demoPopUp.activateWarningWindow(warningMessage);
@@ -283,5 +287,8 @@ public class controller{
            this.licenseKey +=demoPopUp.getkey(i);
            if (i!=5) licenseKey +="-";
        }
+   }
+   public Stage getPopupStage(){
+       return popupStage;
    }
 }
