@@ -41,7 +41,8 @@ public class controller{
     private boolean activated = false;
     private int runTimes = 0;
     private String licenseKey;
-    private File verification; 
+    private File verification1;
+    private File verification2;
     private String inputKey;
     private popupReport demoPopUp;
     private Stage popupStage = new Stage(); //Stage for initializing popup messages 
@@ -146,8 +147,10 @@ public class controller{
         info1.getParentFile().mkdir();
         info1.createNewFile();
         info2.createNewFile();
-        verification = new File("license.txt");
-        verification.createNewFile();
+        verification1 = new File("license1.txt");
+        verification2 = new File("license2.txt");
+        verification1.createNewFile();
+        verification2.createNewFile();
          }catch(IOException ex){
             ex.printStackTrace();
         }
@@ -157,13 +160,14 @@ public class controller{
      */
     private void writeEncryptedId(){
         try{
-        FileOutputStream output = new FileOutputStream(verification);
+        FileOutputStream outputId = new FileOutputStream(verification1);
+        FileOutputStream outputIv = new FileOutputStream(verification2);
         encryption.setPassphrase("testPas2");
         encryption.encryptMessage(encryption.getUniqueId());
-        output.write(encryption.getEncrypted());
-        //output.write("\n".getBytes());
-        output.write(encryption.getIv());
-        output.close();
+        outputId.write(encryption.getEncrypted());
+        outputId.close();
+        outputIv.write(encryption.getIv());
+        outputIv.close();
         }catch(IOException ex){
             ex.printStackTrace();
         }

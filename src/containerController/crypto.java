@@ -131,7 +131,6 @@ public String decryptMessage(String pathToFile, String pathToIV ){
     cipher.init(Cipher.DECRYPT_MODE, generateSecretKey(passphrase), 
             new IvParameterSpec(iv) );//chage iv to initialization vector, taken from readed file
     decryptedMessage = new String(cipher.doFinal(message), "UTF-8");
-    return decryptedMessage;
     } catch(GeneralSecurityException | IOException ex){
             ex.printStackTrace();
             }
