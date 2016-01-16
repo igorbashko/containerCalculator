@@ -287,9 +287,10 @@ public class controller{
     * Setting inputKey variable variable from input key window
     */
    public void setInputKey(){
+       inputKey = new String();
        for (int i = 0; i<=5; i++){
-           this.licenseKey +=demoPopUp.getkey(i);
-           if (i!=5) licenseKey +="-";
+           this.inputKey +=demoPopUp.getkey(i);
+           if (i!=5) inputKey +="-";
        }
    }
    public Stage getPopupStage(){
