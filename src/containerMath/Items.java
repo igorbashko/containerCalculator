@@ -13,33 +13,43 @@ package containerMath;
 /*Class for sorting items in a list from excel*/
 public class Items {
     private String itemName;
-    private double itemsQuantity;
+    private double numOfItems;
     private double itemsInPack;
     private double numOfPacks;
-    private double weightOfPack;
+    private double grossWeightOfPack;
     private double sumWeight;
     private double volumeOfPack;
     private double sumVolume;
+    private double itemPrice;
+    private double netWeightOfPack;
+    private double sumNetWeight;
+    private double sumPrice;
+    private double ratio;
 
-    public Items(String itemName, double itemsQuantity, double itemsInPack,
-            double numOfPacks, double weightOfPacks, double sumWeight, 
-            double volumeOfPacks, double sumVolume){
+    public Items(String itemName, double itemPrice, double numOfItems, double itemsInPack,
+            double numOfPacks, double grossWeightOfPacks, double netWeightOfPack,
+            double volumeOfPack){
         
         this.itemName = itemName;
-        this.itemsQuantity = itemsQuantity;
+        this.numOfItems = numOfItems;
         this.itemsInPack = itemsInPack;
         this.numOfPacks = numOfPacks;
-        this.weightOfPack = weightOfPacks;
-        this.volumeOfPack = volumeOfPacks;
-        this.sumVolume = sumVolume;
-        this.sumWeight = sumWeight;
+        this.grossWeightOfPack = grossWeightOfPacks;
+        this.netWeightOfPack = netWeightOfPack;
+        this.volumeOfPack = volumeOfPack;
+        this.itemPrice = itemPrice;
+        this.sumWeight = grossWeightOfPack * numOfPacks;
+        this.sumVolume = volumeOfPack * numOfPacks; 
+        this.ratio = grossWeightOfPack/volumeOfPack;
+        this.sumNetWeight = netWeightOfPack*numOfPacks;
+        this.sumPrice = itemPrice*numOfItems;
     }
     
     public String getName(){
         return itemName;
     }
-    public double getQuantity(){
-        return itemsQuantity;
+    public double getNumOfItems(){
+        return numOfItems;
     }
     public double getItemsInPack(){
         return itemsInPack;
@@ -48,7 +58,7 @@ public class Items {
         return numOfPacks;
     }
     public double getWeightOfPack(){
-        return weightOfPack;
+        return grossWeightOfPack;
     }
     public double getSumWeight(){
         return sumWeight;
@@ -60,7 +70,15 @@ public class Items {
         return sumVolume;
     }
     public double getRatio(){
-        double ratio = weightOfPack/volumeOfPack;
         return ratio;
+    }
+    public double getPrice(){
+        return itemPrice;
+    }
+    public double getSumNetWeight(){
+        return sumNetWeight;
+    }
+    public double getItemsPrice(){
+        return sumPrice;
     }
 }
