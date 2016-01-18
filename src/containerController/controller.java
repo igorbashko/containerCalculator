@@ -46,7 +46,7 @@ public class controller{
     private String inputKey;
     private popupReport demoPopUp;
     private Stage popupStage = new Stage(); //Stage for initializing popup messages 
-    
+        
             private controller(){};
     public static controller getController(){
         if(cont == null){
@@ -250,11 +250,11 @@ public class controller{
                String demoMessage = new  String("Приложение запщено в "
                        + "демонстрационной версии\n"
                        + "Осталось "+Integer.toString(leftTimes)+" запусков");
+               createView(primaryStage);
                demoPopUp = new popupReport(popupStage);
                demoPopUp.activateWarningWindow(demoMessage);
                writeInfo("FALSE\n", Integer.toString(runTimes+1)+"\n", null);
-               createView(primaryStage);
-           }else{
+             }else{
                demoPopUp = new popupReport(popupStage);
                String warningMessage = new String("Ваша демо версия истелка,"
                        + " пожалуйста приобретите лицензию");
