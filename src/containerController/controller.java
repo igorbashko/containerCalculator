@@ -276,7 +276,7 @@ public class controller{
     setKey();
     if(inputKey.equals(licenseKey)){
         activated = true;
-        writeInfo("TRUE\n", Integer.toString(runTimes+1), licenseKey);
+        writeInfo("TRUE\n", Integer.toString(runTimes+1)+"\n", licenseKey);
         demoPopUp.successPopup("Поздравляем. Активация прошла успешно");
     }else{
        demoPopUp.successPopup("Ошибка ! Вы ввели неверный ключ ! "

@@ -39,7 +39,7 @@ public class popupReport {
     public popupReport(Stage activationStage){
         this.activationStage = activationStage;
         inputKeyStage = new Stage();
-        activationStage.initModality(Modality.APPLICATION_MODAL);
+        activationStage.initModality(Modality.WINDOW_MODAL);
     }
     /**
      * Creates formatted label from specified string 
