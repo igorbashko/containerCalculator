@@ -34,10 +34,10 @@ import weka.core.neighboursearch.LinearNNSearch;
  * @author igorbashka
  */
 public class containerMath {
-    private List<Items> items;
+    private List<Item> items;
    private List<Double> ratios;
    private int index; //index of a needed for sorting item
-   private List<Items> sortedItems; 
+   private List<Item> sortedItems; 
    private double sumWeight; //sum weight of all matched elements
    private double sumVolume;// sum volume of all matched elements
    private double weightLeft;// left weight in the container
@@ -57,14 +57,14 @@ public class containerMath {
    /*Method to get weight of all elements*/
     private void allWeight(){
         allWeight =0;
-        for (Items item:items){
+        for (Item item:items){
             allWeight = allWeight + item.getSumWeight();
         }
     } 
     /*Get volume of all elements*/
     private void allVolume(){
         allVolume = 0;
-        for (Items item: items){
+        for (Item item: items){
             allVolume =allVolume + item.getSumVolume();
         }
     }
@@ -114,11 +114,11 @@ public class containerMath {
                             
             XSSFWorkbook book = new XSSFWorkbook(pkg);
             Sheet sheet1 = book.getSheetAt(0);
-            items = new ArrayList<Items>();
+            items = new ArrayList<Item>();
             //itemsList = new Instances();
             for (int n=cont.getFirstNumber(); n<cont.getSecondNumber(); n++){
             Row row = sheet1.getRow(n);
-            Items item = new Items(row.getCell(itemName).toString(),
+            Item item = new Item(row.getCell(itemName).toString(),
                     row.getCell(itemsQuantity).getNumericCellValue(),
                     row.getCell(inPackIndex).getNumericCellValue(), 
                     row.getCell(numOfPacksIndex).getNumericCellValue(),
@@ -146,7 +146,7 @@ public class containerMath {
             numOfContainers = (int) allWeight/weightCapacity+1;
         }
     }
-    private void writeOutput(List <Items> rightItems, Sheet sheet, int lastRow){
+    private void writeOutput(List <Item> rightItems, Sheet sheet, int lastRow){
       sheet.setColumnWidth(0, 13000);
         this.lastRow = lastRow;
         int j=0;
@@ -192,7 +192,7 @@ public class containerMath {
         double dif;
         double min = items.get(0).getRatio()-ideal;
         int n = 0;
-        for(Items item : items){
+        for(Item item : items){
             dif = abs((item.getRatio()-ideal));
             n++;
          //min = min(min, dif);
@@ -211,7 +211,7 @@ public class containerMath {
     
     /*Initializing the right list*/
     public void rightListInitialize(){
-        sortedItems = new ArrayList<Items>(); 
+        sortedItems = new ArrayList<Item>(); 
     }
     
     /*Adding item to the right list*/    
@@ -229,7 +229,7 @@ public class containerMath {
          this.weightLeft = weightCapacity - sumWeight;
                
     }
-    private double formula(Items item, double count){
+    private double formula(Item item, double count){
         return (item.getRatio()+sumWeight/sumVolume)/count;
     }
     private void setLeftVolume(){
@@ -264,7 +264,7 @@ public class containerMath {
                  double min = abs(idealRatio - formula(items.get(0), numOfSortItems));
                  index = 0;
                  int count = 0;
-                 for(Items item:items){
+                 for(Item item:items){
                       // double b = item.getRatio();
                      diff = abs(idealRatio - formula(item, numOfSortItems));
                      if (diff<min && item.getSumWeight()<weightLeft &&
@@ -313,14 +313,14 @@ public class containerMath {
         
      }
     public void printUnsorted(){
-        for(Items item: items){
+        for(Item item: items){
             System.out.println(item.getName()+" "+item.getSumWeight()+" "+item.getSumVolume()+"\n");
         }
     }
         
         public double getSumVolume(){
             double sum = 0;
-            for(Items item: sortedItems){
+            for(Item item: sortedItems){
                 sum = sum + item.getSumVolume();
                             }
             return sum;
@@ -346,7 +346,7 @@ public class containerMath {
     }
     
     /*Method so slipt item on packs to fit in the container*/
-    private Items splitItem(){
+    private Item splitItem(){
         double numberOfPacks = items.get(index).getNumOfPacks();
         double weightOfSorted = items.get(index).getWeightOfPack();
         double volumeOfSorted = items.get(index).getVolumeOfPack();
@@ -360,17 +360,17 @@ public class containerMath {
             numberOfPacks--;
             numberOfItems -= items.get(index).getItemsInPack();
         }
-        Items splitItem = new Items(items.get(index).getName(),//the quantity of items to fit in the container 
+        Item splitItem = new Item(items.get(index).getName(),//the quantity of items to fit in the container 
                 numberOfItems, items.get(index).getItemsInPack(), minus(items.get(index).getNumOfPacks(), numberOfPacks),
         items.get(index).getWeightOfPack(), weightOfSorted, 
         items.get(index).getVolumeOfPack(), volumeOfSorted);
-        Items splitItem2 = new Items(items.get(index).getName(), 
+        Item splitItem2 = new Item(items.get(index).getName(), 
                 minus(items.get(index).getQuantity(), numberOfItems), items.get(index).getItemsInPack(),
        numberOfPacks , 
         items.get(index).getWeightOfPack(), minus(items.get(index).getSumWeight(),
                 weightOfSorted), items.get(index).getVolumeOfPack(),
         minus(items.get(index).getSumVolume(), volumeOfSorted));
-        Items checkItem = items.get(index);
+        Item checkItem = items.get(index);
         items.remove(index);
         items.add(splitItem2);//add splitted item back for further calculation
         sumWeight +=splitItem.getSumWeight();

@@ -11,7 +11,7 @@ package containerMath;
  * @author igor
  */
 /*Class for sorting items in a list from excel*/
-public class Items {
+public class Item {
     private String itemName;
     private double numOfItems;
     private double itemsInPack;
@@ -26,7 +26,7 @@ public class Items {
     private double sumPrice;
     private double ratio;
 
-    public Items(String itemName, double itemPrice, double numOfItems, double itemsInPack,
+    public Item(String itemName, double itemPrice, double numOfItems, double itemsInPack,
             double numOfPacks, double grossWeightOfPacks, double netWeightOfPack,
             double volumeOfPack){
         
