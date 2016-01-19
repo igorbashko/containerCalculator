@@ -6,10 +6,22 @@
 
 package containerMath;
 
+import java.io.File;
+
 /**
  *
  * @author igor
  */
 public class readWriter {
+    private File sourceFile;
+    private int[] cellCodes;
+       
+    public readWriter(File file){
+       this.cellCodes = new int[12]; 
+       this.sourceFile = file; 
+    }
+        private void setCells(String [] cells){
+            
+        }
     
 }
