@@ -27,6 +27,15 @@ public class Stock {
     public void addItem(Item i){
         this.items.add(i);
     }
+    public void removeItem(Item i){
+        this.items.remove(i);
+    }
+    public int getSize(){
+        return this.items.size();
+    }
+     public List<Item> getLList(){
+      return items;
+    }
     public double getWeight(){
         double sumWeight = 0;
         for(Item i:items)
