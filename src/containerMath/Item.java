@@ -27,17 +27,17 @@ public class Item {
     private double ratio;
 
     public Item(String itemName, double itemPrice, double numOfItems, double itemsInPack,
-            double numOfPacks, double grossWeightOfPacks, double netWeightOfPack,
+            double numOfPacks, double netWeightOfPack, double grossWeightOfPack,
             double volumeOfPack){
         
         this.itemName = itemName;
+        this.itemPrice = itemPrice;
         this.numOfItems = numOfItems;
         this.itemsInPack = itemsInPack;
         this.numOfPacks = numOfPacks;
-        this.grossWeightOfPack = grossWeightOfPacks;
+        this.grossWeightOfPack = grossWeightOfPack;
         this.netWeightOfPack = netWeightOfPack;
         this.volumeOfPack = volumeOfPack;
-        this.itemPrice = itemPrice;
         this.sumWeight = grossWeightOfPack * numOfPacks;
         this.sumVolume = volumeOfPack * numOfPacks; 
         this.ratio = grossWeightOfPack/volumeOfPack;

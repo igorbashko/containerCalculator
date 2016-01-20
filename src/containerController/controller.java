@@ -6,6 +6,9 @@
 
 package containerController;
 
+import containerMath.Container;
+import containerMath.Item;
+import containerMath.Stock;
 import containerView.*;
 
 import java.io.File;
@@ -15,6 +18,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidParameterSpecException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -46,7 +50,8 @@ public class controller{
     private String inputKey;
     private popupReport demoPopUp;
     private Stage popupStage = new Stage(); //Stage for initializing popup messages 
-        
+    private Stock stock;                    //Stock variable where all of the items are sorted   
+    private List <Container> containers;
             private controller(){};
     public static controller getController(){
         if(cont == null){
@@ -295,5 +300,22 @@ public class controller{
    }
    public Stage getPopupStage(){
        return popupStage;
+   }
+   /**
+    * Method to return stock of items variable
+    */
+   public void setStock(Item item){
+       this.stock = new Stock();
+       stock.addItem(item);
+   }
+   /**
+    * Sets container where items will be added can be 20 or 40 ft
+    * @param weightLimit weight capacity of the container in kgs
+    * @param volumeLimit volume capacity of the container in  m3
+    * @return container, ready for filling 
+    */
+   public Container setContainer(int weightLimit, int volumeLimit){
+       Container container = new Container(weightLimit, volumeLimit);
+       return container;
    }
 }
