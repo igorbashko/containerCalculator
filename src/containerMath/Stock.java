@@ -33,7 +33,7 @@ public class Stock {
     public int getSize(){
         return this.items.size();
     }
-     public List<Item> getLList(){
+     public List<Item> getList(){
       return items;
     }
     public double getWeight(){

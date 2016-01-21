@@ -6,6 +6,9 @@
 
 package containerMath;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author igor
@@ -18,5 +21,7 @@ private double volumeLimit;
            this.weightLimit = weightLimit;
            this.volumeLimit = volumeLimit;
        } 
-            
+       public double getRatio(){
+           return weightLimit/volumeLimit;
+       }            
 }
