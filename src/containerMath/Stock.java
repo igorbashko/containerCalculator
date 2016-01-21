@@ -16,7 +16,8 @@ import java.util.List;
  * @author igor
  */
 public class Stock {
-    private List<Item> items;
+    protected List<Item> items;
+    private double  ratio;
     //private double stockWeight;
     //private double stockVolume;
     //private double stockPrice;
@@ -56,6 +57,7 @@ public class Stock {
         }
         return stockPrice;
     }
+public void setRatio(double ratio){
+    this.ratio = ratio;
 }
-
-    
+}

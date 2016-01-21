@@ -8,6 +8,7 @@ package containerMath;
 
 import java.io.File;
 import static java.lang.Math.abs;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -38,6 +39,14 @@ public class Optimizer {
        }
        return i;
    }
+   /**
+    * Disjoint items of one stock to several containers.
+    * Each item goes to the container for which it fits best
+    * @param stock Stock of items read from excel file
+    * @param containers array with different types of containers
+    * where all items will be sorted. Should be containers List
+    * which we declared above
+    */
    public void fitToTypes(Stock stock, List <Container> containers){
        double[] cTypes = new double[3];
        int i = 0;
@@ -49,5 +58,10 @@ public class Optimizer {
           int matchedType = matchContainer(item.getRatio(), cTypes);
           containers.get(matchedType).addItem(item);
        }
-   }    
+   }
+   //stock shuld be another type of stock
+   public void sortForContainer(){
+       Collections.sort(stock.items, new stockComparator());
+       
+   }
 }

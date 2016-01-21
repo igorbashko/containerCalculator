@@ -27,7 +27,7 @@ public class Item {
     private double sumNetWeight;
     private double sumPrice;
     private double ratio;
-    double ratioDiff;
+    private double ratioDiff;
 
     public Item(String itemName, double itemPrice, double numOfItems, double itemsInPack,
             double numOfPacks, double netWeightOfPack, double grossWeightOfPack,
@@ -86,5 +86,8 @@ public class Item {
     }
     public void setRationDiff(double freeSpaceRatio){
         this.ratioDiff = abs(ratio - freeSpaceRatio);
+    }
+    public double getRatioDiff(){
+        return ratioDiff;
     }
 }
