@@ -71,18 +71,27 @@ public class Optimizer {
        * @param maxVolume volume capacity which we get from 1 container
        * @return list and number of types of containers which we need to empty our
        * stock with optimal sorting
+       * Initialize conts for further work
        */
       private List <Container> findNumbers(int max, double maxWeight, double maxVolume){
           List <Container> conts = new ArrayList();
            for(int i=1; i<containers.size(); i++){
            int maxC =max; //variable for max compare to define optimal value of containers
            int n = 1;
+           int k = 1;
            while(maxC != 0){
                //containers array should be changed
+               int j = max-n;
+               while(n <=max-1){
                 double realWeight = maxWeight - n*conts.get(i-1).getWeight()+
-                        conts.get(i).getWeight();
+                        k*conts.get(i).getWeight();
                 double realVolume = maxVolume - n*conts.get(i-1).getVolume()+
-                        conts.get(i).getVolume();
+                        k*conts.get(i).getVolume();
+                n--;
+                // write long condition function. 
+                //delete one old container if true
+                // also delete container on each success minus
+               }
                 
             }
        }
