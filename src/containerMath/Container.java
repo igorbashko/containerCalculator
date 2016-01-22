@@ -24,5 +24,19 @@ private double volumeLimit;
        public double getRatio(){
            return weightLimit/volumeLimit;
            
-       }            
+       }
+       /**
+        * Returns weight limit of the container
+        * @return weight limit
+        */
+       public double getWeightLimit(){
+           return weightLimit;
+       }
+       /**
+        * Returns volume limit of the container
+        * @return volume limit
+        */
+       public double getVolumeLimit(){
+           return volumeLimit;
+       }
 }
