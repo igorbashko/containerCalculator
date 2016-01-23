@@ -19,6 +19,9 @@ import java.util.List;
 public class Optimizer {
     private Stock stock;
     private List <Container> containers;
+    private double maxWeight; //weight capacity of containers list
+    private double maxVolume; //volume capacity of container list
+   
       
     public Optimizer(Stock stock){
         this.stock = stock;
@@ -36,6 +39,8 @@ public class Optimizer {
       int nFi = rnc2(nFweight, nFvolume);
       double sumVolume = nFi*containers.get(0).getVolume();
       double sumWeight = nFi*containers.get(0).getWeight();
+      this.maxWeight = sumWeight;
+      this.maxVolume = sumVolume;
     }
     /**
      * Return number of containers to satisfy stock value(weight or volume)
@@ -75,30 +80,30 @@ public class Optimizer {
        */
       private List <Container> findNumbers(int max, double maxWeight, double maxVolume){
           List <Container> conts = new ArrayList();
+          //List of containers for experimental iterations
+          List <Container> contsEx = new ArrayList(conts); 
            for(int i=1; i<containers.size(); i++){
-           int maxC =max; //variable for max compare to define optimal value of containers
-           int n = 1;
-           int k = 1;
-           while(maxC != 0){
-               //containers array should be changed
-               int j = max-n;
-               while(n <=max-1){
-                double realWeight = maxWeight - n*conts.get(i-1).getWeight()+
-                        k*conts.get(i).getWeight();
-                double realVolume = maxVolume - n*conts.get(i-1).getVolume()+
-                        k*conts.get(i).getVolume();
-                n--;
-                // write long condition function. 
-                //delete one old container if true
-                // also delete container on each success minus
-               }
-                
-            }
-       }
-          return containers;
+           //single replace item in both orders(write a method later)
+    for (Container c : contsEx) 
+        singleOrder(contsEx, conts, c, containers.get(i));
+    contsEx =conts;
+       for(Container c: new backIterator<Container>(contsEx))
+           singleOrder(contsEx, conts, c, containers.get(i));
       }
-      
-      private boolean longCondition(double stockWeight, double stockVolume,
+    return containers;
+   }
+      /**
+       * Checks if formed list of containers satisfies loading conditions
+       * @param stockWeight Weight of all items in the stock
+       * @param stockVolume Volume of all items in the stock
+       * @param maxWeight weight capacity of the given list of containers
+       * @param maxVolume volume capacity of the given list of containers
+       * @param realWeight weight capacity of the formed weight of containers
+       * @param realVolume volume capacity of the formed volume of containers
+       * @return true if formed list satisfies loading conditions or 
+       * false if not
+       */
+      private boolean checkLoad(double stockWeight, double stockVolume,
               double maxWeight, double maxVolume, double realWeight,
               double realVolume){
           if((realWeight <maxWeight && realVolume<maxVolume) && (realWeight>=
@@ -107,4 +112,48 @@ public class Optimizer {
           else 
               return false;
       }
+      /**
+       * Implements single iteration over set of containers
+       * Replace containers one by one and with only 1 item of container in
+       * the containers list check if there optimal improvements
+       * @param contsEx Experimental list of containers
+       * @param conts list of containers with best optimal value
+       * @param c iterated container
+       * @param typeToChange container which type we checking
+       */
+      private void singleOrder(List<Container> contsEx, List <Container> conts,
+              Container c, Container typeToChange){
+          contsEx.remove(c);
+          contsEx.add(typeToChange);
+          //weight capacity of modified list
+          double weightCap = getSumCapacity(contsEx, "weight");
+          //volume capacity of modified list
+          double volumeCap = getSumCapacity(contsEx, "volume");
+          boolean checkLoad = checkLoad(stock.getWeight(), stock.getVolume(),
+                  maxWeight, maxVolume, weightCap, volumeCap);
+          if(checkLoad) {
+              conts = contsEx;
+              maxWeight = weightCap;
+              maxVolume = volumeCap;
+          }
+          contsEx.remove(typeToChange);
+          contsEx.add(c);
+      }
+      /**
+       * Gets load volume and weight of the container list
+       * @param list containers list
+       * @param param weight or volume. Defines what to return weight or volume
+       * @return weight or volume
+       */
+      private double getSumCapacity(List<Container> list, String param){
+          double sumWeight = 0;
+          double sumVolume = 0;
+          for(Container c: list){
+              sumVolume +=c.getVolumeLimit();
+              sumWeight+=c.getWeightLimit();
+          }
+          if(param.trim() =="weight") return sumWeight;
+          else if(param.trim() =="volume") return sumVolume;
+          else return 0;
+       }
 }
