@@ -160,4 +160,26 @@ public class Optimizer {
               Container checkType){
           
       }
+      //New line of methods starts herre. Methods above will probably be removed later
+      
+      private void sort(Stock stock, List <Container> containers){
+          while(!stock.items.isEmpty()){
+              for (Container c : containers){
+                  //function for storing items in the container
+                  List <Item> workItems = new ArrayList();
+                  workItems = stock.items;
+                  c.addItem(workItems.get(0));
+                  double idealRatio = c.getRatio();
+                  for (Item item: workItems){
+                      item.setRationDiff(idealRatio);
+                  }
+              }
+          }
+      }
+      //Method for adding items into the container
+      private void addItem(Container cont, Item item, Stock stock){
+          double freeVolume =cont.getVolumeLimit()-cont.getVolume();
+          double freeWeight = cont.getWeightLimit() - cont.getWeight();
+          
+      } 
 }
