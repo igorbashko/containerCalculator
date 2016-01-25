@@ -90,4 +90,7 @@ public class Item {
     public double getRatioDiff(){
         return ratioDiff;
     }
-}
+    public double getNetWeightOfPack(){
+        return netWeightOfPack;
+    }
+ }

@@ -177,9 +177,27 @@ public class Optimizer {
           }
       }
       //Method for adding items into the container
-      private void addItem(Container cont, Item item, Stock stock){
+      private void addItem(Container cont, Item item, Stock stock, boolean added){
           double freeVolume =cont.getVolumeLimit()-cont.getVolume();
           double freeWeight = cont.getWeightLimit() - cont.getWeight();
-          
+          if(item.getSumVolume()<=freeVolume && item.getSumWeight()<=
+                  freeWeight){ 
+              cont.addItem(item);
+              added = true;
+              stock.removeItem(item);
+            } else if(item.getWeightOfPack()<=freeWeight && item.getVolumeOfPack()<=
+                    freeVolume){
+                int addIndex =0;
+                List <Item> splitedItem = new ArrayList(stock.splitItem(item));
+                while(item.getWeightOfPack()<=freeWeight && item.getVolumeOfPack()<=
+                        freeVolume){
+                    cont.addItem(splitedItem.get(addIndex));
+                    splitedItem.remove(addIndex);
+                    addIndex++;
+                    freeWeight-= item.getWeightOfPack();
+                    freeVolume-= item.getVolumeOfPack();
+                }
+                  
+            }
       } 
 }
