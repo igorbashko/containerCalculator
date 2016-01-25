@@ -60,6 +60,7 @@ public class Stock {
 public void setRatio(double ratio){
     this.ratio = ratio;
    }
+//convert num of items to integer in order to avoid errors
 public List<Item> splitItem(Item item){
     List<Item> splitedItem = new ArrayList();
     for(double i = item.getNumOfPacks(); i<=0; i--){
@@ -70,4 +71,14 @@ public List<Item> splitItem(Item item){
         }
     return splitedItem;
   }
+//Conbining items back
+public Item sumItem(List <Item> list){
+    int numOfPacks = list.size();
+Item firstItem = list.get(0);
+Item item = new Item(firstItem.getName(),firstItem.getPrice(),
+firstItem.getNumOfItems()*numOfPacks, firstItem.getItemsInPack(), numOfPacks, 
+firstItem.getNetWeightOfPack(), firstItem.getWeightOfPack(),
+firstItem.getVolumeOfPack());   
+return item;   
+} 
 }

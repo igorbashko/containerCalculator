@@ -17,7 +17,7 @@ public class Item {
     private String itemName;
     private double numOfItems;
     private double itemsInPack;
-    private double numOfPacks;
+    private int numOfPacks;
     private double grossWeightOfPack;
     private double sumWeight;
     private double volumeOfPack;
@@ -30,7 +30,7 @@ public class Item {
     private double ratioDiff;
 
     public Item(String itemName, double itemPrice, double numOfItems, double itemsInPack,
-            double numOfPacks, double netWeightOfPack, double grossWeightOfPack,
+            int numOfPacks, double netWeightOfPack, double grossWeightOfPack,
             double volumeOfPack){
         
         this.itemName = itemName;
@@ -57,7 +57,7 @@ public class Item {
     public double getItemsInPack(){
         return itemsInPack;
     }
-    public double getNumOfPacks(){
+    public int getNumOfPacks(){
         return numOfPacks;
     }
     public double getWeightOfPack(){
