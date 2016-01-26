@@ -60,7 +60,11 @@ public class Stock {
 public void setRatio(double ratio){
     this.ratio = ratio;
    }
-//convert num of items to integer in order to avoid errors
+/**
+ * Splits item by packs to add into the container one by one
+ * @param item Item to split
+ * @return array of items with multiple values of 1 item but with 1 pack
+ */
 public List<Item> splitItem(Item item){
     List<Item> splitedItem = new ArrayList();
     for(double i = item.getNumOfPacks(); i<=0; i--){
@@ -71,7 +75,11 @@ public List<Item> splitItem(Item item){
         }
     return splitedItem;
   }
-//Conbining items back
+/**
+ * Combines items of one type from array into 1 item(Back function after split func)
+ * @param list list of items to sum
+ * @return summed item
+ */
 public Item sumItem(List <Item> list){
     int numOfPacks = list.size();
 Item firstItem = list.get(0);
@@ -80,5 +88,5 @@ firstItem.getNumOfItems()*numOfPacks, firstItem.getItemsInPack(), numOfPacks,
 firstItem.getNetWeightOfPack(), firstItem.getWeightOfPack(),
 firstItem.getVolumeOfPack());   
 return item;   
-} 
+   } 
 }

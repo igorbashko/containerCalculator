@@ -39,4 +39,9 @@ private double volumeLimit;
        public double getVolumeLimit(){
            return volumeLimit;
        }
+       public double getFreeSpacetRatio(){
+           double ratio = (this.weightLimit-this.getWeight())/
+                   this.volumeLimit - this.getVolume();
+           return ratio;
+       }
 }

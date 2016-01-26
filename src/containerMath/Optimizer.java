@@ -10,6 +10,7 @@ import java.io.File;
 import static java.lang.Math.abs;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -168,8 +169,7 @@ public class Optimizer {
                   //function for storing items in the container
                   List <Item> workItems = new ArrayList();
                   workItems = stock.items;
-                  c.addItem(workItems.get(0));
-                  double idealRatio = c.getRatio();
+                  double idealRatio = c.getFreeSpacetRatio();
                   for (Item item: workItems){
                       item.setRationDiff(idealRatio);
                   }
@@ -177,27 +177,28 @@ public class Optimizer {
           }
       }
       //Method for adding items into the container
-      private void addItem(Container cont, Item item, Stock stock, boolean added){
+      private void addItem(Container cont, Item item, Stock stock, boolean full){
           double freeVolume =cont.getVolumeLimit()-cont.getVolume();
           double freeWeight = cont.getWeightLimit() - cont.getWeight();
           if(item.getSumVolume()<=freeVolume && item.getSumWeight()<=
                   freeWeight){ 
               cont.addItem(item);
-              added = true;
               stock.removeItem(item);
+              full = false;
             } else if(item.getWeightOfPack()<=freeWeight && item.getVolumeOfPack()<=
                     freeVolume){
-                int addIndex =0;
                 List <Item> splitedItem = new ArrayList(stock.splitItem(item));
+                List <Item> splitedItemsB = new ArrayList(); //items to go into
                 while(item.getWeightOfPack()<=freeWeight && item.getVolumeOfPack()<=
                         freeVolume){
-                    cont.addItem(splitedItem.get(addIndex));
-                    splitedItem.remove(addIndex);
-                    addIndex++;
+                    splitedItemsB.add(splitedItem.get(0));
+                    splitedItem.remove(0);
                     freeWeight-= item.getWeightOfPack();
                     freeVolume-= item.getVolumeOfPack();
                 }
-                  
+               cont.addItem(stock.sumItem(splitedItemsB));
+               stock.addItem(stock.sumItem(splitedItem));
+               full = false;
             }
       } 
 }
