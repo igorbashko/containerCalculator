@@ -7,13 +7,14 @@
 package containerMath;
 
 import static java.lang.Math.abs;
+import java.util.Iterator;
 
 /**
  *
  * @author igor
  */
 /*Class for sorting items in a list from excel*/
-public class Item {
+public class Item implements Iterable {
     private String itemName;
     private double numOfItems;
     private double itemsInPack;
@@ -92,5 +93,10 @@ public class Item {
     }
     public double getNetWeightOfPack(){
         return netWeightOfPack;
+    }
+
+    @Override
+    public Iterator iterator() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
  }

@@ -10,8 +10,10 @@ import java.io.File;
 import static java.lang.Math.abs;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -22,8 +24,9 @@ public class Optimizer {
     private List <Container> containers;
     private double maxWeight; //weight capacity of containers list
     private double maxVolume; //volume capacity of container list
-   
-      
+    private Container minContainer;//Initialize later
+    private Stock minStock;//initialize later
+    private List <Container> finalContainers;
     public Optimizer(Stock stock){
         this.stock = stock;
     }
@@ -164,20 +167,33 @@ public class Optimizer {
       //New line of methods starts herre. Methods above will probably be removed later
       
       private void sort(Stock stock, List <Container> containers){
+          Map <Container, Stock> sortedContainers = new HashMap();
           while(!stock.items.isEmpty()){
               for (Container c : containers){
-                  //function for storing items in the container
-                  List <Item> workItems = new ArrayList();
-                  workItems = stock.items;
+                  Stock workStock = stock;
+                  boolean full = false;
+                  while(!workStock.items.isEmpty() && full ){
                   double idealRatio = c.getFreeSpacetRatio();
-                  for (Item item: workItems){
+                  for (Item item: workStock.items){
                       item.setRationDiff(idealRatio);
                   }
-              }
+                  full = true;//if nothing to put in container anymore
+                  boolean notAdded = true; // check if item was added into container
+                  Collections.sort(workStock.items, new stockComparator());
+                  Iterator<Item> iterator = workStock.items.iterator();
+                  while(iterator.hasNext() && notAdded){
+                  addItem(c, iterator.next(), workStock, full, notAdded);    
+                  }//end of third while loop
+                }//end of second while loop
+                sortedContainers.put(c, workStock);
+              }//end of for loop
+             finalContainers.add(this.minContainer);
+             stock = this.minStock;
           }
       }
       //Method for adding items into the container
-      private void addItem(Container cont, Item item, Stock stock, boolean full){
+      private void addItem(Container cont, Item item, Stock stock, boolean full,
+              boolean notAdded){
           double freeVolume =cont.getVolumeLimit()-cont.getVolume();
           double freeWeight = cont.getWeightLimit() - cont.getWeight();
           if(item.getSumVolume()<=freeVolume && item.getSumWeight()<=
@@ -185,6 +201,7 @@ public class Optimizer {
               cont.addItem(item);
               stock.removeItem(item);
               full = false;
+              notAdded = false;
             } else if(item.getWeightOfPack()<=freeWeight && item.getVolumeOfPack()<=
                     freeVolume){
                 List <Item> splitedItem = new ArrayList(stock.splitItem(item));
@@ -195,10 +212,19 @@ public class Optimizer {
                     splitedItem.remove(0);
                     freeWeight-= item.getWeightOfPack();
                     freeVolume-= item.getVolumeOfPack();
-                }
+               }
                cont.addItem(stock.sumItem(splitedItemsB));
                stock.addItem(stock.sumItem(splitedItem));
                full = false;
+               notAdded = false;
             }
-      } 
+      }
+      private void findMinLoad(Map <Container, Stock> loadedVariants, Container 
+              container, Stock stock){
+         for(Map.Entry<Container, Stock> entry: loadedVariants.entrySet()){
+             if(entry.getKey().getWeight()>minContainer.getWeight())
+             container = entry.getKey();
+             stock= entry.getValue();
+         }
+      }
 }
