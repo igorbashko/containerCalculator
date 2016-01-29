@@ -59,12 +59,23 @@ public class Optimizer {
                   }//end of third while loop
                 }//end of second while loop
                 sortedContainers.put(c, workStock);
-              }//end of for loop
+                this.minContainer = c;
+                this.minStock = workStock;
+               }//end of for loop
+             findMinLoad(sortedContainers, this.minContainer, this.minStock);
              finalContainers.add(this.minContainer);
              stock = this.minStock;
           }
       }
-      //Method for adding items into the container
+      /**
+       * Method to add item into the container
+       * @param cont Container where all items will go after sorting
+       * @param item item which goes into the container
+       * @param stock list of items to sort
+       * @param full boolean variables defines if container is full or not
+       * @param notAdded boolean variable defines if items was added into
+       * the container or not 
+       */
       private void addItem(Container cont, Item item, Stock stock, boolean full,
               boolean notAdded){
           double freeVolume =cont.getVolumeLimit()-cont.getVolume();
@@ -92,6 +103,12 @@ public class Optimizer {
                notAdded = false;
             }
       }
+      /**
+       * Defines which of the sorted containers fits best for optimal loading
+       * @param loadedVariants Map of sorted containers and stock with left items
+       * @param container Best fit container
+       * @param stock stock correspondes to best fit 
+       */
       private void findMinLoad(Map <Container, Stock> loadedVariants, Container 
               container, Stock stock){
          for(Map.Entry<Container, Stock> entry: loadedVariants.entrySet()){
@@ -100,4 +117,5 @@ public class Optimizer {
              stock= entry.getValue();
          }
       }
-}
+       }
+
