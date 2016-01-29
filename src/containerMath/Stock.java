@@ -22,8 +22,8 @@ public class Stock {
     //private double stockVolume;
     //private double stockPrice;
     
-    public Stock(){
-    this.items = new ArrayList();
+    public Stock(List <Item> items){
+    this.items = new ArrayList(items);
     }
     public void addItem(Item i){
         this.items.add(i);

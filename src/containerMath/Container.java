@@ -17,7 +17,8 @@ public class Container extends Stock {
 private double weightLimit;
 private double volumeLimit;
     
-       public Container(double weightLimit, double volumeLimit){
+       public Container(double weightLimit, double volumeLimit, List <Item> items){
+           super(items);
            this.weightLimit = weightLimit;
            this.volumeLimit = volumeLimit;
        } 
