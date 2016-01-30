@@ -9,6 +9,8 @@ package containerController;
 import containerMath.Container;
 import containerMath.Item;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -93,25 +95,27 @@ public class readWriter {
         * @param sheet sheet to create
         * @param lastRow last row for items of each container
         */
-          public void writeOutput(String outputFile, List <Container> finalList, 
-           Sheet sheet, int lastRow){
-           sheet.setColumnWidth(0, 1300);
-           Row headingsRow = sheet.createRow(0);
+          public void writeOutput(String outputFile,
+           int lastRow){
+           XSSFWorkbook outputBook = new XSSFWorkbook();
+           Sheet outputSheet = outputBook.createSheet();
+           outputSheet.setColumnWidth(0, 1300);
+           Row headingsRow = outputSheet.createRow(0);
            setHeadings(headingsRow);
-         for(Container c : finalList){
-          double values [] = {};
-          
-         }  
+           setValues(outputSheet);
+           writeToFile(outputFile, outputBook);
        }
           /**
            * Sets headings in the output file
            * @param headingsRow headings of output file
            */
        private void setHeadings(Row headingsRow){
-              String [] headings = {"Наименование", "Количество", 
-                         "Количество в упаковке", "Количество упаковок", 
-                          "Вес коробки", "Суммарный вес", "ОБъем коробки", 
-                          "Суммарный объем"};
+              String [] headings = {"Наименование", "Цена", 
+                         "Количество", "Количество в упаковке", 
+                         "Количество коробок", "Вес нетто(1 коробка)", 
+                         "Вес брутто(1 коробка)","Объем(1 коробка)",
+                         "Суммарный вес нетто", "Суммарный вес брутто",
+                         "Объем"};
            for (int i = 0; i <headings.length; i++){
             Cell cell = headingsRow.createCell(i); cell.setCellValue(headings[i]);
            }
@@ -120,20 +124,74 @@ public class readWriter {
         * Sets values of items into cells of output file
         * @param row in which create data
         */
-       private void setValues(Row row){
+       private void setValues(Sheet sheet){
+       int lastRow =0;
        for (Container c:finalContainers ){
+          Row row = sheet.getRow(lastRow +1); //place in excell file from where to write 
+          //items of the next container
           List <Item> writeItems = c.getList();
           for (int i=0; i<writeItems.size(); i++){
               Item item = writeItems.get(i);
-              Object[] values = new Object[]{item.getName(),
-              item.getNumOfItems(), item.getItemsInPack(), item.getNumOfPacks(),
-              item.getWeightOfPack(), item.getSumWeight(), item.getVolumeOfPack(),
-              item.getSumVolume()};
-              for(int j = 0; j< values.length; j++){
-                Cell cell = row.createCell(i); cell.setCellValue(values[i]);
+              Object[] values = new Object[]{ //array to store item's values
+              item.getName(),                 // 0
+              item.getPrice(),                // 1
+              item.getNumOfItems(),           // 2
+              item.getItemsInPack(),          // 3
+              item.getNumOfPacks(),           // 4
+              item.getNetWeightOfPack(),      // 5
+              item.getWeightOfPack(),         // 6
+              item.getVolumeOfPack(),         // 7
+              item.getSumNetWeight(),         // 8
+              item.getWeightOfPack(),         // 9
+              item.getSumVolume()};           // 10
+              //setting name separately, because of String type value
+              Cell name = row.createCell(i); name.setCellValue((String) values[0]);
+              for(int j = 1; j< values.length; j++){
+                Cell cell = row.createCell(i);
+                //checking type of number of packs variable it should be int
+                if(j==4) cell.setCellValue((int) values[j]); 
+                        else
+                cell.setCellValue((double)values[j]);
+             }
+              //checking if end of items list in the containers is reached
+              //and adding +2 empty rows
+              if(i==(writeItems.size() -1)){
+                  lastRow +=2; //+2 empty spaces for better appearance
+                  setReport(sheet, c, lastRow);
+                  lastRow +=2;
               }
           }
          }
+       }
+      /**
+       * Forms report in excel file. Sum weight. Sum volume etc. 
+       * @param sheet Sheet where write the items
+       * @param c Container from where take the info
+       * @param lastRow last row after all items were written
+       * method uses lastRow + 2 to write report in next 2 rows
+       * after all items of the container were written
+       */
+       private void setReport(Sheet sheet, Container c, int lastRow){
+           String [] reportHeadings = {
+               "Суммарный вес",      // 6
+               "Суммарный объем",    // 7
+               "Остаток вес",        // 8
+               "Остаток объем"       // 9
+               };
+           double [] values = {c.getWeight(), c.getVolume(), c.getVolumeLimit()-
+                   c.getVolume(), c.getWeightLimit() - c.getWeight()};
+           int dataCell = 5;
+           int valuesIndex = 0; // index of the array of doubles(weigh, volume, etc) 
+           Row headings = sheet.getRow(lastRow);
+           Row data = sheet.getRow(lastRow+1);
+           for(String report: reportHeadings){
+               Cell heading = headings.createCell(dataCell); 
+               heading.setCellValue(report);
+               Cell dataCellValue = data.createCell(dataCell);
+               dataCellValue.setCellValue(values[valuesIndex]);
+               dataCell++;
+               valuesIndex++;
+           }
        }
        /**
         * Sets list of containers with sorted items
@@ -141,5 +199,19 @@ public class readWriter {
         */
        private void setContainers(List <Container> containers){
            this.finalContainers = containers;
+       }/**
+        * Writes output of excel book to excel file
+        * @param outputPath path of the output file
+        * @param writeBook book with final information
+        */
+       private void writeToFile(String outputPath, XSSFWorkbook writeBook){
+         try{
+              FileOutputStream outWriter = new FileOutputStream(outputPath);
+             writeBook.write(outWriter);
+          }catch(IOException ex){
+           ex.printStackTrace();
+          }
+         
        }
+      
 }

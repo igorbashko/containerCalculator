@@ -114,6 +114,10 @@ public class containerMath {
                             
             XSSFWorkbook book = new XSSFWorkbook(pkg);
             Sheet sheet1 = book.getSheetAt(0);
+            //Sheet sheet2 = book.createSheet();
+            XSSFWorkbook book2 = new XSSFWorkbook();
+            Sheet bookSheet = book2.createSheet();
+            
             items = new ArrayList<Item>();
             //itemsList = new Instances();
             for (int n=cont.getFirstNumber(); n<cont.getSecondNumber(); n++){
@@ -302,7 +306,8 @@ public class containerMath {
           FileOutputStream write = new FileOutputStream("/home/igorbashka/Documents/ДокиМаша/testOutput.xlsx");
          // FileOutputStream write = new FileOutputStream("/home/igor/Documents/China/testOutput.xlsx");
             try {
-                output.write(write);
+                
+                
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

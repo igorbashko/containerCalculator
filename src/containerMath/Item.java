@@ -99,4 +99,21 @@ public class Item implements Iterable {
     public Iterator iterator() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    /**
+     * Matching cells with apache poi indexes
+     * @param cells Array with cell names in excel file
+     * The order of columns is following:
+     * ----------------------------------
+     * Item name                                      0
+     * Item price                                     1 
+     * Number of items                                2
+     * Number of items in pack                        3
+     * Number of packs                                4
+     * Net weight of 1 pack                           5  
+     * Gross weight of 1 pack                         6
+     * Volume of 1 pack                               7
+     * Sum net weight(will be calculated further)     4*5
+     * Sum gross weight(will be calculated further)   4*6
+     * Sum volume(will be calculated further)         4*7
+     */
  }
