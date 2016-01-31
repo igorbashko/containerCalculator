@@ -117,10 +117,15 @@ public class controllerTest {
         String ivPath = new String(System.getenv("APPDATA")+"\\containerCalculator\\info1.txt");
         assertEquals("FALSE\n1\n60000\n400",demo.decryptMessage(filePath, ivPath));
     }
-    @Test
+    @Ignore
     public void architecture(){
        // System.out.println(System.getProperty("java.library.path"));
         demo = new crypto();
         demo.getUniqueId();
+    }
+    @Test
+    public void testCore(){
+        controller cont = controller.getController();
+        cont.testRun();
     }
  }

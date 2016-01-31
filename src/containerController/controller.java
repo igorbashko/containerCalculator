@@ -8,6 +8,7 @@ package containerController;
 
 import containerMath.Container;
 import containerMath.Item;
+import containerMath.Optimizer;
 import containerMath.Stock;
 import containerView.*;
 
@@ -19,6 +20,7 @@ import java.io.UnsupportedEncodingException;
 import static java.lang.Math.abs;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidParameterSpecException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,8 +52,11 @@ public class controller{
     private File verification2;
     private String inputKey;
     private popupReport demoPopUp;
-    private Stage popupStage = new Stage(); //Stage for initializing popup messages 
-    private Stock stock;                    //Stock variable where all of the items are sorted   
+    private Stage popupStage; //Stage for initializing popup messages removed "= new Stage()"
+    private Stock stock;
+    private readWriter readWriter;//Stock variable where all of the items are sorted   
+    private List<Container> finalContainers;
+    private Stock sortedStock;
     private List <Container> containers;
             private controller(){};
     public static controller getController(){
@@ -59,6 +64,17 @@ public class controller{
             cont = new controller();
         }
         return cont;
+    }
+    /**
+     *Sets readWriter instance to read and write from excel files on the disk 
+     * @param pathToInputFile Input file
+     * @param sheetNumber number of excel sheet in input file
+     * @param cellsNumbers range of rows with items info
+     */
+    private void setReadWriter(String pathToInputFile, int sheetNumber,
+            String [] cellsNumbers){
+        this.readWriter = new readWriter(pathToInputFile, sheetNumber,
+        cellsNumbers);
     }
     /*Method for formatting input strings to remove all the unwanted characters
     and letters from small to capital
@@ -78,7 +94,7 @@ public class controller{
     }
     /*Method for validating number of rows field. Rregular expression 
     pattern is used. If it does not satisfy the expression false 
-    variable is returned otherwise true
+    variable is returned true otherwise 
     */
     public boolean checkRowsField(String input){
         if(!input.matches("[0-9]+\\-[0-9]+")){
@@ -301,23 +317,52 @@ public class controller{
    }
    public Stage getPopupStage(){
        return popupStage;
-   }
-   /**
-    * Method to return stock of items variable
+   }/**
+    * Calls readWriter to read data from input file and sets
+    * stock variable
     */
-   public void setStock(Item item){
-       this.stock = new Stock();
-       stock.addItem(item);
-   }
+   private void readData(){
+       //test data 
+    String testPath = "/home/igorbashka/Documents/ДокиМаша/test.xlsx";
+    int sheetNumber = 0;
+    //
+    String [] cells = {"a", "g", "b", "j", "k", "l","m","p"};
+    setReadWriter(testPath, sheetNumber, cells);
+    this.stock = readWriter.readFile(1, 118);
+  }
    /**
-    * Sets container where items will be added can be 20 or 40 ft
-    * @param weightLimit weight capacity of the container in kgs
-    * @param volumeLimit volume capacity of the container in  m3
-    * @return container, ready for filling 
+    * Sets list of types of containers that we want to use
     */
-   public Container setContainer(int weightLimit, int volumeLimit){
-       Container container = new Container(weightLimit, volumeLimit);
-       return container;
+   private void setContainers(){
+      containers = new ArrayList();
+       //test data so fat
+       Container cont1 = new Container(30000, 35, new ArrayList<Item>());
+       Container cont2 = new Container(20000, 40, new ArrayList<Item>());
+       Container cont3 = new Container(40000, 60, new ArrayList<Item>());
+       containers.add(cont1);
+       containers.add(cont2);
+       containers.add(cont3);
+   }/**
+    * Runs sorting of the stock and matching them with the containers
+    */
+   private void runSorting(){
+       Optimizer optimizer = new Optimizer(stock, containers);
+       optimizer.sort();
+       this.finalContainers = optimizer.getContainers();
+       this.sortedStock = optimizer.getStock();
+   }/**
+    * Writes output into an excel file
+    */
+   private void writeOutput(){
+       //test data
+       String output = "/home/igorbashka/Documents/ДокиМаша/testOutput2.xlsx";
+       readWriter.setContainers(finalContainers);
+       readWriter.writeOutput(output);
    }
-  
+   public void testRun(){
+       readData();
+       setContainers();
+       runSorting();
+       writeOutput();
+   }
 }

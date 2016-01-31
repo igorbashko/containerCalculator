@@ -126,7 +126,7 @@ public class containerMath {
                     row.getCell(itemsQuantity).getNumericCellValue(),
                     row.getCell(inPackIndex).getNumericCellValue(), 
                     row.getCell(numOfPacksIndex).getNumericCellValue(),
-            row.getCell(grossWeightIndex).getNumericCellValue(), 
+             (int)row.getCell(grossWeightIndex).getNumericCellValue(), 
                     row.getCell(sumGrossWeightIndex).getNumericCellValue(),
             row.getCell(volumeOfPackIndex).getNumericCellValue(), 
                     row.getCell(sumVolumeIndex).getNumericCellValue());
@@ -166,7 +166,7 @@ public class containerMath {
         for(int i= 0; i<rightItems.size(); i++){
             Row rowN = sheet.createRow(lastRow+i);
             Cell nameN = rowN.createCell(0); nameN.setCellValue(rightItems.get(i).getName());
-            Cell quantityN = rowN.createCell(1); quantityN.setCellValue(rightItems.get(i).getQuantity());
+            Cell quantityN = rowN.createCell(1); quantityN.setCellValue(rightItems.get(i).getNumOfItems());
             Cell inPacksN = rowN.createCell(2); inPacksN.setCellValue(rightItems.get(i).getItemsInPack());
             Cell numOfPacksN = rowN.createCell(3); numOfPacksN.setCellValue(rightItems.get(i).getNumOfPacks());
             Cell weightOfPackN = rowN.createCell(4); weightOfPackN.setCellValue(rightItems.get(i).getWeightOfPack());
@@ -305,12 +305,7 @@ public class containerMath {
         try {         
           FileOutputStream write = new FileOutputStream("/home/igorbashka/Documents/ДокиМаша/testOutput.xlsx");
          // FileOutputStream write = new FileOutputStream("/home/igor/Documents/China/testOutput.xlsx");
-            try {
-                
-                
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+           
            } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }
@@ -355,7 +350,7 @@ public class containerMath {
         double numberOfPacks = items.get(index).getNumOfPacks();
         double weightOfSorted = items.get(index).getWeightOfPack();
         double volumeOfSorted = items.get(index).getVolumeOfPack();
-        double numberOfItems = items.get(index).getQuantity();
+        double numberOfItems = items.get(index).getNumOfItems();
         while(numberOfPacks !=0 && (weightOfSorted+
                 items.get(index).getWeightOfPack())<weightLeft && 
                 (volumeOfSorted+
@@ -367,12 +362,12 @@ public class containerMath {
         }
         Item splitItem = new Item(items.get(index).getName(),//the quantity of items to fit in the container 
                 numberOfItems, items.get(index).getItemsInPack(), minus(items.get(index).getNumOfPacks(), numberOfPacks),
-        items.get(index).getWeightOfPack(), weightOfSorted, 
+        (int)items.get(index).getWeightOfPack(), weightOfSorted, //added (int) 
         items.get(index).getVolumeOfPack(), volumeOfSorted);
         Item splitItem2 = new Item(items.get(index).getName(), 
-                minus(items.get(index).getQuantity(), numberOfItems), items.get(index).getItemsInPack(),
+                minus(items.get(index).getNumOfItems(), numberOfItems), items.get(index).getItemsInPack(),
        numberOfPacks , 
-        items.get(index).getWeightOfPack(), minus(items.get(index).getSumWeight(),
+        (int)items.get(index).getWeightOfPack(), minus(items.get(index).getSumWeight(),//added (int)
                 weightOfSorted), items.get(index).getVolumeOfPack(),
         minus(items.get(index).getSumVolume(), volumeOfSorted));
         Item checkItem = items.get(index);

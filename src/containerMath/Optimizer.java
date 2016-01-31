@@ -24,12 +24,13 @@ public class Optimizer {
     private List <Container> containers;
     private double maxWeight; //weight capacity of containers list
     private double maxVolume; //volume capacity of container list
-    private Container minContainer;//Initialize later
-    private Stock minStock;//initialize later
+    private Container minContainer;
+    private Stock minStock;
     private List <Container> finalContainers;
     
-    public Optimizer(Stock stock){
+    public Optimizer(Stock stock, List <Container> containers ){
         this.stock = stock;
+        this.containers = containers;
     }
       /**
        * Main sorting methods. Takes list of items to sort checks optimal
@@ -39,7 +40,7 @@ public class Optimizer {
        * @param stock Our list of items
        * @param containers list of types of containers to sort
        */     
-      private void sort(Stock stock, List <Container> containers){
+      public void sort(){
           Map <Container, Stock> sortedContainers = new HashMap();
           while(!stock.items.isEmpty()){
               for (Container c : containers){
@@ -117,5 +118,20 @@ public class Optimizer {
              stock= entry.getValue();
          }
       }
+      /**
+       * Returns sorted stock, will be empty most of the times
+       * @return sorted stock
+       */
+      public Stock getStock(){
+          return stock;
+      }
+      /**
+       * Returns list with sorted containers
+       * @return list of sorted containers
+       */
+      public List<Container> getContainers(){
+          return finalContainers;
+      }
+      
        }
 

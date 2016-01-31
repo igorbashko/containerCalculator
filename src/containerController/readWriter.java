@@ -8,10 +8,12 @@ package containerController;
 
 import containerMath.Container;
 import containerMath.Item;
+import containerMath.Stock;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
@@ -61,18 +63,20 @@ public class readWriter {
           int i = 0;
           for (String cell : cells){
               cellCodes[i]= CellReference.convertColStringToIndex(cell);
+              i++;
           }
     }
      /**
      * Reads excel file and matches cells to values
      */
-          public void readFile(){
+          public Stock readFile(int firstItem, int lastItem){
+              List <Item> stockList = new ArrayList();
               try{
                   OPCPackage pkg;
                   pkg = OPCPackage.open(sourceFile);
                   XSSFWorkbook book = new XSSFWorkbook(pkg);
                   Sheet workSheet = book.getSheetAt(sheet);
-                 for (int n=cont.getFirstNumber(); n<cont.getSecondNumber(); n++){
+                  for (int n=firstItem; n<lastItem; n++){
                      Row row = workSheet.getRow(n);
                      Item item = new Item(row.getCell(cellCodes[0]).toString(),
                      row.getCell(cellCodes[1]).getNumericCellValue(),
@@ -82,11 +86,13 @@ public class readWriter {
                      row.getCell(cellCodes[5]).getNumericCellValue(),
                      row.getCell(cellCodes[6]).getNumericCellValue(),
                      row.getCell(cellCodes[7]).getNumericCellValue());
-                     cont.setStock(item);
-                 }
+                     stockList.add(item);
+               }
               }catch(IOException | InvalidFormatException ex){
                   ex.printStackTrace();
               }
+              Stock stock = new Stock(stockList);
+              return stock;
           }
        /**
         * Main method for writing output of calculation
@@ -95,8 +101,7 @@ public class readWriter {
         * @param sheet sheet to create
         * @param lastRow last row for items of each container
         */
-          public void writeOutput(String outputFile,
-           int lastRow){
+          public void writeOutput(String outputFile){
            XSSFWorkbook outputBook = new XSSFWorkbook();
            Sheet outputSheet = outputBook.createSheet();
            outputSheet.setColumnWidth(0, 1300);
@@ -197,7 +202,7 @@ public class readWriter {
         * Sets list of containers with sorted items
         * @param containers 
         */
-       private void setContainers(List <Container> containers){
+       public void setContainers(List <Container> containers){
            this.finalContainers = containers;
        }/**
         * Writes output of excel book to excel file
