@@ -55,7 +55,11 @@ public class Optimizer {
                   boolean notAdded = true; // check if item was added into container
                   Collections.sort(workStock.items, new stockComparator());
                   Iterator<Item> iterator = workStock.items.iterator();
+                  List <Item> removeItems = new ArrayList();
                   while(iterator.hasNext() && notAdded){
+                   removeItems.add(iterator.next());
+                  
+                      //Item test = iterator.next();
                   addItem(c, iterator.next(), workStock, full, notAdded);    
                   }//end of third while loop
                 }//end of second while loop
@@ -84,7 +88,7 @@ public class Optimizer {
           if(item.getSumVolume()<=freeVolume && item.getSumWeight()<=
                   freeWeight){ 
               cont.addItem(item);
-              stock.removeItem(item);
+              //stock.removeItem(item);
               full = false;
               notAdded = false;
             } else if(item.getWeightOfPack()<=freeWeight && item.getVolumeOfPack()<=
