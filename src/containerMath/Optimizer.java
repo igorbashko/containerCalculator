@@ -71,7 +71,7 @@ public class Optimizer {
                 this.minContainer = c;
                 this.minStock = workStock;
                }//end of for loop
-             findMinLoad(sortedContainers, this.minContainer, this.minStock);
+             findMinLoad(sortedContainers);
              finalContainers.add(this.minContainer);
              stock = this.minStock;
           }
@@ -121,11 +121,11 @@ public class Optimizer {
        * @param container Best fit container
        * @param stock stock correspondes to best fit 
        */
-      private void findMinLoad(Map <Container, Stock> loadedVariants, Container 
-              container, Stock stock){
+      private void findMinLoad(Map <Container, Stock> loadedVariants){
          for(Map.Entry<Container, Stock> entry: loadedVariants.entrySet()){
+             double weight = entry.getKey().getWeight();
              if(entry.getKey().getWeight()>minContainer.getWeight())
-             container = entry.getKey();
+             minContainer = entry.getKey();
              stock= entry.getValue();
          }
       }
