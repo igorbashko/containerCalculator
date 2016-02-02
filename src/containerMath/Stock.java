@@ -67,7 +67,7 @@ public void setRatio(double ratio){
  */
 public List<Item> splitItem(Item item){
     List<Item> splitedItem = new ArrayList();
-    for(double i = item.getNumOfPacks(); i<=0; i--){
+   for( int i=item.getNumOfPacks(); i>=0; i--){
         Item itemNew = new Item(item.getName(), item.getPrice(),
         1, item.getItemsInPack(), item.getNumOfPacks(), item.getNetWeightOfPack(),
         item.getWeightOfPack(), item.getVolumeOfPack());

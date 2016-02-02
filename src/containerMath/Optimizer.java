@@ -27,6 +27,10 @@ public class Optimizer {
     private Container minContainer;
     private Stock minStock;
     private List <Container> finalContainers;
+    private boolean notAdded; //variable to define if item was added into the 
+    //container or not
+    private boolean full;
+    private Iterator <Item> iterator; //iterator over sorted items
     
     public Optimizer(Stock stock, List <Container> containers ){
         this.stock = stock;
@@ -42,25 +46,25 @@ public class Optimizer {
        */     
       public void sort(){
           Map <Container, Stock> sortedContainers = new HashMap();
+          this.finalContainers = new ArrayList();
           while(!stock.items.isEmpty()){
               for (Container c : containers){
                   Stock workStock = stock;
-                  boolean full = false;
+                  full = false;
                   while(!workStock.items.isEmpty() && !full ){
                   double idealRatio = c.getFreeSpacetRatio();
                   for (Item item: workStock.items){
                       item.setRationDiff(idealRatio);
                   }
                   full = true;//if nothing to put in container anymore
-                  boolean notAdded = true; // check if item was added into container
+                  notAdded = true; // check if item was added into container
                   Collections.sort(workStock.items, new stockComparator());
-                  Iterator<Item> iterator = workStock.items.iterator();
+                  iterator = workStock.items.iterator();
                   List <Item> removeItems = new ArrayList();
                   while(iterator.hasNext() && notAdded){
-                   removeItems.add(iterator.next());
-                  
-                      //Item test = iterator.next();
-                  addItem(c, iterator.next(), workStock, full, notAdded);    
+                  // removeItems.add(iterator.next());
+                  //Item test = iterator.next();
+                  addItem(c, iterator, workStock);    
                   }//end of third while loop
                 }//end of second while loop
                 sortedContainers.put(c, workStock);
@@ -81,27 +85,30 @@ public class Optimizer {
        * @param notAdded boolean variable defines if items was added into
        * the container or not 
        */
-      private void addItem(Container cont, Item item, Stock stock, boolean full,
-              boolean notAdded){
+      private void addItem(Container cont, Iterator <Item> iterator, 
+              Stock stock){
+          Item currentItem = iterator.next(); //item in the iterator
           double freeVolume =cont.getVolumeLimit()-cont.getVolume();
           double freeWeight = cont.getWeightLimit() - cont.getWeight();
-          if(item.getSumVolume()<=freeVolume && item.getSumWeight()<=
+          if(currentItem.getSumVolume()<=freeVolume && currentItem.getSumWeight()<=
                   freeWeight){ 
-              cont.addItem(item);
+              cont.addItem(currentItem);
               //stock.removeItem(item);
+              iterator.remove();
               full = false;
               notAdded = false;
-            } else if(item.getWeightOfPack()<=freeWeight && item.getVolumeOfPack()<=
+            } else if(currentItem.getWeightOfPack()<=freeWeight && currentItem.getVolumeOfPack()<=
                     freeVolume){
-                List <Item> splitedItem = new ArrayList(stock.splitItem(item));
+                List <Item> splitedItem = new ArrayList(stock.splitItem(currentItem));
                 List <Item> splitedItemsB = new ArrayList(); //items to go into
-                while(item.getWeightOfPack()<=freeWeight && item.getVolumeOfPack()<=
+                while(currentItem.getWeightOfPack()<=freeWeight && currentItem.getVolumeOfPack()<=
                         freeVolume){
                     splitedItemsB.add(splitedItem.get(0));
                     splitedItem.remove(0);
-                    freeWeight-= item.getWeightOfPack();
-                    freeVolume-= item.getVolumeOfPack();
+                    freeWeight-= currentItem.getWeightOfPack();
+                    freeVolume-= currentItem.getVolumeOfPack();
                }
+               iterator.remove();
                cont.addItem(stock.sumItem(splitedItemsB));
                stock.addItem(stock.sumItem(splitedItem));
                full = false;
