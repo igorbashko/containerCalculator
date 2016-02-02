@@ -34,7 +34,7 @@ public class readWriter {
     private String [] cells;   //array of cells which are letters of columns in the excell file
     private controller cont = controller.getController();
     private List <Container> finalContainers;
-    private Sheet sheet2;
+    private Sheet outputSheet;
        
     public readWriter(String filePath, int sheet, String [] cells){
        this.cellCodes = new int[8]; 
@@ -104,12 +104,11 @@ public class readWriter {
         */
           public void writeOutput(String outputFile){
            XSSFWorkbook outputBook = new XSSFWorkbook();
-           Sheet outputSheet = outputBook.createSheet();
-           this.sheet2 = outputSheet;
+           outputSheet = outputBook.createSheet();
            outputSheet.setColumnWidth(0, 1300);
            Row headingsRow = outputSheet.createRow(0);
            setHeadings(headingsRow);
-           setValues(sheet2);
+           setValues();
            writeToFile(outputFile, outputBook);
        }
           /**
@@ -129,10 +128,8 @@ public class readWriter {
         }
        /**
         * Sets values of items into cells of output file
-        * @param row in which create data
         */
-       private void setValues(Sheet sheet){
-          this.sheet2 = sheet;
+       private void setValues(){
           int lastRow =0;
           for (Container c:finalContainers ){
           List <Item> writeItems = c.getList();
@@ -140,7 +137,7 @@ public class readWriter {
            //place in excell file from where to write 
           //items of the next container
           lastRow++;
-          Row row = sheet2.createRow(lastRow);
+          Row row = outputSheet.createRow(lastRow);
               Item item = writeItems.get(i);
               Object[] values = new Object[]{ //array to store item's values
               item.getName(),                 // 0
@@ -193,9 +190,9 @@ public class readWriter {
            int dataCell = 5;
            int valuesIndex = 0; // index of the array of doubles(weigh, volume, etc)
            lastRow++;
-           Row headings = sheet2.createRow(lastRow); 
+           Row headings = outputSheet.createRow(lastRow); 
            lastRow+=2;
-           Row data = sheet2.createRow(lastRow); 
+           Row data = outputSheet.createRow(lastRow); 
            for(String report: reportHeadings){
                Cell heading = headings.createCell(dataCell); 
                heading.setCellValue(report);

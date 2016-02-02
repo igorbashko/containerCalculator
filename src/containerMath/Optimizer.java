@@ -49,7 +49,9 @@ public class Optimizer {
           this.finalContainers = new ArrayList();
           while(!stock.items.isEmpty()){
               for (Container c : containers){
-                  Stock workStock = stock;
+                  List <Item> items = new ArrayList();
+                  items.addAll(stock.items);
+                  Stock workStock = new Stock(items);
                   full = false;
                   while(!workStock.items.isEmpty() && !full ){
                   double idealRatio = c.getFreeSpacetRatio();
@@ -59,9 +61,10 @@ public class Optimizer {
                   full = true;//if nothing to put in container anymore
                   notAdded = true; // check if item was added into container
                   Collections.sort(workStock.items, new stockComparator());
-                  iterator = workStock.items.iterator();
-                  List <Item> removeItems = new ArrayList();
-                  while(iterator.hasNext() && notAdded){
+                  //iterator = workStock.items.iterator();
+                 // List <Item> removeItems = new ArrayList();
+                 // while(iterator.hasNext() && notAdded){ //finish later
+                  while(workStock.items.)
                   // removeItems.add(iterator.next());
                   //Item test = iterator.next();
                   addItem(c, iterator, workStock);    
@@ -93,8 +96,8 @@ public class Optimizer {
           if(currentItem.getSumVolume()<=freeVolume && currentItem.getSumWeight()<=
                   freeWeight){ 
               cont.addItem(currentItem);
-              //stock.removeItem(item);
-              iterator.remove();
+              stock.removeItem(item);
+              //iterator.remove();
               full = false;
               notAdded = false;
             } else if(currentItem.getWeightOfPack()<=freeWeight && currentItem.getVolumeOfPack()<=

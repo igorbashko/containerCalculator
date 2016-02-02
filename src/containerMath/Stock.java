@@ -28,6 +28,9 @@ public class Stock {
     public void addItem(Item i){
         this.items.add(i);
     }
+    public void addAll(List<Item> items){
+        this.items.addAll(items);
+    }
     public void removeItem(Item i){
         this.items.remove(i);
     }
