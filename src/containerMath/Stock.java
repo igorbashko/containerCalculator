@@ -16,12 +16,9 @@ import java.util.List;
  * @author igor
  */
 public class Stock {
-    protected List<Item> items;
+    private List<Item> items;
     private double  ratio;
-    //private double stockWeight;
-    //private double stockVolume;
-    //private double stockPrice;
-    
+        
     public Stock(List <Item> items){
     this.items = new ArrayList(items);
     }
@@ -92,4 +89,7 @@ firstItem.getNetWeightOfPack(), firstItem.getWeightOfPack(),
 firstItem.getVolumeOfPack());   
 return item;   
    } 
+private List<Item> getItems(){
+    return this.items;
+}
 }

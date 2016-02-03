@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class Optimizer {
     private Stock stock;
-    private List <Container> containers;
+    private List <Container> typesOfContainers;
     private double maxWeight; //weight capacity of containers list
     private double maxVolume; //volume capacity of container list
     private Container minContainer;
@@ -31,10 +31,11 @@ public class Optimizer {
     //container or not
     private boolean full;
     private Iterator <Item> iterator; //iterator over sorted items
+    private List<Container> workContainers; //list of containers to work with
     
-    public Optimizer(Stock stock, List <Container> containers ){
+    public Optimizer(Stock stock, List <Container> typesOfContainers ){
         this.stock = stock;
-        this.containers = containers;
+        this.typesOfContainers = typesOfContainers;
     }
       /**
        * Main sorting methods. Takes list of items to sort checks optimal
@@ -45,38 +46,43 @@ public class Optimizer {
        * @param containers list of types of containers to sort
        */     
       public void sort(){
-          Map <Container, Stock> sortedContainers = new HashMap();
           this.finalContainers = new ArrayList();
-          while(!stock.items.isEmpty()){
-              for (Container c : containers){
+          while(!stock.getList().isEmpty()){
+          Map <Container, Stock> sortedContainers = new HashMap();
+             this.workContainers = new ArrayList();
+             for (Container c: typesOfContainers){
+              Container cont = new Container(c.getWeightLimit(), c.getVolumeLimit(), 
+                      new ArrayList<Item>());
+              workContainers.add(cont);
+          }
+              for (Container c : workContainers){
                   List <Item> items = new ArrayList();
-                  items.addAll(stock.items);
+                  items.addAll(stock.getList());
                   Stock workStock = new Stock(items);
                   full = false;
-                  while(!workStock.items.isEmpty() && !full ){
+                  while(!workStock.getList().isEmpty() && !full ){
                   double idealRatio = c.getFreeSpacetRatio();
-                  for (Item item: workStock.items){
+                  for (Item item: workStock.getList()){
                       item.setRationDiff(idealRatio);
                   }
                   full = true;//if nothing to put in container anymore
                   notAdded = true; // check if item was added into container
-                  Collections.sort(workStock.items, new stockComparator());
-                  //iterator = workStock.items.iterator();
-                 // List <Item> removeItems = new ArrayList();
-                 // while(iterator.hasNext() && notAdded){ //finish later
-                  while(workStock.items.)
+                  Collections.sort(workStock.getList(), new stockComparator());
+                  iterator = workStock.getList().iterator();
+                  while(iterator.hasNext() && notAdded){ 
+                 // while(workStock.getList(), iterator);
                   // removeItems.add(iterator.next());
                   //Item test = iterator.next();
                   addItem(c, iterator, workStock);    
                   }//end of third while loop
                 }//end of second while loop
                 sortedContainers.put(c, workStock);
-                this.minContainer = c;
-                this.minStock = workStock;
+                minContainer = c;
+                minStock = workStock;
                }//end of for loop
              findMinLoad(sortedContainers);
-             finalContainers.add(this.minContainer);
-             stock = this.minStock;
+             finalContainers.add(minContainer);
+             stock = minStock;
           }
       }
       /**
@@ -96,8 +102,8 @@ public class Optimizer {
           if(currentItem.getSumVolume()<=freeVolume && currentItem.getSumWeight()<=
                   freeWeight){ 
               cont.addItem(currentItem);
-              stock.removeItem(item);
-              //iterator.remove();
+             // stock.removeItem(item);
+              iterator.remove();
               full = false;
               notAdded = false;
             } else if(currentItem.getWeightOfPack()<=freeWeight && currentItem.getVolumeOfPack()<=
@@ -125,11 +131,12 @@ public class Optimizer {
        * @param stock stock correspondes to best fit 
        */
       private void findMinLoad(Map <Container, Stock> loadedVariants){
-         for(Map.Entry<Container, Stock> entry: loadedVariants.entrySet()){
+          for(Map.Entry<Container, Stock> entry: loadedVariants.entrySet()){
              double weight = entry.getKey().getWeight();
-             if(entry.getKey().getWeight()>minContainer.getWeight())
+             if(entry.getKey().getWeight()>minContainer.getWeight()){
              minContainer = entry.getKey();
              stock= entry.getValue();
+             }
          }
       }
       /**

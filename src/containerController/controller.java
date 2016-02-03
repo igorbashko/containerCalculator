@@ -323,8 +323,8 @@ public class controller{
     */
    private void readData(){
        //test data 
-      String testPath = "/home/igorbashka/Documents/ДокиМаша/test.xlsx";
-   // String testPath = "/home/igor/Documents/China/HDHardware/test.xlsx";
+   //   String testPath = "/home/igorbashka/Documents/ДокиМаша/test.xlsx";
+    String testPath = "/home/igor/Documents/China/HDHardware/test.xlsx";
     int sheetNumber = 0;
     //
     String [] cells = {"a", "g", "b", "j", "k", "l","m","p"};
@@ -356,8 +356,8 @@ public class controller{
     */
    private void writeOutput(){
        //test data
-       String output = "/home/igorbashka/Documents/ДокиМаша/testOutput2.xlsx";
-       //String output = "/home/igor/Documents/China/testOutput2.xlsx";
+       //String output = "/home/igorbashka/Documents/ДокиМаша/testOutput2.xlsx";
+       String output = "/home/igor/Documents/China/testOutput2.xlsx";
        readWriter.setContainers(finalContainers);
        readWriter.writeOutput(output);
    }

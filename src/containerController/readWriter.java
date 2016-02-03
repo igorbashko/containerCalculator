@@ -165,7 +165,7 @@ public class readWriter {
               if(i==(writeItems.size() -1)){
                   lastRow +=2; //+2 empty spaces for better appearance
                   setReport(c, lastRow);
-                  lastRow +=2;
+                  lastRow +=3;
               }
           }
          }
