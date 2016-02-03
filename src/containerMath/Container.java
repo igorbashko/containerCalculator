@@ -40,9 +40,28 @@ private double volumeLimit;
        public double getVolumeLimit(){
            return volumeLimit;
        }
+       /**
+        * Gets the ratio of free space in the container.
+        * The value is used to find bets fit item
+        * @return free space ratio
+        */
        public double getFreeSpacetRatio(){
            double ratio = (this.weightLimit-this.getWeight())/
                    this.volumeLimit - this.getVolume();
            return ratio;
+       }
+       /**
+        * Returns free kilos of the container
+        * @return free kilos of the container
+        */
+       public double getFreeWeight(){
+           return weightLimit - getWeight();
+       }
+       /**
+        * Returns free volume into the container
+        * @return free cubes in the container
+        */
+       public double getFreeVoolumet(){
+           return volumeLimit - getVolume();
        }
 }
