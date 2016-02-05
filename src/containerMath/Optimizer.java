@@ -32,6 +32,7 @@ public class Optimizer {
     private boolean full;
     private Iterator <Item> iterator; //iterator over sorted items
     private List<Container> workContainers; //list of containers to work with
+    private Stock workStock;
     
     public Optimizer(Stock stock, List <Container> typesOfContainers ){
         this.stock = stock;
@@ -58,7 +59,7 @@ public class Optimizer {
               for (Container c : workContainers){
                   List <Item> items = new ArrayList();
                   items.addAll(stock.getList());
-                  Stock workStock = new Stock(items);
+                  workStock = new Stock(items);
                   full = false;
                   while(!workStock.getList().isEmpty() && !full ){
                   double idealRatio = c.getFreeSpacetRatio();
@@ -70,9 +71,6 @@ public class Optimizer {
                   Collections.sort(workStock.getList(), new stockComparator());
                   iterator = workStock.getList().iterator();
                   while(iterator.hasNext() && notAdded){ 
-                 // while(workStock.getList(), iterator);
-                  // removeItems.add(iterator.next());
-                  //Item test = iterator.next();
                   addItem(c, iterator, workStock);    
                   }//end of third while loop
                 }//end of second while loop
@@ -102,7 +100,6 @@ public class Optimizer {
           if(currentItem.getSumVolume()<=freeVolume && currentItem.getSumWeight()<=
                   freeWeight){ 
               cont.addItem(currentItem);
-             // stock.removeItem(item);
               iterator.remove();
               full = false;
               notAdded = false;
@@ -132,10 +129,16 @@ public class Optimizer {
        */
       private void findMinLoad(Map <Container, Stock> loadedVariants){
           for(Map.Entry<Container, Stock> entry: loadedVariants.entrySet()){
-             double weight = entry.getKey().getWeight();
-             if(entry.getKey().getWeight()>minContainer.getWeight()){
+             double weight = entry.getKey().getFreeWeight();
+             double volume = entry.getKey().getFreeVoolume();
+             double sum = weight + volume; //sum of free space against which 
+             //to compare
+             double minSum = minContainer.getFreeVoolume() + 
+                     minContainer.getFreeWeight();//current minimum sum of
+             //free space
+             if(sum<minSum){
              minContainer = entry.getKey();
-             stock= entry.getValue();
+             minStock= entry.getValue();
              }
          }
       }

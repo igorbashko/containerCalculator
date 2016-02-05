@@ -61,7 +61,7 @@ private double volumeLimit;
         * Returns free volume into the container
         * @return free cubes in the container
         */
-       public double getFreeVoolumet(){
+       public double getFreeVoolume(){
            return volumeLimit - getVolume();
        }
 }

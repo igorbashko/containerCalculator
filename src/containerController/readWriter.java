@@ -163,9 +163,9 @@ public class readWriter {
               //checking if end of items list in the containers is reached
               //and adding +2 empty rows
               if(i==(writeItems.size() -1)){
-                  lastRow +=2; //+2 empty spaces for better appearance
+                  lastRow +=1; //+2 empty spaces for better appearance
                   setReport(c, lastRow);
-                  lastRow +=3;
+                  lastRow +=4;
               }
           }
          }
@@ -185,8 +185,8 @@ public class readWriter {
                "Остаток вес",        // 8
                "Остаток объем"       // 9
                };
-           double [] values = {c.getWeight(), c.getVolume(), c.getVolumeLimit()-
-                   c.getVolume(), c.getWeightLimit() - c.getWeight()};
+           double [] values = {c.getWeight(), c.getVolume(), c.getWeightLimit()-
+                   c.getWeight(), c.getVolumeLimit() - c.getVolume()};
            int dataCell = 5;
            int valuesIndex = 0; // index of the array of doubles(weigh, volume, etc)
            lastRow++;
