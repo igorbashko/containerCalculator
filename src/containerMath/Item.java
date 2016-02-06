@@ -33,20 +33,19 @@ public class Item implements Iterable {
     public Item(String itemName, double itemPrice, double numOfItems, double itemsInPack,
             int numOfPacks, double netWeightOfPack, double grossWeightOfPack,
             double volumeOfPack){
-        
-        this.itemName = itemName;
-        this.itemPrice = itemPrice;
-        this.numOfItems = numOfItems;
-        this.itemsInPack = itemsInPack;
-        this.numOfPacks = numOfPacks;
-        this.grossWeightOfPack = grossWeightOfPack;
-        this.netWeightOfPack = netWeightOfPack;
-        this.volumeOfPack = volumeOfPack;
-        this.sumWeight = grossWeightOfPack * numOfPacks;
-        this.sumVolume = volumeOfPack * numOfPacks; 
-        this.ratio = grossWeightOfPack/volumeOfPack;
-        this.sumNetWeight = netWeightOfPack*numOfPacks;
-        this.sumPrice = itemPrice*numOfItems;
+        this.itemName = checkName(itemName);
+        this.itemPrice = checkRest(itemPrice);
+        this.numOfItems = checkRest(numOfItems);
+        this.itemsInPack = checkRest(itemsInPack);
+        this.numOfPacks = checkNumberOfPacks(numOfPacks);
+        this.grossWeightOfPack = checkRest(grossWeightOfPack);
+        this.netWeightOfPack = checkRest(netWeightOfPack);
+        this.volumeOfPack = checkRest(volumeOfPack);
+        this.sumWeight = checkRest(grossWeightOfPack * numOfPacks);
+        this.sumVolume = checkRest(volumeOfPack * numOfPacks); 
+        this.ratio = checkRest(grossWeightOfPack/volumeOfPack);
+        this.sumNetWeight = checkRest(netWeightOfPack*numOfPacks);
+        this.sumPrice = checkRest(itemPrice*numOfItems);
     }
     
     public String getName(){
@@ -94,8 +93,46 @@ public class Item implements Iterable {
     public double getNetWeightOfPack(){
         return netWeightOfPack;
     }
-
-    @Override
+    /**
+     * Checks if there wrong parameter of the name of item
+     * @param value name from input file
+     * @return name 
+     * or error message instead
+     */
+   private String checkName(String value){
+    try{
+        return value;
+    }catch (Exception ex){
+     return "Не удалост распознать имя позиции";
+    }
+}
+   /**
+    * Checks parameter in excel file 
+    * @param number number to check
+    * @return number in case if everything is fine 
+    * or 0 instead
+    */
+   private int checkNumberOfPacks(int number){
+     try{
+     return number;
+     }catch(Exception ex){
+    return 0;
+   }
+}
+   /**
+    * Checks parameter in excel file 
+    * @param number number to check
+    * @return number in case if everything is fine 
+    * or 0 instead
+    */
+   private double checkRest(double number){
+       try{
+           return number;
+       }catch(Exception ex){
+           return 0;
+       }
+   }
+       @Override
     public Iterator iterator() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

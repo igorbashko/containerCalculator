@@ -329,7 +329,7 @@ public class controller{
     //
     String [] cells = {"a", "g", "b", "j", "k", "l","m","p"};
     setReadWriter(testPath, sheetNumber, cells);
-    this.stock = readWriter.readFile(0, 10);
+    this.stock = readWriter.readFile(0, 100);
   }
    /**
     * Sets list of types of containers that we want to use
