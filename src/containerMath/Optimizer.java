@@ -24,15 +24,17 @@ public class Optimizer {
     private List <Container> typesOfContainers;
     private double maxWeight; //weight capacity of containers list
     private double maxVolume; //volume capacity of container list
-    private Container minContainer;
-    private Stock minStock;
+    private Container minContainer;//container with minimum wasted spaces 
+    //among all avialable containers
+    private Stock minStock;//stock which corresponds to the minimum container
     private List <Container> finalContainers;
     private boolean notAdded; //variable to define if item was added into the 
     //container or not
     private boolean full;
     private Iterator <Item> iterator; //iterator over sorted items
     private List<Container> workContainers; //list of containers to work with
-    private Stock workStock;
+    private Stock workStock; //place where we store types of containers to add
+    //items into them later
     
     public Optimizer(Stock stock, List <Container> typesOfContainers ){
         this.stock = stock;
@@ -88,9 +90,6 @@ public class Optimizer {
        * @param cont Container where all items will go after sorting
        * @param item item which goes into the container
        * @param stock list of items to sort
-       * @param full boolean variables defines if container is full or not
-       * @param notAdded boolean variable defines if items was added into
-       * the container or not 
        */
       private void addItem(Container cont, Iterator <Item> iterator, 
               Stock stock){
