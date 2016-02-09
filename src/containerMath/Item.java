@@ -84,8 +84,8 @@ public class Item implements Iterable {
     public double getItemsPrice(){
         return sumPrice;
     }
-    public void setRationDiff(double freeSpaceRatio){
-        this.ratioDiff = abs(ratio - freeSpaceRatio);
+    public void setRationDiff(double idealRatio, double sumRatio, int size, double itemRatio){
+        this.ratioDiff = abs(idealRatio-(itemRatio + sumRatio)/size);
     }
     public double getRatioDiff(){
         return ratioDiff;

@@ -66,7 +66,8 @@ public class Optimizer {
                   while(!workStock.getList().isEmpty() && !full ){
                   double idealRatio = c.getFreeSpacetRatio();
                   for (Item item: workStock.getList()){
-                      item.setRationDiff(idealRatio);
+                      double itemRatio = item.getRatio();
+                      item.setRationDiff(idealRatio,c.getRatio2(),c.size2(), itemRatio);
                   }
                   full = true;//if nothing to put in container anymore
                   notAdded = true; // check if item was added into container

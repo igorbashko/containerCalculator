@@ -323,13 +323,13 @@ public class controller{
     */
    private void readData(){
        //test data 
-      String testPath = "/home/igorbashka/Documents/ДокиМаша/test.xlsx";
-    //String testPath = "/home/igor/Documents/China/HDHardware/test.xlsx";
+    //  String testPath = "/home/igorbashka/Documents/ДокиМаша/test.xlsx";
+    String testPath = "/home/igor/Documents/China/HDHardware/test.xlsx";
     int sheetNumber = 0;
     //
     String [] cells = {"a", "g", "b", "j", "k", "l","m","p"};
     setReadWriter(testPath, sheetNumber, cells);
-    this.stock = readWriter.readFile(0, 100);
+    this.stock = readWriter.readFile(0, 107);
   }
    /**
     * Sets list of types of containers that we want to use
@@ -337,12 +337,12 @@ public class controller{
    private void setContainers(){
       containers = new ArrayList();
        //test data so fat
-       Container cont1 = new Container(5000, 8, new ArrayList<Item>());
-       Container cont2 = new Container(4000, 7, new ArrayList<Item>());
-       Container cont3 = new Container(6000, 15, new ArrayList<Item>());
+       Container cont1 = new Container(25000, 27, new ArrayList<Item>());
+       Container cont2 = new Container(25000, 56, new ArrayList<Item>());
+       //Container cont3 = new Container(6000, 15, new ArrayList<Item>());
        containers.add(cont1);
        containers.add(cont2);
-       containers.add(cont3);
+       //containers.add(cont3);
    }/**
     * Runs sorting of the stock and matching them with the containers
     */
@@ -356,8 +356,8 @@ public class controller{
     */
    private void writeOutput(){
        //test data
-       String output = "/home/igorbashka/Documents/ДокиМаша/testOutput2.xlsx";
-       //String output = "/home/igor/Documents/China/testOutput2.xlsx";
+       //String output = "/home/igorbashka/Documents/ДокиМаша/testOutput2.xlsx";
+       String output = "/home/igor/Documents/China/testOutput2.xlsx";
        readWriter.setContainers(finalContainers);
        readWriter.writeOutput(output);
    }

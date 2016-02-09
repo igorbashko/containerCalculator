@@ -46,9 +46,17 @@ private double volumeLimit;
         * @return free space ratio
         */
        public double getFreeSpacetRatio(){
-           double ratio = (this.weightLimit-this.getWeight())/
-                   this.volumeLimit - this.getVolume();
+           double ratio = getRatio();
+                   
+           /*double ratio = (this.weightLimit-this.getWeight())/
+                   this.volumeLimit - this.getVolume();*/
            return ratio;
+       }
+       public double getRatio2(){
+           return this.getWeight()/this.getVolume();
+       }
+       public int size2(){
+           return this.getList().size()+1;
        }
        /**
         * Returns free kilos of the container

@@ -16,7 +16,7 @@ public class stockComparator implements Comparator <Item>{
 
     @Override
     public int compare(Item i1, Item i2) {
-        return i1.getRatioDiff()<i2.getRatioDiff() ?-1:
+        return i1.getRatioDiff()<i2.getRatioDiff() ? -1:
                 i1.getRatioDiff()  == i2.getRatioDiff() ? 0:1;
     }
     
