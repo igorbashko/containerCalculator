@@ -50,6 +50,13 @@ public class Stock {
         }
         return stockVolume;
     }
+    //Comment later
+    public double sumRatio(){
+        double sumRatio = 0;
+        for (Item item: items)
+            sumRatio+=item.getRatio();
+        return sumRatio;
+    }
     public double getStockPrice(){
         double stockPrice = 0;
         for (Item i:items){

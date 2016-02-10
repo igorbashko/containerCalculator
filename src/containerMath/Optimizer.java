@@ -64,7 +64,13 @@ public class Optimizer {
                   workStock = new Stock(items);
                   full = false;
                   while(!workStock.getList().isEmpty() && !full ){
-                  double idealRatio = c.getFreeSpacetRatio();
+                      double idealRatio;
+                      if(c.getFreeWeight() != c.getWeightLimit() && c.getFreeVoolume() != c.getVolumeLimit()){
+                      idealRatio = c.getRatio();
+                      }else
+                      {
+                      idealRatio = c.getFreeSpacetRatio();
+                      }
                   for (Item item: workStock.getList()){
                       double itemRatio = item.getRatio();
                       item.setRationDiff(idealRatio,c.getRatio2(),c.size2(), itemRatio);
