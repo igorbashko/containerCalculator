@@ -135,12 +135,12 @@ public class Optimizer {
        */
       private void findMinLoad(Map <Container, Stock> loadedVariants){
           for(Map.Entry<Container, Stock> entry: loadedVariants.entrySet()){
-             double weight = entry.getKey().getFreeWeight();
+             double weight = entry.getKey().getFreeWeight()/1000;
              double volume = entry.getKey().getFreeVoolume();
              double sum = weight + volume; //sum of free space against which 
              //to compare
-             double minSum = minContainer.getFreeVoolume() + 
-                     minContainer.getFreeWeight();//current minimum sum of
+             double minSum = minContainer.getFreeVoolume()+ 
+                     minContainer.getFreeWeight()/1000;//current minimum sum of
              //free space
              if(sum<minSum){
              minContainer = entry.getKey();
