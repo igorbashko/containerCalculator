@@ -72,12 +72,14 @@ public class readWriter {
      */
           public Stock readFile(int firstItem, int lastItem){
               List <Item> stockList = new ArrayList();
+              
               try{
                   OPCPackage pkg;
                   pkg = OPCPackage.open(sourceFile);
                   XSSFWorkbook book = new XSSFWorkbook(pkg);
                   Sheet workSheet = book.getSheetAt(sheet);
-                  for (int n=firstItem; n<lastItem; n++){
+                  for (int n=firstItem ; n<lastItem; n++){
+                     try{
                      Row row = workSheet.getRow(n);
                      Item item = new Item(row.getCell(cellCodes[0]).toString(),
                      row.getCell(cellCodes[1]).getNumericCellValue(),
@@ -88,6 +90,10 @@ public class readWriter {
                      row.getCell(cellCodes[6]).getNumericCellValue(),
                      row.getCell(cellCodes[7]).getNumericCellValue());
                      stockList.add(item);
+                     }catch(NullPointerException ex){
+                         
+                         System.out.println("Неправильный формат данных на строке " + n);
+                     }
                }
               }catch(IOException | InvalidFormatException ex){
                   ex.printStackTrace();
