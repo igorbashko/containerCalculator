@@ -263,6 +263,7 @@ public class controller{
     * and how many times it was run if not.
     */
    private void processLicense(Stage primaryStage){
+       this.popupStage = new Stage();
        popupStage.initOwner(primaryStage);
        if(activated){
           createView(primaryStage);

@@ -28,6 +28,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import containerController.controller;
+import javafx.scene.layout.VBox;
 
 /**
  *
@@ -64,16 +65,16 @@ public class view {
     public void start(Stage primaryStage){
           GridPane grid = new GridPane();
        grid.gridLinesVisibleProperty().setValue(Boolean.TRUE);
-        grid.setAlignment(Pos.TOP_LEFT);
+        grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25,25,25,25));
         //creating and adding heaging
-        Text heading = new Text("Расчет оптимальной загрузки контейнера");
+        Text heading = new Text("Добро пожаловать в программу по расчету загруки товаров");
         heading.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        grid.add(heading, 0, 0, 2, 1);
+        grid.add(heading, 0, 0, 3, 1);
         //creating and adding file load label, filed and upload button
-        Label loginLabel = new Label("Choose the source file");
+        Label loginLabel = new Label("Выберите исходный файл");
         grid.add(loginLabel, 0, 1);
         TextField pathToSource = new TextField();
         grid.add(pathToSource, 1, 1);
@@ -196,7 +197,7 @@ public class view {
               }
         });
        
-       Scene scene = new Scene(grid, 500, 700);
+       Scene scene = new Scene(grid, 950, 700);
        primaryStage.setScene(scene);
        primaryStage.show();
        textInitialise();
@@ -284,5 +285,32 @@ private File openFile(File file){
      this.sumGwField.setText("o");
      this.volumeOfPackField.setText("p");
      this.sumVolumeField.setText("q");
+ }/**
+  * Sets Left part of the main window with source file,
+  * output and input columns and rows range buttons
+  */
+ private void setLeftPartWindow(){
+     VBox leftBox = new VBox(); //Left part Box
+     //Upload file HBox
+     HBox sourceFileBox = new HBox();// Set parts for upload file
+     Label sourceFileLabel = new Label("Исходный файл");
+     TextField sourceTextField = new TextField();
+     Button setFileBtn = new Button("Выбрать");
+     sourceFileBox.getChildren().addAll(sourceFileLabel, sourceTextField, setFileBtn);
+     //Output file Box
+     HBox outputFileBox = new HBox();
+     Label outputLabel = new Label("Файл результата");
+     TextField outputText = new TextField();
+     Button outputButton = new Button();
+     outputFileBox.getChildren().addAll(outputLabel, outputText, outputButton);
+     //leftBox.getChildren().addAll()
+ }
+ /**
+  * 
+  */
+ private void setColumns(){
+    GridPane columns = new GridPane();
+    columns.gridLinesVisibleProperty().setValue(Boolean.TRUE);
+    
  }
 }
