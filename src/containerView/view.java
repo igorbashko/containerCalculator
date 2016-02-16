@@ -311,6 +311,20 @@ private File openFile(File file){
  private void setColumns(){
     GridPane columns = new GridPane();
     columns.gridLinesVisibleProperty().setValue(Boolean.TRUE);
-    
+    columns.setHgap(10);
+    columns.setVgap(10);
+    //Adds label and text field with price column in excel
+   Label price = new Label("Укажите колонку с количеством");
+   TextField priceField = new TextField();
+   columns.add(price, 0, 0); columns.add(priceField, 1, 0);
+   //Ads label and text field with pieces in pack column in excel
+   Label numInPacks = new Label("Столбец с количеством наименований в коробке");
+   TextField itemsInPackF = new  TextField();
+   columns.add(numInPacks, 1, 0); columns.add(itemsInPackF, 1, 1);
+   // -//- number of packs
+   Label numOfPacks = new Label("Столбец с количеством упаковок");
+   TextField numOfPacksF = new TextField();
+   columns.add(numOfPacks, 2, 0); columns.add(numOfPacksF, 2, 1);
+   
  }
 }
