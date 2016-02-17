@@ -325,6 +325,13 @@ private File openFile(File file){
    Label numOfPacks = new Label("Столбец с количеством упаковок");
    TextField numOfPacksF = new TextField();
    columns.add(numOfPacks, 2, 0); columns.add(numOfPacksF, 2, 1);
-   
+   //net weight of pack
+   Label netWeightOfPack = new Label("Столбец с весом нетто упаковки");
+   TextField netWeightOfPackF = new TextField();
+   columns.add(netWeightOfPack, 3,0); columns.add(netWeightOfPackF, 3, 1);
+   //gross weight of pack
+   Label grossWeightOfPack = new Label("Столбец с весом брутто упаковки");
+   TextField grossWeightF = new TextField();
+   columns.add(grossWeightOfPack, 4, 0); columns.add(grossWeightF, 4, 1);
  }
 }
