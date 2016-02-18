@@ -28,6 +28,8 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import containerController.controller;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 
 /**
@@ -303,12 +305,13 @@ private File openFile(File file){
      TextField outputText = new TextField();
      Button outputButton = new Button();
      outputFileBox.getChildren().addAll(outputLabel, outputText, outputButton);
-     //leftBox.getChildren().addAll()
+     leftBox.getChildren().addAll(sourceFileBox, outputFileBox, setColumns());
+     
  }
  /**
-  * 
+  * Setting columns for Item parameters(Price, weight, etc)
   */
- private void setColumns(){
+ private GridPane setColumns(){
     GridPane columns = new GridPane();
     columns.gridLinesVisibleProperty().setValue(Boolean.TRUE);
     columns.setHgap(10);
@@ -333,5 +336,50 @@ private File openFile(File file){
    Label grossWeightOfPack = new Label("Столбец с весом брутто упаковки");
    TextField grossWeightF = new TextField();
    columns.add(grossWeightOfPack, 4, 0); columns.add(grossWeightF, 4, 1);
+   //volume of pack
+   Label volumeOfPack = new Label("Укажите объем коробки");
+   TextField volumeF = new TextField();
+   columns.add(volumeOfPack, 5, 0); columns.add(volumeF, 5, 1);
+   return columns;
+ }
+ /**
+  * Setting right part of the main window
+  */
+ private void setRightPart(){
+     HBox rihtBox = new HBox();
+     
+ }/**
+  * Creates containers list component
+  * @return containersList
+  */
+ private TableView containersList(){
+     TableView containersList = new TableView();
+     TableColumn column = new TableColumn("Типы контейнеров");
+     return containersList;
+ }
+ /**
+  * 
+  */
+ private GridPane addContainerForm(){
+     GridPane addContainerForm = new GridPane();
+     addContainerForm.setHgap(10);
+     addContainerForm.setVgap(10);
+     //Name of the container
+     Label containerName = new Label("Имя контейнера");
+     TextField nameTextF = new TextField();
+     addContainerForm.add(containerName, 0, 0); addContainerForm.add(nameTextF, 1, 0);
+     //Weight capacity of the container
+     Label containerWeight = new Label("кг");
+     TextField containerWeightF = new TextField();
+     addContainerForm.add(containerWeight, 0, 1); addContainerForm.add(containerWeightF, 1, 1);
+     //Volume capacity of the container 
+     Label containerVolume = new Label("м3");
+     TextField containerVolumeF = new TextField();
+     addContainerForm.add(containerVolume, 0, 2); addContainerForm.add(containerVolumeF, 1, 2);
+     //Adds buttons add container and remove the container
+     Button addCButton = new Button("+");
+     Button removeButton = new Button("-");
+     addContainerForm.add(addCButton, 0, 3); addContainerForm.add(removeButton, 1, 3);
+     return addContainerForm;
  }
 }
