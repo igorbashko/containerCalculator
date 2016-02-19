@@ -28,6 +28,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import containerController.controller;
+import javafx.geometry.HPos;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -294,14 +295,17 @@ private File openFile(File file){
   */
  private VBox setLeftPartWindow(){
      VBox leftBox = new VBox(); //Left part Box
+     leftBox.setSpacing(10);
      //Upload file HBox
      HBox sourceFileBox = new HBox();// Set parts for upload file
+     sourceFileBox.setSpacing(10);
      Label sourceFileLabel = new Label("Исходный файл");
      TextField sourceTextField = new TextField();
      Button setFileBtn = new Button("Выбрать");
      sourceFileBox.getChildren().addAll(sourceFileLabel, sourceTextField, setFileBtn);
      //Output file Box
      HBox outputFileBox = new HBox();
+     outputFileBox.setSpacing(10);
      Label outputLabel = new Label("Файл результата");
      TextField outputText = new TextField();
      Button outputButton = new Button();
@@ -390,8 +394,10 @@ private File openFile(File file){
  GridPane mainWindow = new GridPane();
  mainWindow.setHgap(10);
  mainWindow.setVgap(10);
- Label welcome = new Label("Добро пожаловать в программу по респределению "
-         + "контейнеров");
+ mainWindow.gridLinesVisibleProperty().setValue(Boolean.TRUE);
+ Label welcome = new Label("Добро пожаловать в программу по загрузке контейнеров");
+ GridPane.setHalignment(welcome, HPos.CENTER);
+ welcome.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
  mainWindow.add(welcome, 0, 0, 2, 1);
  mainWindow.add(setLeftPartWindow(), 0, 1); mainWindow.add(setRightPartWindow(), 1, 1);
  TextArea reportWindow = new TextArea();
