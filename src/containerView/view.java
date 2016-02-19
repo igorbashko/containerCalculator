@@ -324,23 +324,23 @@ private File openFile(File file){
    //Adds label and text field with pieces in pack column in excel
    Label numInPacks = new Label("Столбец с количеством наименований в коробке");
    TextField itemsInPackF = new  TextField();
-   columns.add(numInPacks, 1, 0); columns.add(itemsInPackF, 1, 1);
+   columns.add(numInPacks, 0, 1); columns.add(itemsInPackF, 1, 1);
    // -//- number of packs
    Label numOfPacks = new Label("Столбец с количеством упаковок");
    TextField numOfPacksF = new TextField();
-   columns.add(numOfPacks, 2, 0); columns.add(numOfPacksF, 2, 1);
+   columns.add(numOfPacks, 0, 2); columns.add(numOfPacksF, 1, 2);
    //net weight of pack
    Label netWeightOfPack = new Label("Столбец с весом нетто упаковки");
    TextField netWeightOfPackF = new TextField();
-   columns.add(netWeightOfPack, 3,0); columns.add(netWeightOfPackF, 3, 1);
+   columns.add(netWeightOfPack, 0, 3); columns.add(netWeightOfPackF, 1, 3);
    //gross weight of pack
    Label grossWeightOfPack = new Label("Столбец с весом брутто упаковки");
    TextField grossWeightF = new TextField();
-   columns.add(grossWeightOfPack, 4, 0); columns.add(grossWeightF, 4, 1);
+   columns.add(grossWeightOfPack, 0, 4); columns.add(grossWeightF, 1, 4);
    //volume of pack
    Label volumeOfPack = new Label("Укажите объем коробки");
    TextField volumeF = new TextField();
-   columns.add(volumeOfPack, 5, 0); columns.add(volumeF, 5, 1);
+   columns.add(volumeOfPack, 0, 5); columns.add(volumeF, 1, 5);
    return columns;
  }
  /**
