@@ -30,6 +30,7 @@ import javafx.stage.Modality;
 import containerController.controller;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 
 /**
@@ -199,7 +200,7 @@ public class view {
               }
         });
        
-       Scene scene = new Scene(grid, 950, 700);
+       Scene scene = new Scene(setMainWindow(), 950, 700);
        primaryStage.setScene(scene);
        primaryStage.show();
        textInitialise();
@@ -291,7 +292,7 @@ private File openFile(File file){
   * Sets Left part of the main window with source file,
   * output and input columns and rows range buttons
   */
- private void setLeftPartWindow(){
+ private VBox setLeftPartWindow(){
      VBox leftBox = new VBox(); //Left part Box
      //Upload file HBox
      HBox sourceFileBox = new HBox();// Set parts for upload file
@@ -306,7 +307,7 @@ private File openFile(File file){
      Button outputButton = new Button();
      outputFileBox.getChildren().addAll(outputLabel, outputText, outputButton);
      leftBox.getChildren().addAll(sourceFileBox, outputFileBox, setColumns());
-     
+     return leftBox;
  }
  /**
   * Setting columns for Item parameters(Price, weight, etc)
@@ -320,7 +321,7 @@ private File openFile(File file){
    Label price = new Label("Укажите колонку с количеством");
    TextField priceField = new TextField();
    columns.add(price, 0, 0); columns.add(priceField, 1, 0);
-   //Ads label and text field with pieces in pack column in excel
+   //Adds label and text field with pieces in pack column in excel
    Label numInPacks = new Label("Столбец с количеством наименований в коробке");
    TextField itemsInPackF = new  TextField();
    columns.add(numInPacks, 1, 0); columns.add(itemsInPackF, 1, 1);
@@ -345,9 +346,10 @@ private File openFile(File file){
  /**
   * Setting right part of the main window
   */
- private void setRightPart(){
-     HBox rihtBox = new HBox();
-     
+ private HBox setRightPartWindow(){
+     HBox rightBox = new HBox();
+     rightBox.getChildren().addAll(containersList(), addContainerForm());
+     return rightBox;
  }/**
   * Creates containers list component
   * @return containersList
@@ -355,10 +357,11 @@ private File openFile(File file){
  private TableView containersList(){
      TableView containersList = new TableView();
      TableColumn column = new TableColumn("Типы контейнеров");
+     containersList.getColumns().add(column);
      return containersList;
  }
  /**
-  * 
+  * Creates adding container form to the right part of the window
   */
  private GridPane addContainerForm(){
      GridPane addContainerForm = new GridPane();
@@ -381,5 +384,19 @@ private File openFile(File file){
      Button removeButton = new Button("-");
      addContainerForm.add(addCButton, 0, 3); addContainerForm.add(removeButton, 1, 3);
      return addContainerForm;
+ }
+ 
+ private GridPane setMainWindow(){
+ GridPane mainWindow = new GridPane();
+ mainWindow.setHgap(10);
+ mainWindow.setVgap(10);
+ Label welcome = new Label("Добро пожаловать в программу по респределению "
+         + "контейнеров");
+ mainWindow.add(welcome, 0, 0, 2, 1);
+ mainWindow.add(setLeftPartWindow(), 0, 1); mainWindow.add(setRightPartWindow(), 1, 1);
+ TextArea reportWindow = new TextArea();
+ reportWindow.setEditable(false);
+ mainWindow.add(reportWindow, 0, 3, 2, 1);
+ return mainWindow;
  }
 }
