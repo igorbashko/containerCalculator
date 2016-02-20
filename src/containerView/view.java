@@ -29,6 +29,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import containerController.controller;
 import javafx.geometry.HPos;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -201,7 +202,7 @@ public class view {
               }
         });
        
-       Scene scene = new Scene(setMainWindow(), 950, 700);
+       Scene scene = new Scene(setMainWindow(), 960, 700);
        primaryStage.setScene(scene);
        primaryStage.show();
        textInitialise();
@@ -299,9 +300,11 @@ private File openFile(File file){
      GridPane chooseFilesPane = new GridPane();
      chooseFilesPane.setHgap(10);
      chooseFilesPane.setVgap(10);
+     chooseFilesPane.setPadding(new Insets(10, 10, 10, 10));
      Label sourceFileLabel = new Label("Исходный файл");
      chooseFilesPane.add(sourceFileLabel, 0, 0);//Adds choose file label
      TextField sourceTextField = new TextField();
+     sourceTextField.setMinWidth(250);
      chooseFilesPane.add(sourceTextField, 1, 0);//Adds choose file text field
      Button setFileBtn = new Button("Выбрать");
      chooseFilesPane.add(setFileBtn, 2, 0);
@@ -312,7 +315,7 @@ private File openFile(File file){
      TextField outputText = new TextField();
      chooseFilesPane.add(outputText, 1, 1);
      Button outputButton = new Button("Выбрать");
-     chooseFilesPane.add(outputButton, 0, 2);
+     chooseFilesPane.add(outputButton, 2, 1);
      //outputFileBox.getChildren().addAll(outputLabel, outputText, outputButton);
      leftBox.getChildren().addAll(chooseFilesPane, setColumns());
      return leftBox;
@@ -325,30 +328,43 @@ private File openFile(File file){
     columns.gridLinesVisibleProperty().setValue(Boolean.TRUE);
     columns.setHgap(10);
     columns.setVgap(10);
+    //Adds label with Instructions which buttons to press
+    Label hintLabel = new Label("Укажите столбцы, соответсвующие данным,"
+            + "указанным внизу");
+    hintLabel.setFont(Font.font("Tahome", FontWeight.NORMAL, 15));
+    columns.add(hintLabel, 0, 0, 2, 1);
+    //Text field and label with item Name
+    Label nameLabel = new Label("Название товара");
+    TextField nameText = new TextField();
+    columns.add(nameLabel, 0, 1); columns.add(nameText, 1, 1);
+    //Price
+    Label price = new Label("Цена");
+    TextField priceField =  new TextField();
+    columns.add(price, 0, 2); columns.add(priceField, 1, 2);
     //Adds label and text field with price column in excel
-   Label price = new Label("Укажите колонку с количеством");
-   TextField priceField = new TextField();
-   columns.add(price, 0, 0); columns.add(priceField, 1, 0);
+   Label numOfItems = new Label("Укажите колонку с количеством");
+   TextField numOfItemsField = new TextField();
+   columns.add(numOfItems, 0, 3); columns.add(numOfItemsField, 1, 3);
    //Adds label and text field with pieces in pack column in excel
    Label numInPacks = new Label("Столбец с количеством наименований в коробке");
    TextField itemsInPackF = new  TextField();
-   columns.add(numInPacks, 0, 1); columns.add(itemsInPackF, 1, 1);
+   columns.add(numInPacks, 0, 4); columns.add(itemsInPackF, 1, 4);
    // -//- number of packs
    Label numOfPacks = new Label("Столбец с количеством упаковок");
    TextField numOfPacksF = new TextField();
-   columns.add(numOfPacks, 0, 2); columns.add(numOfPacksF, 1, 2);
+   columns.add(numOfPacks, 0, 5); columns.add(numOfPacksF, 1, 5);
    //net weight of pack
    Label netWeightOfPack = new Label("Столбец с весом нетто упаковки");
    TextField netWeightOfPackF = new TextField();
-   columns.add(netWeightOfPack, 0, 3); columns.add(netWeightOfPackF, 1, 3);
+   columns.add(netWeightOfPack, 0, 6); columns.add(netWeightOfPackF, 1, 6);
    //gross weight of pack
    Label grossWeightOfPack = new Label("Столбец с весом брутто упаковки");
    TextField grossWeightF = new TextField();
-   columns.add(grossWeightOfPack, 0, 4); columns.add(grossWeightF, 1, 4);
+   columns.add(grossWeightOfPack, 0, 7); columns.add(grossWeightF, 1, 7);
    //volume of pack
    Label volumeOfPack = new Label("Укажите объем коробки");
    TextField volumeF = new TextField();
-   columns.add(volumeOfPack, 0, 5); columns.add(volumeF, 1, 5);
+   columns.add(volumeOfPack, 0, 8); columns.add(volumeF, 1, 8);
    return columns;
  }
  /**
@@ -357,16 +373,22 @@ private File openFile(File file){
  private HBox setRightPartWindow(){
      HBox rightBox = new HBox();
      rightBox.getChildren().addAll(containersList(), addContainerForm());
+     rightBox.setSpacing(10);
+     rightBox.setPadding(new Insets(8, 15, 15, 15));
      return rightBox;
  }/**
   * Creates containers list component
   * @return containersList
   */
- private TableView containersList(){
-     TableView containersList = new TableView();
-     TableColumn column = new TableColumn("Типы контейнеров");
-     containersList.getColumns().add(column);
-     return containersList;
+ private ListView containersList(){
+     //TableView containersList = new TableView();
+     //TableColumn column = new TableColumn("Типы контейнеров");
+     //containersList.getColumns().add(column);
+     ListView<String> containersList = new ListView<String>();
+     containersList.setMaxHeight(330);
+     containersList.setMaxWidth(240);
+    // return containersList;
+    return containersList;
  }
  /**
   * Creates adding container form to the right part of the window
