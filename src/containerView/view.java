@@ -296,7 +296,7 @@ private File openFile(File file){
  private VBox setLeftPartWindow(){
      VBox leftBox = new VBox(); //Left part Box
      leftBox.setSpacing(10);
-     //Upload file HBox
+     //Upload file HBox///
      HBox sourceFileBox = new HBox();// Set parts for upload file
      sourceFileBox.setSpacing(10);
      Label sourceFileLabel = new Label("Исходный файл");
