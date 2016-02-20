@@ -294,23 +294,27 @@ private File openFile(File file){
   * output and input columns and rows range buttons
   */
  private VBox setLeftPartWindow(){
-     VBox leftBox = new VBox(); //Left part Box
-     leftBox.setSpacing(10);
-     //Upload file HBox///
-     HBox sourceFileBox = new HBox();// Set parts for upload file
-     sourceFileBox.setSpacing(10);
+    VBox leftBox = new VBox(); //Left part Box
+     // Set parts for upload file
+     GridPane chooseFilesPane = new GridPane();
+     chooseFilesPane.setHgap(10);
+     chooseFilesPane.setVgap(10);
      Label sourceFileLabel = new Label("Исходный файл");
+     chooseFilesPane.add(sourceFileLabel, 0, 0);//Adds choose file label
      TextField sourceTextField = new TextField();
+     chooseFilesPane.add(sourceTextField, 1, 0);//Adds choose file text field
      Button setFileBtn = new Button("Выбрать");
-     sourceFileBox.getChildren().addAll(sourceFileLabel, sourceTextField, setFileBtn);
+     chooseFilesPane.add(setFileBtn, 2, 0);
      //Output file Box
-     HBox outputFileBox = new HBox();
-     outputFileBox.setSpacing(10);
+    // HBox outputFileBox = new HBox();
      Label outputLabel = new Label("Файл результата");
+     chooseFilesPane.add(outputLabel, 0, 1);
      TextField outputText = new TextField();
-     Button outputButton = new Button();
-     outputFileBox.getChildren().addAll(outputLabel, outputText, outputButton);
-     leftBox.getChildren().addAll(sourceFileBox, outputFileBox, setColumns());
+     chooseFilesPane.add(outputText, 1, 1);
+     Button outputButton = new Button("Выбрать");
+     chooseFilesPane.add(outputButton, 0, 2);
+     //outputFileBox.getChildren().addAll(outputLabel, outputText, outputButton);
+     leftBox.getChildren().addAll(chooseFilesPane, setColumns());
      return leftBox;
  }
  /**
