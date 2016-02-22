@@ -325,7 +325,7 @@ private File openFile(File file){
   */
  private GridPane setColumns(){
     GridPane columns = new GridPane();
-    columns.gridLinesVisibleProperty().setValue(Boolean.TRUE);
+   // columns.gridLinesVisibleProperty().setValue(Boolean.TRUE);
     columns.setHgap(10);
     columns.setVgap(10);
     //Adds label with Instructions which buttons to press
@@ -381,14 +381,10 @@ private File openFile(File file){
   * @return containersList
   */
  private ListView containersList(){
-     //TableView containersList = new TableView();
-     //TableColumn column = new TableColumn("Типы контейнеров");
-     //containersList.getColumns().add(column);
      ListView<String> containersList = new ListView<String>();
      containersList.setMaxHeight(330);
      containersList.setMaxWidth(240);
-    // return containersList;
-    return containersList;
+     return containersList;
  }
  /**
   * Creates adding container form to the right part of the window
@@ -420,15 +416,20 @@ private File openFile(File file){
  GridPane mainWindow = new GridPane();
  mainWindow.setHgap(10);
  mainWindow.setVgap(10);
- mainWindow.gridLinesVisibleProperty().setValue(Boolean.TRUE);
+ //mainWindow.gridLinesVisibleProperty().setValue(Boolean.TRUE);
  Label welcome = new Label("Добро пожаловать в программу по загрузке контейнеров");
  GridPane.setHalignment(welcome, HPos.CENTER);
  welcome.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
  mainWindow.add(welcome, 0, 0, 2, 1);
  mainWindow.add(setLeftPartWindow(), 0, 1); mainWindow.add(setRightPartWindow(), 1, 1);
+ //Report 
+ Label reportLabel = new Label("Окно отчета");
+ mainWindow.add(reportLabel, 0, 3, 2, 1);
+ GridPane.setHalignment(reportLabel, HPos.CENTER);
+ reportLabel.setFont(Font.font("Tahome", FontWeight.NORMAL, 20));
  TextArea reportWindow = new TextArea();
  reportWindow.setEditable(false);
- mainWindow.add(reportWindow, 0, 3, 2, 1);
+ mainWindow.add(reportWindow, 0, 4, 2, 1);
  return mainWindow;
  }
 }
