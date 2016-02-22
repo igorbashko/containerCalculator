@@ -411,7 +411,10 @@ private File openFile(File file){
      addContainerForm.add(addCButton, 0, 3); addContainerForm.add(removeButton, 1, 3);
      return addContainerForm;
  }
- 
+ /**
+  * Sets main window view 
+  * @return GridPane with main window
+  */
  private GridPane setMainWindow(){
  GridPane mainWindow = new GridPane();
  mainWindow.setHgap(10);
