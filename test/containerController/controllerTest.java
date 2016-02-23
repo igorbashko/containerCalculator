@@ -123,9 +123,15 @@ public class controllerTest {
         demo = new crypto();
         demo.getUniqueId();
     }
-    @Test
+    @Ignore
     public void testCore(){
         controller cont = controller.getController();
         cont.testRun();
+    }
+    @Test
+    public void restRegx(){
+      controller cont = controller.getController();
+      cont.setOutput("/jfldsk/jfld/jlfk/ghj.xlsx");
+      //assertEquals(cont.regex("/fhsdk/fhk/hjk.xls"), "xls");
     }
  }

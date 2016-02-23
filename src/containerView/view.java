@@ -65,6 +65,7 @@ public class view {
     private String sumGrossWeight;
     private String volumeOfPack;
     private String sumVolume;
+    private Stage openStage = new Stage();
     
     
     public void start(Stage primaryStage){
@@ -201,7 +202,7 @@ public class view {
               System.out.println(sumVolumeField.getText());
               }
         });
-       
+       openStage.initOwner(primaryStage);
        Scene scene = new Scene(setMainWindow(), 960, 700);
        primaryStage.setScene(scene);
        primaryStage.show();
@@ -294,6 +295,8 @@ private File openFile(File file){
   * Sets Left part of the main window with source file,
   * output and input columns and rows range buttons
   */
+ TextField sourceTextField = new TextField();
+ 
  private VBox setLeftPartWindow(){
     VBox leftBox = new VBox(); //Left part Box
      // Set parts for upload file
@@ -303,11 +306,11 @@ private File openFile(File file){
      chooseFilesPane.setPadding(new Insets(10, 10, 10, 10));
      Label sourceFileLabel = new Label("Исходный файл");
      chooseFilesPane.add(sourceFileLabel, 0, 0);//Adds choose file label
-     TextField sourceTextField = new TextField();
      sourceTextField.setMinWidth(250);
      chooseFilesPane.add(sourceTextField, 1, 0);//Adds choose file text field
      Button setFileBtn = new Button("Выбрать");
      chooseFilesPane.add(setFileBtn, 2, 0);
+     setSourceFileButton(setFileBtn);//Programs button to show path to the source file
      //Output file Box
     // HBox outputFileBox = new HBox();
      Label outputLabel = new Label("Файл результата");
@@ -435,4 +438,25 @@ private File openFile(File file){
  mainWindow.add(reportWindow, 0, 4, 2, 1);
  return mainWindow;
  }
+ /**
+  * Sets path to sourceFile in the source Text Field
+  */
+ private void setPathToSource(){
+     FileChooser chooseFile = new FileChooser();
+    File path = chooseFile.showOpenDialog(openStage);
+    if(path !=null)
+        this.sourceTextField.setText(path.getAbsolutePath());
+ }
+ /**
+  * Programs button to set path to the source file
+  * @param btn
+  */
+ private void setSourceFileButton(Button btn){
+     btn.setOnAction(new EventHandler<ActionEvent>(){
+         public void handle(ActionEvent event){
+             setPathToSource();
+         }
+     });
+ }
+ 
 }

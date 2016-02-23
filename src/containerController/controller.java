@@ -26,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import licensegenerator.Generator;
 import org.apache.poi.*;
@@ -368,4 +369,20 @@ public class controller{
        runSorting();
        writeOutput();
    }
+  public void setOutputFile(String sourceFilePath, TextField outputField){
+      
+  }
+  
+  public String setOutput (String input){
+      String output = input.replaceAll("\\.+(\\w+[a-z])(?<=\\.\\w{1,5}[a-z])", "");
+      /*
+      Pattern pat = Pattern.compile("(\\w+[a-z])(?<=\\.\\w{1,5}[a-z])");
+      Matcher m = pat.matcher(input);
+      String s = new String();
+      m.find(); //doesn't work without this shit
+      s= m.group();
+      */
+      output+="Output.xlsx";
+     return output;
+  }
 }
