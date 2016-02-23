@@ -374,7 +374,7 @@ public class controller{
   }
   
   public String setOutput (String input){
-      String output = input.replaceAll("\\.+(\\w+[a-z])(?<=\\.\\w{1,5}[a-z])", "");
+      String output = input.replaceAll("\\.+(\\w+[a-z])(?<=\\.\\w{1,5})", "");
       /*
       Pattern pat = Pattern.compile("(\\w+[a-z])(?<=\\.\\w{1,5}[a-z])");
       Matcher m = pat.matcher(input);
