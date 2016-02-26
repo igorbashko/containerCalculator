@@ -295,8 +295,11 @@ private File openFile(File file){
   * Sets Left part of the main window with source file,
   * output and input columns and rows range buttons
   */
- TextField sourceTextField = new TextField();
- 
+ private TextField sourceTextField = new TextField();//field with input file path
+ private TextField outputFileField = new TextField();//field with ouptut file path
+ /**
+  *Get input file text field 
+  */
  private VBox setLeftPartWindow(){
     VBox leftBox = new VBox(); //Left part Box
      // Set parts for upload file
@@ -315,8 +318,8 @@ private File openFile(File file){
     // HBox outputFileBox = new HBox();
      Label outputLabel = new Label("Файл результата");
      chooseFilesPane.add(outputLabel, 0, 1);
-     TextField outputText = new TextField();
-     chooseFilesPane.add(outputText, 1, 1);
+     outputFileField = new TextField();
+     chooseFilesPane.add(outputFileField, 1, 1);
      Button outputButton = new Button("Выбрать");
      chooseFilesPane.add(outputButton, 2, 1);
      //outputFileBox.getChildren().addAll(outputLabel, outputText, outputButton);
@@ -455,8 +458,15 @@ private File openFile(File file){
      btn.setOnAction(new EventHandler<ActionEvent>(){
          public void handle(ActionEvent event){
              setPathToSource();
+             setOutputText();
          }
      });
+ }
+ /**
+  * Sets output text field
+  */
+ private void setOutputText(){
+  this.outputFileField.setText(cont.setOutputText(this.sourceTextField.getText()));
  }
  
 }

@@ -131,7 +131,7 @@ public class controllerTest {
     @Test
     public void restRegx(){
       controller cont = controller.getController();
-      cont.setOutput("/jfldsk/jfld/jlfk/ghj.xlsx");
+     // cont.setOutput("/jfldsk/jfld/jlfk/ghj.xlsx");
       //assertEquals(cont.regex("/fhsdk/fhk/hjk.xls"), "xls");
     }
  }

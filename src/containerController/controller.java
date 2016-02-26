@@ -38,6 +38,7 @@ import org.apache.poi.ss.util.CellReference;
  * @author igor
  */
 public class controller{
+    private view View;
     private static controller cont = null;
     private int firstNumber;
     private int secondNumber;
@@ -59,8 +60,11 @@ public class controller{
     private List<Container> finalContainers;
     private Stock sortedStock;
     private List <Container> containers;
-            private controller(){};
-    public static controller getController(){
+            
+    
+    private controller(){};
+    
+            public static controller getController(){
         if(cont == null){
             cont = new controller();
         }
@@ -227,8 +231,8 @@ public class controller{
     * Starting the application
     */
    public void createView(Stage stage){
-       view newView = new view();
-       newView.start(stage);
+       View = new view();
+       View.start(stage);
    }
    /**
     * Generating unique indentifier 
@@ -369,19 +373,13 @@ public class controller{
        runSorting();
        writeOutput();
    }
-  public void setOutputFile(String sourceFilePath, TextField outputField){
-      
-  }
-  
-  public String setOutput (String input){
+  /**
+   * Method to form name and path of output file from input file string
+   * @param input input file name and path
+   * @return output file path
+   */
+  public String setOutputText (String input){
       String output = input.replaceAll("\\.+(\\w+[a-z])(?<=\\.\\w{1,5})", "");
-      /*
-      Pattern pat = Pattern.compile("(\\w+[a-z])(?<=\\.\\w{1,5}[a-z])");
-      Matcher m = pat.matcher(input);
-      String s = new String();
-      m.find(); //doesn't work without this shit
-      s= m.group();
-      */
       output+="Output.xlsx";
      return output;
   }
