@@ -431,7 +431,11 @@ private File openFile(File file){
  welcome.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
  mainWindow.add(welcome, 0, 0, 2, 1);
  mainWindow.add(setLeftPartWindow(), 0, 1); mainWindow.add(setRightPartWindow(), 1, 1);
- //Report 
+//Calculate button
+Button calculateButton = new Button("Подсчитать");
+GridPane.setHalignment(calculateButton, HPos.RIGHT);
+mainWindow.add(calculateButton, 1, 2);
+//Report 
  Label reportLabel = new Label("Окно отчета");
  mainWindow.add(reportLabel, 0, 3, 2, 1);
  GridPane.setHalignment(reportLabel, HPos.CENTER);
