@@ -329,6 +329,15 @@ private File openFile(File file){
  /**
   * Setting columns for Item parameters(Price, weight, etc)
   */
+ private static final TextField nameText = new TextField(); //Name of the item
+ private static final TextField priceField = new TextField(); //Price of the text field
+ private static final TextField numOfItemsField = new TextField(); //number of the item
+ private static final TextField itemsInPackF = new TextField();//items in pack
+ private static final TextField numOfPacksF = new TextField(); // number of packs
+ private static final TextField netWeightOfPackF = new TextField(); //net weight of pack
+ private static final TextField grossWeightOfPackF = new TextField();// gross weight of pack
+ private static final TextField volumeOfPackF = new TextField();
+ 
  private GridPane setColumns(){
     GridPane columns = new GridPane();
    // columns.gridLinesVisibleProperty().setValue(Boolean.TRUE);
@@ -341,36 +350,29 @@ private File openFile(File file){
     columns.add(hintLabel, 0, 0, 2, 1);
     //Text field and label with item Name
     Label nameLabel = new Label("Название товара");
-    TextField nameText = new TextField();
     columns.add(nameLabel, 0, 1); columns.add(nameText, 1, 1);
     //Price
     Label price = new Label("Цена");
-    TextField priceField =  new TextField();
     columns.add(price, 0, 2); columns.add(priceField, 1, 2);
     //Adds label and text field with price column in excel
    Label numOfItems = new Label("Укажите колонку с количеством");
-   TextField numOfItemsField = new TextField();
    columns.add(numOfItems, 0, 3); columns.add(numOfItemsField, 1, 3);
    //Adds label and text field with pieces in pack column in excel
    Label numInPacks = new Label("Столбец с количеством наименований в коробке");
-   TextField itemsInPackF = new  TextField();
    columns.add(numInPacks, 0, 4); columns.add(itemsInPackF, 1, 4);
    // -//- number of packs
    Label numOfPacks = new Label("Столбец с количеством упаковок");
-   TextField numOfPacksF = new TextField();
    columns.add(numOfPacks, 0, 5); columns.add(numOfPacksF, 1, 5);
    //net weight of pack
    Label netWeightOfPack = new Label("Столбец с весом нетто упаковки");
-   TextField netWeightOfPackF = new TextField();
    columns.add(netWeightOfPack, 0, 6); columns.add(netWeightOfPackF, 1, 6);
    //gross weight of pack
    Label grossWeightOfPack = new Label("Столбец с весом брутто упаковки");
-   TextField grossWeightF = new TextField();
-   columns.add(grossWeightOfPack, 0, 7); columns.add(grossWeightF, 1, 7);
+   columns.add(grossWeightOfPack, 0, 7); 
+   columns.add(grossWeightOfPackF, 1, 7);
    //volume of pack
    Label volumeOfPack = new Label("Укажите объем коробки");
-   TextField volumeF = new TextField();
-   columns.add(volumeOfPack, 0, 8); columns.add(volumeF, 1, 8);
+   columns.add(volumeOfPack, 0, 8); columns.add(volumeOfPackF, 1, 8);
    return columns;
  }
  /**
@@ -471,6 +473,23 @@ mainWindow.add(calculateButton, 1, 2);
   */
  private void setOutputText(){
   this.outputFileField.setText(cont.setOutputText(this.sourceTextField.getText()));
+ }
+ /**
+  * Returns letters of excel columns typed by the user
+  * @return array with columns letters for passing them to reader
+  */
+ public String[] passColumnsToReader(){
+     String itemName = nameText.getText();
+     String itemPrice = priceField.getText();
+     String numOfItems = numOfItemsField.getText();
+     String itemsInPack = itemsInPackF.getText();
+     String numOfPacks = numOfPacksF.getText();
+     String netWeight = netWeightOfPackF.getText();
+     String grossWeightOfPack = grossWeightOfPackF.getText();
+     String volumeOfPack = volumeOfPackF.getText();
+     String [] columns ={itemName, itemPrice, numOfItems, itemsInPack,
+     numOfPacks, netWeight, grossWeightOfPack, volumeOfPack};
+   return columns;  
  }
  
 }
