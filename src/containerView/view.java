@@ -500,7 +500,7 @@ mainWindow.add(calculateButton, 1, 2);
      return this.sourceTextField.getText();
  }
 private List<containerInList> typesOfContainers; //types of which user inputs
-    
+   
 private containerInList setContainers(String name, String kg, String m3){
        int weight = Integer.parseInt(kg);
        int volume = Integer.parseInt(m3);
