@@ -353,7 +353,8 @@ public class controller{
     * Runs sorting of the stock and matching them with the containers
     */
    private void runSorting(){
-       Optimizer optimizer = new Optimizer(stock, containers);
+       //Optimizer optimizer = new Optimizer(stock, containers);      was before 
+       Optimizer optimizer = new Optimizer(stock);
        optimizer.sort();
        this.finalContainers = optimizer.getContainers();
        this.sortedStock = optimizer.getStock();
@@ -384,7 +385,7 @@ public class controller{
      return output;
   }
   /**
-   * Reads data specified by user in the interface
+   * Reads data specified by user in the interfac
    */
   private void readFromFile(){
       String path = View.getSourcePath();

@@ -28,6 +28,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import containerController.controller;
+import java.util.List;
 import javafx.geometry.HPos;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
@@ -491,7 +492,20 @@ mainWindow.add(calculateButton, 1, 2);
      numOfPacks, netWeight, grossWeightOfPack, volumeOfPack};
    return columns;  
  }
+ /**
+  * Returns path of the input file
+  * @return path of the input file
+  */
  public String getSourcePath(){
      return this.sourceTextField.getText();
  }
+private List<containerInList> typesOfContainers; //types of which user inputs
+    
+private containerInList setContainers(String name, String kg, String m3){
+       int weight = Integer.parseInt(kg);
+       int volume = Integer.parseInt(m3);
+       containerInList container = new containerInList(name, weight, volume);
+       return container;
+    }
+
 }

@@ -34,9 +34,16 @@ public class Optimizer {
     private Stock workStock; //place where we store types of containers to add
     //items into them later
     
-    public Optimizer(Stock stock, List <Container> typesOfContainers ){
+    public Optimizer(Stock stock){
         this.stock = stock;
-        this.typesOfContainers = typesOfContainers;
+        //this.typesOfContainers = typesOfContainers;
+    }
+    /**
+     * Sets types of containers specified by user in the interface
+     * @param setOfContainers List of types of containers specified by user
+     */
+    public void setContainers(List<Container> setOfContainers){
+        this.typesOfContainers = setOfContainers;
     }
       /**
        * Main sorting methods. Takes list of items to sort checks optimal
