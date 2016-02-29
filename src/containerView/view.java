@@ -478,7 +478,7 @@ mainWindow.add(calculateButton, 1, 2);
   * Returns letters of excel columns typed by the user
   * @return array with columns letters for passing them to reader
   */
- public String[] passColumnsToReader(){
+ public String[] getColumns(){
      String itemName = nameText.getText();
      String itemPrice = priceField.getText();
      String numOfItems = numOfItemsField.getText();
@@ -491,5 +491,7 @@ mainWindow.add(calculateButton, 1, 2);
      numOfPacks, netWeight, grossWeightOfPack, volumeOfPack};
    return columns;  
  }
- 
+ public String getSourcePath(){
+     return this.sourceTextField.getText();
+ }
 }

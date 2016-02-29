@@ -22,8 +22,6 @@ import java.util.Map;
 public class Optimizer {
     private Stock stock;
     private List <Container> typesOfContainers;
-    private double maxWeight; //weight capacity of containers list
-    private double maxVolume; //volume capacity of container list
     private Container minContainer;//container with minimum wasted spaces 
     //among all avialable containers
     private Stock minStock;//stock which corresponds to the minimum container

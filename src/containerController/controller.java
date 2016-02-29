@@ -383,4 +383,13 @@ public class controller{
       output+="Output.xlsx";
      return output;
   }
+  /**
+   * Reads data specified by user in the interface
+   */
+  private void readFromFile(){
+      String path = View.getSourcePath();
+      int sheetNumber = 0;
+      String [] columns = View.getColumns();
+      this.readWriter = new readWriter(path, sheetNumber, columns);
+  }
 }
