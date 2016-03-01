@@ -28,7 +28,11 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import containerController.controller;
+import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
@@ -381,7 +385,7 @@ private File openFile(File file){
   */
  private HBox setRightPartWindow(){
      HBox rightBox = new HBox();
-     rightBox.getChildren().addAll(containersList(), addContainerForm());
+     rightBox.getChildren().addAll(containersList, addContainerForm());
      rightBox.setSpacing(10);
      rightBox.setPadding(new Insets(8, 15, 15, 15));
      return rightBox;
@@ -389,11 +393,11 @@ private File openFile(File file){
   * Creates containers list component
   * @return containersList
   */
- private ListView containersList(){
-     ListView<String> containersList = new ListView<String>();
+ private ListView containersList; //window with types of containers
+ private void containersList(){
+     containersList = new ListView<String>();
      containersList.setMaxHeight(330);
      containersList.setMaxWidth(240);
-     return containersList;
  }
  /**
   * Creates adding container form to the right part of the window
@@ -507,5 +511,16 @@ private containerInList setContainers(String name, String kg, String m3){
        containerInList container = new containerInList(name, weight, volume);
        return container;
     }
-
-}
+private ObservableList<containerInList> list; 
+ 
+private void setListOfContainers(){
+     list = FXCollections.observableList(new ArrayList<containerInList>());
+     list.addListener(new ListChangeListener(){
+         
+         @Override
+         public void onChanged(ListChangeListener.Change change){
+          containersList.                  
+         }
+     });
+  }
+ }

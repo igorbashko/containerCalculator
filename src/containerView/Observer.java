@@ -6,10 +6,13 @@
 
 package containerView;
 
+import java.util.List;
+
 /**
  *
  * @author igor
  */
-public class Observer {
-    
+public abstract class Observer {
+   protected List<containerInList> containersTypeList;
+   public abstract void update();
 }
