@@ -71,6 +71,7 @@ public class view {
     private String volumeOfPack;
     private String sumVolume;
     private Stage openStage = new Stage();
+    private ObservableList<containerInList> list = FXCollections.observableList(new ArrayList<containerInList>()); 
     
     
     public void start(Stage primaryStage){
@@ -383,18 +384,19 @@ private File openFile(File file){
  /**
   * Setting right part of the main window
   */
+ private ListView containersList = new ListView(); //window with types of containers
  private HBox setRightPartWindow(){
      HBox rightBox = new HBox();
+     containersList();
      rightBox.getChildren().addAll(containersList, addContainerForm());
      rightBox.setSpacing(10);
      rightBox.setPadding(new Insets(8, 15, 15, 15));
      return rightBox;
- }/**
-  * Creates containers list component
-  * @return containersList
+ }
+ /**
+  * Configures containers list component
   */
- private ListView containersList; //window with types of containers
- private void containersList(){
+  private void containersList(){
      containersList = new ListView<String>();
      containersList.setMaxHeight(330);
      containersList.setMaxWidth(240);
@@ -422,6 +424,10 @@ private File openFile(File file){
      Button addCButton = new Button("+");
      Button removeButton = new Button("-");
      addContainerForm.add(addCButton, 0, 3); addContainerForm.add(removeButton, 1, 3);
+     //Adds actions for buttons
+     addContainer(addCButton, setContainers(nameTextF.getText(), containerWeightF.getText(),
+             containerVolumeF.getText()));
+     removeContainer(removeButton);
      return addContainerForm;
  }
  /**
@@ -438,6 +444,7 @@ private File openFile(File file){
  welcome.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
  mainWindow.add(welcome, 0, 0, 2, 1);
  mainWindow.add(setLeftPartWindow(), 0, 1); mainWindow.add(setRightPartWindow(), 1, 1);
+ setListOfContainers();
 //Calculate button
 Button calculateButton = new Button("Подсчитать");
 GridPane.setHalignment(calculateButton, HPos.RIGHT);
@@ -503,24 +510,52 @@ mainWindow.add(calculateButton, 1, 2);
  public String getSourcePath(){
      return this.sourceTextField.getText();
  }
-private List<containerInList> typesOfContainers; //types of which user inputs
-   
-private containerInList setContainers(String name, String kg, String m3){
+
+ private containerInList setContainers(String name, String kg, String m3){
        int weight = Integer.parseInt(kg);
        int volume = Integer.parseInt(m3);
        containerInList container = new containerInList(name, weight, volume);
        return container;
     }
-private ObservableList<containerInList> list; 
- 
+/**
+ * Programs observable list of containers that reacts on any modifications 
+ */
 private void setListOfContainers(){
-     list = FXCollections.observableList(new ArrayList<containerInList>());
-     list.addListener(new ListChangeListener(){
-         
-         @Override
+  list.addListener(new ListChangeListener(){
+       @Override
          public void onChanged(ListChangeListener.Change change){
-          containersList.                  
-         }
+          containersList.getItems().clear();
+          ObservableList<String> names = FXCollections.observableArrayList();
+          for(containerInList type: list){
+              names.add(type.getName());
+          }
+          containersList.setItems(names);
+        }
      });
   }
+/**
+ * Method to program add container type button
+ * @param addButton button for adding container type into the list
+ * @param type type of the container to add
+ */
+private void addContainer(Button addButton, containerInList type){
+    addButton.setOnAction(new EventHandler<ActionEvent>(){
+      public void handle(ActionEvent event){
+            list.add(type);
+        }
+    });
+}
+/**
+ * Method to program remove container type button
+ * @param removeButton button for removing containers 
+ */
+private void removeContainer(Button removeButton){
+    String selected = containersList.getSelectionModel().getSelectedItem().toString();
+    for(containerInList type:list){
+        if(type.getName().equals(selected))
+            list.remove(type);
+    else
+    System.out.println("Choose item to delete");
+ }
+}
  }
