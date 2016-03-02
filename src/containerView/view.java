@@ -550,12 +550,17 @@ private void addContainer(Button addButton, containerInList type){
  * @param removeButton button for removing containers 
  */
 private void removeContainer(Button removeButton){
-    String selected = containersList.getSelectionModel().getSelectedItem().toString();
+    removeButton.setOnAction(new EventHandler<ActionEvent>(){
+        public void handle(ActionEvent event){
+        String selected = containersList.getSelectionModel().getSelectedItem().toString();
     for(containerInList type:list){
         if(type.getName().equals(selected))
             list.remove(type);
     else
     System.out.println("Choose item to delete");
- }
+ }   
+        }
+    });
+    
 }
  }
