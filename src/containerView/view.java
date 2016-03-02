@@ -29,6 +29,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import containerController.controller;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -556,9 +557,9 @@ private void removeContainer(Button removeButton){
     removeButton.setOnAction(new EventHandler<ActionEvent>(){
         public void handle(ActionEvent event){
         String selected = containersList.getSelectionModel().getSelectedItem().toString();
-    for(containerInList type:list){
-        if(type.getName().equals(selected))
-            list.remove(type);
+    for(Iterator<containerInList> iterator = list.iterator(); iterator.hasNext();){
+        if(iterator.next().equals(selected))
+            iterator.remove();
     else
     System.out.println("Choose item to delete");
  }   
