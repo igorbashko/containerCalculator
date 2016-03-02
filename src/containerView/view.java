@@ -60,17 +60,6 @@ public class view {
     private TextField volumeOfPackField;
     private TextField sumVolumeField;
     private TextField namesField;
-    private String names;
-    private String rowsRange;
-    private String itemsNumber;
-    private String inPack;
-    private String numberOfPacks;
-    private String netWeight;
-    private String sumNetWeight;
-    private String grossWeight;
-    private String sumGrossWeight;
-    private String volumeOfPack;
-    private String sumVolume;
     private Stage openStage = new Stage();
     private ObservableList<containerInList> list = FXCollections.observableList(new ArrayList<containerInList>()); 
     private containerInList currentContainer;
@@ -79,229 +68,13 @@ public class view {
     private TextField containerVolume = new TextField();
     
     public void start(Stage primaryStage){
-          GridPane grid = new GridPane();
-       grid.gridLinesVisibleProperty().setValue(Boolean.TRUE);
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(25,25,25,25));
-        //creating and adding heaging
-        Text heading = new Text("Добро пожаловать в программу по расчету загруки товаров");
-        heading.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        grid.add(heading, 0, 0, 3, 1);
-        //creating and adding file load label, filed and upload button
-        Label loginLabel = new Label("Выберите исходный файл");
-        grid.add(loginLabel, 0, 1);
-        TextField pathToSource = new TextField();
-        grid.add(pathToSource, 1, 1);
-        HBox uploadBtnH = new HBox();
-        uploadBtnH.setAlignment(Pos.BOTTOM_RIGHT);
-        Button uploadBtn = new Button("Upload File");
-        uploadBtnH.getChildren().add(uploadBtn);
-        grid.add(uploadBtnH, 2, 1);
-        FileChooser chooseFile = new FileChooser();
-        //Creating and adding rows of items label and field
-        Label ItemsLabel = new Label("Choose rows with items, rows");
-        grid.add(ItemsLabel, 0, 2);
-        ItemsField = new TextField();
-        grid.add(ItemsField, 1, 2);
-        //Creating and adding column with names if items
-        Label nameLabel = new Label("Write the column with names of items");
-        namesField = new TextField();
-        grid.add(nameLabel, 0, 3);
-        grid.add(namesField, 1, 3);
-        //Creating and adding number of items label and field
-        Label NILabel = new Label("Number of items, column");
-        grid.add(NILabel, 0, 4);
-        NIField= new TextField();
-        NIField.setText("123 vnhO,1,3  .");
-        grid.add(NIField, 1, 4);
-        //Cresting and adding number of items in pack label, field and checkBox
-         Label ItemsInPackLabel = new Label("");
-        grid.add(ItemsInPackLabel, 0, 5);
-        ItemsInPackField = new TextField();
-        grid.add(ItemsInPackField, 1, 5);
-        CheckBox ItemsInPackcb = new CheckBox("Don,t use");
-        grid.add(ItemsInPackcb, 2, 5);
-        //Creating and adding number of packs label and field
-        Label NofPacksLabel = new Label("Sign number of Packs, column");
-        grid.add(NofPacksLabel, 0, 6);
-        NofPacksField= new TextField();
-        grid.add(NofPacksField, 1, 6);
-        CheckBox NofPackscb = new CheckBox("Don't use");
-        grid.add(NofPackscb, 2, 6);
-        //Creating and adding net weight label and field
-        Label netWeightLabel  = new Label("Choose net weight column");
-        netWeightField = new TextField();
-        CheckBox netWeightcb = new CheckBox("Don't use");
-        grid.add(netWeightLabel, 0, 7);
-        grid.add(netWeightField, 1, 7);
-        grid.add(netWeightcb, 2, 7);
-        //Creating and adding sum of net Weight
-        Label sumNwLabel = new Label("choose sum Net Weight column");
-        sumNwField = new TextField();
-        CheckBox sumNwcb = new CheckBox("Don't use");
-        grid.add(sumNwLabel, 0, 8);
-        grid.add(sumNwField, 1, 8);
-        grid.add(sumNwcb, 2, 8);
-        //Creating and adding gross weight of pack column
-        Label grossWeightOfPackLabel = new Label("Sign gross weight, column");
-        grossWeightField = new TextField();
-        CheckBox grossWeightOfPackcb = new CheckBox("Don't use");
-        grid.add(grossWeightOfPackLabel, 0, 9);
-        grid.add(grossWeightField, 1, 9);
-        grid.add(grossWeightOfPackcb, 2, 9);
-        //Creating and adding gross weight column
-        Label sumGwLabel = new Label("Choose gross weight column");
-        sumGwField = new TextField();
-        grid.add(sumGwLabel, 0, 10);
-        grid.add(sumGwField, 1, 10);
-        //Creating and adding volume of pack 
-        Label volumeOfPackLabel = new Label("Choose volume of pack column");
-        volumeOfPackField = new TextField();
-        CheckBox volumeOfPackcb = new CheckBox("Don't use it");
-        grid.add(volumeOfPackLabel, 0, 11);
-        grid.add(volumeOfPackField, 1, 11);
-        grid.add(volumeOfPackcb, 2, 11);
-        //Creating and adding sum volume if items credentials
-        Label sumVolumeLabel = new Label("Choose volume of packs of an item, column");
-        sumVolumeField = new TextField();
-        grid.add(sumVolumeLabel, 0, 12);
-        grid.add(sumVolumeField, 1, 12);
-        //Creating and setting calculate button
-         Button btn = new Button();
-        btn.setText("Calculate");
-        HBox calculateBtnH = new HBox();
-        calculateBtnH.getChildren().add(btn);
-        calculateBtnH.setAlignment(Pos.BOTTOM_RIGHT);
-        grid.add(calculateBtnH, 2, 13);
-        //Actions on buttons
-        //Choose source file button
-        uploadBtn.setOnAction(new EventHandler <ActionEvent>(){
-          @Override
-            public void handle(ActionEvent event ){
-                File selectedFile = chooseFile.showOpenDialog(primaryStage);
-                if(selectedFile != null){
-                    pathToSource.setText(openFile(selectedFile).getAbsolutePath());
-                }
-            }
-        });
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                
-               final Stage newStage = new Stage();
-              newStage.initModality(Modality.WINDOW_MODAL);
-              if(warningMessage()){
-                  setInputs();
-                 
-             containerCalc.readFromExcel(pathToSource.getText(), 
-                     names, rowsRange, itemsNumber,
-                     inPack, numberOfPacks, netWeight, sumNetWeight, grossWeight, 
-                     sumGrossWeight, volumeOfPack, sumVolume);
-              }
-               containerCalc.setWeightCapacity(27000);
-               containerCalc.setVolumeCapacity(27);
-               containerCalc.setFourty(56);
-               containerCalc.getNumberOfContainers();
-               containerCalc.findContainers();
-               containerCalc.sortItems();
-               containerCalc.printUnsorted();
-              showReport(newStage);
-              System.out.println(sumVolumeField.getText());
-              }
-        });
-       openStage.initOwner(primaryStage);
+        
        Scene scene = new Scene(setMainWindow(), 960, 700);
        primaryStage.setScene(scene);
        primaryStage.show();
-       textInitialise();
-    }
-     /*Method for accessing file through the file dialog*/
-private File openFile(File file){
-    return file;
-    }
- private void showReport(Stage stage){
-   // Stage secondStage = new Stage();
-    String message = "containers loaded: " + 
-            containerCalc.getNumOfContainers()+"\n"+
-                    "Fourties: " + containerCalc.getFourties()+"\n"+
-             "Number of twenties: "+containerCalc.getTwenties()+"\n"+
-              "Volume left: "+ containerCalc.getVolumeLeft() + "\n"+
-            "Weight left: " + containerCalc.getWeightLeft();
-          popupReport report = new popupReport(stage);
-          report.generalWarning(message);
-            
    }
- 
- private boolean warningMessage(){
-   popupReport warningReport = new popupReport(cont.getPopupStage());
-   Stage warningStage = new Stage();
-    if(cont.checkRowsField(ItemsField.getText())){
-     warningReport.generalWarning(cont.formMessage("ItemsField"));
-     return false;
-    }else if(cont.formatedValue(NIField.getText()) == null){
-        warningReport.generalWarning(cont.formMessage("NIField"));
-        return false;
-    }else if(cont.formatedValue(ItemsInPackField.getText())==null){
-        warningReport.generalWarning(cont.formMessage("inPack"));
-        return false;
-    }else if(cont.formatedValue(NofPacksField.getText()) == null){
-        warningReport.generalWarning(cont.formMessage("numberOfPacks"));
-        return false;
-    }else if(cont.formatedValue(netWeightField.getText()) == null){
-        warningReport.generalWarning(cont.formMessage("netWeight"));
-        return false;
-    }else if(cont.formatedValue(sumNwField.getText())==null){
-        warningReport.generalWarning(cont.formMessage("sumNet"));
-        return false;
-    }else if(cont.formatedValue(grossWeightField.getText())== null){
-        warningReport.generalWarning(cont.formMessage("grossWeight"));
-        return false;
-    }else if(cont.formatedValue(sumGwField.getText())==null){
-        warningReport.generalWarning(cont.formMessage("sumGrossWeight"));
-        return false;
-    }else if(cont.formatedValue(volumeOfPackField.getText())==null){
-        warningReport.generalWarning(cont.formMessage("itemVolume"));
-        return false;
-    }else if(cont.formMessage(sumVolumeField.getText()) == null){
-        warningReport.generalWarning(cont.formMessage("sumVolume"));
-        return false;
-    }else {
-        return true;
-    }
- }   
- /*Method for setting input variables from fields to global variables(Decision to
- put text from input fields to global variables was writtem just for
- convinience)*/
- private void setInputs(){
-     names = namesField.getText();
-     rowsRange = ItemsField.getText();
-     itemsNumber = cont.formatedValue(NIField.getText());
-     inPack = cont.formatedValue(ItemsInPackField.getText());
-     numberOfPacks = cont.formatedValue(NofPacksField.getText());
-     netWeight = cont.formatedValue(netWeightField.getText());
-     sumNetWeight = cont.formatedValue(sumNwField.getText());
-     grossWeight = cont.formatedValue(grossWeightField.getText());
-     sumGrossWeight = cont.formatedValue(sumGwField.getText());
-     volumeOfPack = cont.formatedValue(volumeOfPackField.getText());
-     sumVolume = cont.formatedValue(sumVolumeField.getText());
- }
- /*The method to input text in text fields(only in debugging purposes)*/
- private void textInitialise(){
-     this.namesField.setText("a");
-     this.ItemsField.setText("1-118");
-     this.NIField.setText("b");
-     this.ItemsInPackField.setText("j");
-     this.NofPacksField.setText("k");
-     this.netWeightField.setText("l");
-     this.sumNwField.setText("n");
-     this.grossWeightField.setText("m");
-     this.sumGwField.setText("o");
-     this.volumeOfPackField.setText("p");
-     this.sumVolumeField.setText("q");
- }/**
+    
+ /**
   * Sets Left part of the main window with source file,
   * output and input columns and rows range buttons
   */
@@ -339,6 +112,7 @@ private File openFile(File file){
  /**
   * Setting columns for Item parameters(Price, weight, etc)
   */
+ private static final TextField rows = new TextField(); //Rows range
  private static final TextField nameText = new TextField(); //Name of the item
  private static final TextField priceField = new TextField(); //Price of the text field
  private static final TextField numOfItemsField = new TextField(); //number of the item
@@ -353,36 +127,45 @@ private File openFile(File file){
    // columns.gridLinesVisibleProperty().setValue(Boolean.TRUE);
     columns.setHgap(10);
     columns.setVgap(10);
+    //Experiment with lambda expression 
+    leftColumn setColumn = (columnsN, label, field, rowNumber, labelText)->{
+     label.setText(labelText);
+     columnsN.add(label, 0, rowNumber);
+     columnsN.add(field, 1, rowNumber);
+    };
     //Adds label with Instructions which buttons to press
     Label hintLabel = new Label("Укажите столбцы, соответсвующие данным,"
             + "указанным внизу");
     hintLabel.setFont(Font.font("Tahome", FontWeight.NORMAL, 15));
     columns.add(hintLabel, 0, 0, 2, 1);
+    //Text and field with label and field of rows
+    Label rowsLabel = new Label();
+    setColumn.addToColumn(columns, rowsLabel, rows, 1, "fd");
     //Text field and label with item Name
     Label nameLabel = new Label("Название товара");
-    columns.add(nameLabel, 0, 1); columns.add(nameText, 1, 1);
+    columns.add(nameLabel, 0, 2); columns.add(nameText, 1, 2);
     //Price
     Label price = new Label("Цена");
-    columns.add(price, 0, 2); columns.add(priceField, 1, 2);
+    columns.add(price, 0, 3); columns.add(priceField, 1, 3);
     //Adds label and text field with price column in excel
    Label numOfItems = new Label("Укажите колонку с количеством");
-   columns.add(numOfItems, 0, 3); columns.add(numOfItemsField, 1, 3);
+   columns.add(numOfItems, 0, 4); columns.add(numOfItemsField, 1, 4);
    //Adds label and text field with pieces in pack column in excel
    Label numInPacks = new Label("Столбец с количеством наименований в коробке");
-   columns.add(numInPacks, 0, 4); columns.add(itemsInPackF, 1, 4);
+   columns.add(numInPacks, 0, 5); columns.add(itemsInPackF, 1, 5);
    // -//- number of packs
    Label numOfPacks = new Label("Столбец с количеством упаковок");
-   columns.add(numOfPacks, 0, 5); columns.add(numOfPacksF, 1, 5);
+   columns.add(numOfPacks, 0, 6); columns.add(numOfPacksF, 1, 6);
    //net weight of pack
    Label netWeightOfPack = new Label("Столбец с весом нетто упаковки");
-   columns.add(netWeightOfPack, 0, 6); columns.add(netWeightOfPackF, 1, 6);
+   columns.add(netWeightOfPack, 0, 7); columns.add(netWeightOfPackF, 1, 7);
    //gross weight of pack
    Label grossWeightOfPack = new Label("Столбец с весом брутто упаковки");
-   columns.add(grossWeightOfPack, 0, 7); 
-   columns.add(grossWeightOfPackF, 1, 7);
+   columns.add(grossWeightOfPack, 0, 8); 
+   columns.add(grossWeightOfPackF, 1, 8);
    //volume of pack
    Label volumeOfPack = new Label("Укажите объем коробки");
-   columns.add(volumeOfPack, 0, 8); columns.add(volumeOfPackF, 1, 8);
+   columns.add(volumeOfPack, 0, 9); columns.add(volumeOfPackF, 1, 9);
    return columns;
  }
  /**
@@ -405,7 +188,6 @@ private File openFile(File file){
      containersList.setMaxHeight(330);
      containersList.setMaxWidth(240);
  }
-  
  /**
   * Creates adding container form to the right part of the window
   */
@@ -566,5 +348,8 @@ private void removeContainer(Button removeButton){
  }   
     });
   }
-
+interface leftColumn{
+    void addToColumn(GridPane grid, Label label, TextField textField,
+             int row, String labelText);
+}
 }

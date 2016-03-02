@@ -331,9 +331,9 @@ public class controller{
     */
    private void readData(){
        //test data 
-    //  String testPath = "/home/igorbashka/Documents/ДокиМаша/test.xlsx";
+      String testPath = "/home/igorbashka/Documents/ДокиМаша/test.xlsx";
     //String testPath = "/home/igor/Documents/China/HDHardware/test.xlsx";
-    String testPath = "/home/igor/Documents/test.xlsx";
+    //String testPath = "/home/igor/Documents/test.xlsx";
     int sheetNumber = 0;
     //
     String [] cells = {"a", "g", "b", "j", "k", "l","m","p"};
@@ -346,8 +346,8 @@ public class controller{
    private void setContainers(){
       containers = new ArrayList();
        //test data so fat
-       Container cont1 = new Container(25000, 27, new ArrayList<Item>());
-       Container cont2 = new Container(25000, 56, new ArrayList<Item>());
+       Container cont1 = new Container(25000, 27, new ArrayList<>());
+       Container cont2 = new Container(25000, 56, new ArrayList<>());
        //Container cont3 = new Container(6000, 15, new ArrayList<Item>());
        containers.add(cont1);
        containers.add(cont2);
@@ -366,9 +366,9 @@ public class controller{
     */
    private void writeOutput(){
        //test data
-       //String output = "/home/igorbashka/Documents/ДокиМаша/testOutput2.xlsx";
+       String output = "/home/igorbashka/Documents/ДокиМаша/testOutput2.xlsx";
        //String output = "/home/igor/Documents/China/testOutput2.xlsx";
-        String output = "/home/igor/Documents/testOutput2.xls";
+       // String output = "/home/igor/Documents/testOutput2.xls";
        readWriter.setContainers(finalContainers);
        readWriter.writeOutput(output);
    }
@@ -391,15 +391,22 @@ public class controller{
   /**
    * Reads data specified by user in the interface
    */
-  private void readFromFile(){
+  public void readFromFile(){
       String path = View.getSourcePath();
       int sheetNumber = 0;
       String [] columns = View.getColumns();
       this.readWriter = new readWriter(path, sheetNumber, columns);
   }
+   /**
+   * Sets list with types of containers from the user interface
+   * @param containersTypes list of containers types
+   */
   public void setContainersTypes(ObservableList<containerInList> containersTypes){
+      this.containers = new ArrayList();
       containersTypes.forEach((container)->{
-          int f = container.getKg();
+          containers.add(
+            new Container((double) container.getKg(),(double)container.getM3(),
+            new ArrayList<>()));
       });
   }
 }
