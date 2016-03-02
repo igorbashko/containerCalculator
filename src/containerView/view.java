@@ -72,7 +72,10 @@ public class view {
     private String sumVolume;
     private Stage openStage = new Stage();
     private ObservableList<containerInList> list = FXCollections.observableList(new ArrayList<containerInList>()); 
-    
+    private containerInList currentContainer;
+    private TextField containerName = new TextField();
+    private TextField containerWeight = new TextField();
+    private TextField containerVolume = new TextField();
     
     public void start(Stage primaryStage){
           GridPane grid = new GridPane();
@@ -401,6 +404,7 @@ private File openFile(File file){
      containersList.setMaxHeight(330);
      containersList.setMaxWidth(240);
  }
+  
  /**
   * Creates adding container form to the right part of the window
   */
@@ -410,23 +414,21 @@ private File openFile(File file){
      addContainerForm.setVgap(10);
      //Name of the container
      Label containerName = new Label("Имя контейнера");
-     TextField nameTextF = new TextField();
-     addContainerForm.add(containerName, 0, 0); addContainerForm.add(nameTextF, 1, 0);
+     addContainerForm.add(containerName, 0, 0); addContainerForm.add(this.containerName, 1, 0);
      //Weight capacity of the container
      Label containerWeight = new Label("кг");
-     TextField containerWeightF = new TextField();
-     addContainerForm.add(containerWeight, 0, 1); addContainerForm.add(containerWeightF, 1, 1);
+     addContainerForm.add(containerWeight, 0, 1); 
+     addContainerForm.add(this.containerWeight, 1, 1);
      //Volume capacity of the container 
      Label containerVolume = new Label("м3");
-     TextField containerVolumeF = new TextField();
-     addContainerForm.add(containerVolume, 0, 2); addContainerForm.add(containerVolumeF, 1, 2);
+     addContainerForm.add(containerVolume, 0, 2); 
+     addContainerForm.add(this.containerVolume, 1, 2);
      //Adds buttons add container and remove the container
      Button addCButton = new Button("+");
      Button removeButton = new Button("-");
      addContainerForm.add(addCButton, 0, 3); addContainerForm.add(removeButton, 1, 3);
      //Adds actions for buttons
-     addContainer(addCButton, setContainers(nameTextF.getText(), containerWeightF.getText(),
-             containerVolumeF.getText()));
+     addContainer(addCButton);
      removeContainer(removeButton);
      return addContainerForm;
  }
@@ -511,12 +513,12 @@ mainWindow.add(calculateButton, 1, 2);
      return this.sourceTextField.getText();
  }
 
- private containerInList setContainers(String name, String kg, String m3){
-       int weight = Integer.parseInt(kg);
-       int volume = Integer.parseInt(m3);
-       containerInList container = new containerInList(name, weight, volume);
-       return container;
-    }
+ private void setContainer(){
+     String containerName = this.containerName.getText();
+     int weight = Integer.parseInt(this.containerWeight.getText());
+     int volume = Integer.parseInt(this.containerVolume.getText());
+     this.currentContainer = new containerInList(containerName, weight, volume);  
+  }
 /**
  * Programs observable list of containers that reacts on any modifications 
  */
@@ -538,10 +540,11 @@ private void setListOfContainers(){
  * @param addButton button for adding container type into the list
  * @param type type of the container to add
  */
-private void addContainer(Button addButton, containerInList type){
+private void addContainer(Button addButton){
     addButton.setOnAction(new EventHandler<ActionEvent>(){
-      public void handle(ActionEvent event){
-            list.add(type);
+         public void handle(ActionEvent event){
+             setContainer();
+            list.add(currentContainer);
         }
     });
 }
