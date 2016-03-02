@@ -558,8 +558,10 @@ private void removeContainer(Button removeButton){
         public void handle(ActionEvent event){
         String selected = containersList.getSelectionModel().getSelectedItem().toString();
     for(Iterator<containerInList> iterator = list.iterator(); iterator.hasNext();){
-        if(iterator.next().equals(selected))
+        if(iterator.next().getName().equals(selected)){
             iterator.remove();
+            break;
+        }
     else
     System.out.println("Choose item to delete");
  }   
