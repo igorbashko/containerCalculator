@@ -42,7 +42,7 @@ public class Optimizer {
      * Sets types of containers specified by user in the interface
      * @param setOfContainers List of types of containers specified by user
      */
-    public void setContainers(List<Container> setOfContainers){
+    public void setCont(List<Container> setOfContainers){
         this.typesOfContainers = setOfContainers;
     }
       /**

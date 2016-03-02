@@ -123,12 +123,12 @@ public class controllerTest {
         demo = new crypto();
         demo.getUniqueId();
     }
-    @Ignore
+    @Test
     public void testCore(){
         controller cont = controller.getController();
         cont.testRun();
     }
-    @Test
+    @Ignore
     public void restRegx(){
       controller cont = controller.getController();
      // cont.setOutput("/jfldsk/jfld/jlfk/ghj.xlsx");

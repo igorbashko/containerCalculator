@@ -554,9 +554,8 @@ private void addContainer(Button addButton){
  * @param removeButton button for removing containers 
  */
 private void removeContainer(Button removeButton){
-    removeButton.setOnAction(new EventHandler<ActionEvent>(){
-        public void handle(ActionEvent event){
-        String selected = containersList.getSelectionModel().getSelectedItem().toString();
+    removeButton.setOnAction(event->{
+    String selected = containersList.getSelectionModel().getSelectedItem().toString();
     for(Iterator<containerInList> iterator = list.iterator(); iterator.hasNext();){
         if(iterator.next().getName().equals(selected)){
             iterator.remove();
@@ -565,8 +564,7 @@ private void removeContainer(Button removeButton){
     else
     System.out.println("Choose item to delete");
  }   
-        }
     });
-    
+  }
+
 }
- }

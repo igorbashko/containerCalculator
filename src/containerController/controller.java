@@ -26,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import licensegenerator.Generator;
@@ -60,6 +61,7 @@ public class controller{
     private List<Container> finalContainers;
     private Stock sortedStock;
     private List <Container> containers;
+    private Optimizer optimiser;
             
     
     private controller(){};
@@ -330,7 +332,8 @@ public class controller{
    private void readData(){
        //test data 
     //  String testPath = "/home/igorbashka/Documents/ДокиМаша/test.xlsx";
-    String testPath = "/home/igor/Documents/China/HDHardware/test.xlsx";
+    //String testPath = "/home/igor/Documents/China/HDHardware/test.xlsx";
+    String testPath = "/home/igor/Documents/test.xlsx";
     int sheetNumber = 0;
     //
     String [] cells = {"a", "g", "b", "j", "k", "l","m","p"};
@@ -364,7 +367,8 @@ public class controller{
    private void writeOutput(){
        //test data
        //String output = "/home/igorbashka/Documents/ДокиМаша/testOutput2.xlsx";
-       String output = "/home/igor/Documents/China/testOutput2.xlsx";
+       //String output = "/home/igor/Documents/China/testOutput2.xlsx";
+        String output = "/home/igor/Documents/testOutput2.xls";
        readWriter.setContainers(finalContainers);
        readWriter.writeOutput(output);
    }
@@ -385,12 +389,17 @@ public class controller{
      return output;
   }
   /**
-   * Reads data specified by user in the interfac
+   * Reads data specified by user in the interface
    */
   private void readFromFile(){
       String path = View.getSourcePath();
       int sheetNumber = 0;
       String [] columns = View.getColumns();
       this.readWriter = new readWriter(path, sheetNumber, columns);
+  }
+  public void setContainersTypes(ObservableList<containerInList> containersTypes){
+      containersTypes.forEach((container)->{
+          int f = container.getKg();
+      });
   }
 }
