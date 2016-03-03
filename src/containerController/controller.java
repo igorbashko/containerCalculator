@@ -329,20 +329,17 @@ public class controller{
     * Calls readWriter to read data from input file and sets
     * stock variable
     */
-   private void readData(){
+   public void readData(String [] cells, String filePath, int sheetNumber){
        //test data 
       String testPath = "/home/igorbashka/Documents/ДокиМаша/test.xlsx";
     //String testPath = "/home/igor/Documents/China/HDHardware/test.xlsx";
     //String testPath = "/home/igor/Documents/test.xlsx";
-    int sheetNumber = 0;
-    //
-    String [] cells = {"a", "g", "b", "j", "k", "l","m","p"};
     setReadWriter(testPath, sheetNumber, cells);
     this.stock = readWriter.readFile(0, 135);
   }
    /**
     * Sets list of types of containers that we want to use
-    */
+    *//*
    private void setContainers(){
       containers = new ArrayList();
        //test data so fat
@@ -352,7 +349,8 @@ public class controller{
        containers.add(cont1);
        containers.add(cont2);
        //containers.add(cont3);
-   }/**
+   }*/
+   /**
     * Runs sorting of the stock and matching them with the containers
     */
    private void runSorting(){
@@ -372,9 +370,9 @@ public class controller{
        readWriter.setContainers(finalContainers);
        readWriter.writeOutput(output);
    }
-   public void testRun(){
-       readData();
-       setContainers();
+   public void Run(){
+      /* readData();
+       setContainers();*/
        runSorting();
        writeOutput();
    }
@@ -387,15 +385,6 @@ public class controller{
       String output = input.replaceAll("\\.+(\\w+[a-z])(?<=\\.\\w{1,5})", "");
       output+="Output.xlsx";
      return output;
-  }
-  /**
-   * Reads data specified by user in the interface
-   */
-  public void readFromFile(){
-      String path = View.getSourcePath();
-      int sheetNumber = 0;
-      String [] columns = View.getColumns();
-      this.readWriter = new readWriter(path, sheetNumber, columns);
   }
    /**
    * Sets list with types of containers from the user interface

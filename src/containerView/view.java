@@ -140,7 +140,8 @@ public class view {
     columns.add(hintLabel, 0, 0, 2, 1);
     //Text and field with label and field of rows
     Label rowsLabel = new Label();
-    setColumn.addToColumn(columns, rowsLabel, rows, 1, "fd");
+    setColumn.addToColumn(columns, rowsLabel, rows, 1, "Диапазон строк");
+    
     //Text field and label with item Name
     Label nameLabel = new Label("Название товара");
     columns.add(nameLabel, 0, 2); columns.add(nameText, 1, 2);
@@ -292,10 +293,6 @@ mainWindow.add(calculateButton, 1, 2);
   * Returns path of the input file
   * @return path of the input file
   */
- public String getSourcePath(){
-     return this.sourceTextField.getText();
- }
-
  private void setContainer(){
      String containerName = this.containerName.getText();
      int weight = Integer.parseInt(this.containerWeight.getText());
@@ -348,8 +345,18 @@ private void removeContainer(Button removeButton){
  }   
     });
   }
+/**
+ * Experimental interface suppose to set left columns parameters block
+ */
 interface leftColumn{
     void addToColumn(GridPane grid, Label label, TextField textField,
              int row, String labelText);
 }
+
+private void runCalculate(Button calculateButton){
+     calculateButton.setOnAction(event->{
+         cont.readData(getColumns(), sourceTextField.getText());
+         cont.setContainersTypes(list);
+     });
+   }
 }

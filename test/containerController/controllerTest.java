@@ -126,7 +126,7 @@ public class controllerTest {
     @Test
     public void testCore(){
         controller cont = controller.getController();
-        cont.testRun();
+        cont.Run();
     }
     @Ignore
     public void restRegx(){
