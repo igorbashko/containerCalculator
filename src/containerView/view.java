@@ -113,6 +113,7 @@ public class view {
   * Setting columns for Item parameters(Price, weight, etc)
   */
  private static final TextField rows = new TextField(); //Rows range
+ private static final TextField sheetNumberF = new TextField(); //Excell sheet number
  private static final TextField nameText = new TextField(); //Name of the item
  private static final TextField priceField = new TextField(); //Price of the text field
  private static final TextField numOfItemsField = new TextField(); //number of the item
@@ -141,32 +142,34 @@ public class view {
     //Text and field with label and field of rows
     Label rowsLabel = new Label();
     setColumn.addToColumn(columns, rowsLabel, rows, 1, "Диапазон строк");
-    
+    //Text and field with sheet number
+    Label sheetNumber = new Label();
+    setColumn.addToColumn(columns, sheetNumber, sheetNumberF, 2, null);
     //Text field and label with item Name
     Label nameLabel = new Label("Название товара");
-    columns.add(nameLabel, 0, 2); columns.add(nameText, 1, 2);
+    columns.add(nameLabel, 0, 3); columns.add(nameText, 1, 3);
     //Price
     Label price = new Label("Цена");
-    columns.add(price, 0, 3); columns.add(priceField, 1, 3);
+    columns.add(price, 0, 4); columns.add(priceField, 1, 4);
     //Adds label and text field with price column in excel
    Label numOfItems = new Label("Укажите колонку с количеством");
-   columns.add(numOfItems, 0, 4); columns.add(numOfItemsField, 1, 4);
+   columns.add(numOfItems, 0, 5); columns.add(numOfItemsField, 1, 5);
    //Adds label and text field with pieces in pack column in excel
    Label numInPacks = new Label("Столбец с количеством наименований в коробке");
-   columns.add(numInPacks, 0, 5); columns.add(itemsInPackF, 1, 5);
+   columns.add(numInPacks, 0, 6); columns.add(itemsInPackF, 1, 6);
    // -//- number of packs
    Label numOfPacks = new Label("Столбец с количеством упаковок");
-   columns.add(numOfPacks, 0, 6); columns.add(numOfPacksF, 1, 6);
+   columns.add(numOfPacks, 0, 7); columns.add(numOfPacksF, 1, 7);
    //net weight of pack
    Label netWeightOfPack = new Label("Столбец с весом нетто упаковки");
-   columns.add(netWeightOfPack, 0, 7); columns.add(netWeightOfPackF, 1, 7);
+   columns.add(netWeightOfPack, 0, 8); columns.add(netWeightOfPackF, 1, 8);
    //gross weight of pack
    Label grossWeightOfPack = new Label("Столбец с весом брутто упаковки");
-   columns.add(grossWeightOfPack, 0, 8); 
-   columns.add(grossWeightOfPackF, 1, 8);
+   columns.add(grossWeightOfPack, 0, 9); 
+   columns.add(grossWeightOfPackF, 1, 9);
    //volume of pack
    Label volumeOfPack = new Label("Укажите объем коробки");
-   columns.add(volumeOfPack, 0, 9); columns.add(volumeOfPackF, 1, 9);
+   columns.add(volumeOfPack, 0, 10); columns.add(volumeOfPackF, 1, 10);
    return columns;
  }
  /**
@@ -232,9 +235,9 @@ public class view {
  mainWindow.add(setLeftPartWindow(), 0, 1); mainWindow.add(setRightPartWindow(), 1, 1);
  setListOfContainers();
 //Calculate button
-Button calculateButton = new Button("Подсчитать");
-GridPane.setHalignment(calculateButton, HPos.RIGHT);
-mainWindow.add(calculateButton, 1, 2);
+ Button calculateButton = new Button("Подсчитать");
+ GridPane.setHalignment(calculateButton, HPos.RIGHT);
+ mainWindow.add(calculateButton, 1, 2);
 //Report 
  Label reportLabel = new Label("Окно отчета");
  mainWindow.add(reportLabel, 0, 3, 2, 1);
@@ -355,7 +358,8 @@ interface leftColumn{
 
 private void runCalculate(Button calculateButton){
      calculateButton.setOnAction(event->{
-         cont.readData(getColumns(), sourceTextField.getText());
+         int sheetNumber = Integer.parseInt(sheetNumberF.getText());
+         cont.readData(getColumns(), sourceTextField.getText(), sheetNumber);
          cont.setContainersTypes(list);
      });
    }

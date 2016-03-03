@@ -334,7 +334,7 @@ public class controller{
       String testPath = "/home/igorbashka/Documents/ДокиМаша/test.xlsx";
     //String testPath = "/home/igor/Documents/China/HDHardware/test.xlsx";
     //String testPath = "/home/igor/Documents/test.xlsx";
-    setReadWriter(testPath, sheetNumber, cells);
+    setReadWriter(filePath, sheetNumber, cells);
     this.stock = readWriter.readFile(0, 135);
   }
    /**
