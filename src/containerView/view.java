@@ -144,7 +144,7 @@ public class view {
     setColumn.addToColumn(columns, rowsLabel, rows, 1, "Диапазон строк");
     //Text and field with sheet number
     Label sheetNumber = new Label();
-    setColumn.addToColumn(columns, sheetNumber, sheetNumberF, 2, null);
+    setColumn.addToColumn(columns, sheetNumber, sheetNumberF, 2, "Номер листа в файле");
     //Text field and label with item Name
     Label nameLabel = new Label("Название товара");
     columns.add(nameLabel, 0, 3); columns.add(nameText, 1, 3);
@@ -238,6 +238,7 @@ public class view {
  Button calculateButton = new Button("Подсчитать");
  GridPane.setHalignment(calculateButton, HPos.RIGHT);
  mainWindow.add(calculateButton, 1, 2);
+ runCalculate(calculateButton);
 //Report 
  Label reportLabel = new Label("Окно отчета");
  mainWindow.add(reportLabel, 0, 3, 2, 1);
@@ -363,7 +364,6 @@ private void runCalculate(Button calculateButton){
          cont.setContainersTypes(list);
          cont.runSorting();
          cont.writeOutput(outputFileField.getText());
-                 
      });
    }
 }
