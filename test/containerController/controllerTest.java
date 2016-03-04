@@ -123,10 +123,10 @@ public class controllerTest {
         demo = new crypto();
         demo.getUniqueId();
     }
-    @Test
+    @Ignore
     public void testCore(){
         controller cont = controller.getController();
-        cont.Run();
+      //  cont.Run();
     }
     @Ignore
     public void restRegx(){

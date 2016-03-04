@@ -361,6 +361,9 @@ private void runCalculate(Button calculateButton){
          int sheetNumber = Integer.parseInt(sheetNumberF.getText());
          cont.readData(getColumns(), sourceTextField.getText(), sheetNumber);
          cont.setContainersTypes(list);
+         cont.runSorting();
+         cont.writeOutput(outputFileField.getText());
+                 
      });
    }
 }

@@ -331,7 +331,7 @@ public class controller{
     */
    public void readData(String [] cells, String filePath, int sheetNumber){
        //test data 
-      String testPath = "/home/igorbashka/Documents/ДокиМаша/test.xlsx";
+    //  String testPath = "/home/igorbashka/Documents/ДокиМаша/test.xlsx";
     //String testPath = "/home/igor/Documents/China/HDHardware/test.xlsx";
     //String testPath = "/home/igor/Documents/test.xlsx";
     setReadWriter(filePath, sheetNumber, cells);
@@ -353,7 +353,7 @@ public class controller{
    /**
     * Runs sorting of the stock and matching them with the containers
     */
-   private void runSorting(){
+   public void runSorting(){
        //Optimizer optimizer = new Optimizer(stock, containers);      was before 
        Optimizer optimizer = new Optimizer(stock);
        optimizer.sort();
@@ -362,20 +362,20 @@ public class controller{
    }/**
     * Writes output into an excel file
     */
-   private void writeOutput(){
+   public void writeOutput(String outputPath){
        //test data
-       String output = "/home/igorbashka/Documents/ДокиМаша/testOutput2.xlsx";
+       //String output = "/home/igorbashka/Documents/ДокиМаша/testOutput2.xlsx";
        //String output = "/home/igor/Documents/China/testOutput2.xlsx";
        // String output = "/home/igor/Documents/testOutput2.xls";
        readWriter.setContainers(finalContainers);
-       readWriter.writeOutput(output);
-   }
+       readWriter.writeOutput(outputPath);
+   }/**
    public void Run(){
       /* readData();
-       setContainers();*/
+       setContainers();
        runSorting();
        writeOutput();
-   }
+   } */
   /**
    * Method to form name and path of output file from input file string
    * @param input input file name and path
