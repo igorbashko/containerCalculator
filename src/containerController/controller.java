@@ -335,7 +335,7 @@ public class controller{
     //String testPath = "/home/igor/Documents/China/HDHardware/test.xlsx";
     //String testPath = "/home/igor/Documents/test.xlsx";
     setReadWriter(filePath, sheetNumber, cells);
-    this.stock = readWriter.readFile(0, 135);
+    this.stock = readWriter.readFile(0, 20);
   }
    /**
     * Sets list of types of containers that we want to use
