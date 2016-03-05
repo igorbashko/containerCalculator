@@ -71,6 +71,7 @@ public class view {
         
        Scene scene = new Scene(setMainWindow(), 960, 700);
        primaryStage.setScene(scene);
+       setTextInColumns();
        primaryStage.show();
    }
     
@@ -125,6 +126,7 @@ public class view {
  
  private GridPane setColumns(){
     GridPane columns = new GridPane();
+    columns.setPadding(new Insets(0,0,0,10));
    // columns.gridLinesVisibleProperty().setValue(Boolean.TRUE);
     columns.setHgap(10);
     columns.setVgap(10);
@@ -141,7 +143,8 @@ public class view {
     columns.add(hintLabel, 0, 0, 2, 1);
     //Text and field with label and field of rows
     Label rowsLabel = new Label();
-    setColumn.addToColumn(columns, rowsLabel, rows, 1, "Диапазон строк");
+    setColumn.addToColumn(columns, rowsLabel, rows, 1, "Диапазон строк в формате "
+            + "(n-m)\n Например (1-200)");
     //Text and field with sheet number
     Label sheetNumber = new Label();
     setColumn.addToColumn(columns, sheetNumber, sheetNumberF, 2, "Номер листа в файле");
@@ -152,23 +155,23 @@ public class view {
     Label price = new Label("Цена");
     columns.add(price, 0, 4); columns.add(priceField, 1, 4);
     //Adds label and text field with price column in excel
-   Label numOfItems = new Label("Укажите колонку с количеством");
+   Label numOfItems = new Label("Количество");
    columns.add(numOfItems, 0, 5); columns.add(numOfItemsField, 1, 5);
    //Adds label and text field with pieces in pack column in excel
-   Label numInPacks = new Label("Столбец с количеством наименований в коробке");
+   Label numInPacks = new Label("Количество в упаковке");
    columns.add(numInPacks, 0, 6); columns.add(itemsInPackF, 1, 6);
    // -//- number of packs
-   Label numOfPacks = new Label("Столбец с количеством упаковок");
+   Label numOfPacks = new Label("Количеством упаковок");
    columns.add(numOfPacks, 0, 7); columns.add(numOfPacksF, 1, 7);
    //net weight of pack
-   Label netWeightOfPack = new Label("Столбец с весом нетто упаковки");
+   Label netWeightOfPack = new Label("Вес нетто упаковки");
    columns.add(netWeightOfPack, 0, 8); columns.add(netWeightOfPackF, 1, 8);
    //gross weight of pack
-   Label grossWeightOfPack = new Label("Столбец с весом брутто упаковки");
+   Label grossWeightOfPack = new Label("Вес брутто упаковки");
    columns.add(grossWeightOfPack, 0, 9); 
    columns.add(grossWeightOfPackF, 1, 9);
    //volume of pack
-   Label volumeOfPack = new Label("Укажите объем коробки");
+   Label volumeOfPack = new Label("Объем упаковки");
    columns.add(volumeOfPack, 0, 10); columns.add(volumeOfPackF, 1, 10);
    return columns;
  }
@@ -298,7 +301,7 @@ public class view {
   * @return path of the input file
   */
  private void setContainer(){
-     String containerName = this.containerName.getText();
+     String containerName= this.containerName.getText();
      int weight = Integer.parseInt(this.containerWeight.getText());
      int volume = Integer.parseInt(this.containerVolume.getText());
      this.currentContainer = new containerInList(containerName, weight, volume);  
@@ -326,6 +329,7 @@ private void setListOfContainers(){
  */
 private void addContainer(Button addButton){
     addButton.setOnAction(new EventHandler<ActionEvent>(){
+         @Override
          public void handle(ActionEvent event){
              setContainer();
             list.add(currentContainer);
@@ -356,14 +360,44 @@ interface leftColumn{
     void addToColumn(GridPane grid, Label label, TextField textField,
              int row, String labelText);
 }
-
+/**
+ * Runs calculation process after calculate button was clicked
+ * @param calculateButton Run calculation button
+ */
 private void runCalculate(Button calculateButton){
-     calculateButton.setOnAction(event->{
+     calculateButton.setOnAction((ActionEvent event) -> {
          int sheetNumber = Integer.parseInt(sheetNumberF.getText());
+         cont.rowsRangeProcessing(rows.getText());
          cont.readData(getColumns(), sourceTextField.getText(), sheetNumber);
          cont.setContainersTypes(list);
          cont.runSorting();
          cont.writeOutput(outputFileField.getText());
      });
    }
+/**
+ * Only for debugging purposes. 
+ * Delete after use
+ * 
+ * private static final TextField rows = new TextField(); //Rows range
+ private static final TextField sheetNumberF = new TextField(); //Excell sheet number
+ private static final TextField nameText = new TextField(); //Name of the item
+ private static final TextField priceField = new TextField(); //Price of the text field
+ private static final TextField numOfItemsField = new TextField(); //number of the item
+ private static final TextField itemsInPackF = new TextField();//items in pack
+ private static final TextField numOfPacksF = new TextField(); // number of packs
+ private static final TextField netWeightOfPackF = new TextField(); //net weight of pack
+ private static final TextField grossWeightOfPackF = new TextField();// gross weight of pack
+ private static final TextField volumeOfPackF = new TextField();
+ */
+private void setTextInColumns(){
+ sheetNumberF.setText("0");
+ nameText.setText("a");
+ priceField.setText("g");
+ numOfItemsField.setText("b");
+ itemsInPackF.setText("j");
+ numOfPacksF.setText("k");
+ netWeightOfPackF.setText("l");
+ grossWeightOfPackF.setText("m");
+ volumeOfPackF.setText("p");
+ }
 }

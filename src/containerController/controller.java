@@ -61,12 +61,12 @@ public class controller{
     private List<Container> finalContainers;
     private Stock sortedStock;
     private List <Container> containers;
-    private Optimizer optimiser;
-            
-    
+  /**
+   * Main constructor. 
+   * Singleton pattern implementation
+   */   
     private controller(){};
-    
-            public static controller getController(){
+          public static controller getController(){
         if(cont == null){
             cont = new controller();
         }
@@ -138,7 +138,12 @@ public class controller{
         }
             return message;
       }
-    
+ /**
+  * Method to process the range of rows, specified by user 
+  * @param message range of rows in the format of (x-y)
+  * x - the number of first row
+  * y - the number of last row
+  */   
     public void rowsRangeProcessing(String message){
         String[] split = new String[2] ;
                int i=0;
@@ -330,52 +335,25 @@ public class controller{
     * stock variable
     */
    public void readData(String [] cells, String filePath, int sheetNumber){
-       //test data 
-    //  String testPath = "/home/igorbashka/Documents/ДокиМаша/test.xlsx";
-    //String testPath = "/home/igor/Documents/China/HDHardware/test.xlsx";
-    //String testPath = "/home/igor/Documents/test.xlsx";
     setReadWriter(filePath, sheetNumber, cells);
     this.stock = readWriter.readFile(this.firstNumber, this.secondNumber);
   }
    /**
-    * Sets list of types of containers that we want to use
-    *//*
-   private void setContainers(){
-      containers = new ArrayList();
-       //test data so fat
-       Container cont1 = new Container(25000, 27, new ArrayList<>());
-       Container cont2 = new Container(25000, 56, new ArrayList<>());
-       //Container cont3 = new Container(6000, 15, new ArrayList<Item>());
-       containers.add(cont1);
-       containers.add(cont2);
-       //containers.add(cont3);
-   }*/
-   /**
     * Runs sorting of the stock and matching them with the containers
-    */
+   */
    public void runSorting(){
-       //Optimizer optimizer = new Optimizer(stock, containers);      was before 
        Optimizer optimizer = new Optimizer(stock);
+       optimizer.setCont(containers);
        optimizer.sort();
        this.finalContainers = optimizer.getContainers();
-       this.sortedStock = optimizer.getStock();
+ //      this.sortedStock = optimizer.getStock();
    }/**
     * Writes output into an excel file
     */
    public void writeOutput(String outputPath){
-       //test data
-       //String output = "/home/igorbashka/Documents/ДокиМаша/testOutput2.xlsx";
-       //String output = "/home/igor/Documents/China/testOutput2.xlsx";
-       // String output = "/home/igor/Documents/testOutput2.xls";
-       readWriter.setContainers(finalContainers);
-       readWriter.writeOutput(outputPath);
-   }/**
-   public void Run(){
-      /* readData();
-       setContainers();
-       runSorting();
-       writeOutput();
-   } */
+      readWriter.setContainers(finalContainers);
+      readWriter.writeOutput(outputPath);
+   }
   /**
    * Method to form name and path of output file from input file string
    * @param input input file name and path
@@ -398,4 +376,13 @@ public class controller{
             new ArrayList<>()));
       });
   }
+  public String getReport(){
+      setReport data = (parameter, parameterToFormat)->{
+        parameter = String.valueOf(parameterToFormat);
+     };
+  }
+  
+  interface setReport{
+      void formatValueD(String parameter, Object parametrToFormat);
+    }
 }

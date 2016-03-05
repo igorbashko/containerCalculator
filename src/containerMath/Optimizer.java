@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  *
@@ -58,40 +59,47 @@ public class Optimizer {
           while(!stock.getList().isEmpty()){
           Map <Container, Stock> sortedContainers = new HashMap();
              this.workContainers = new ArrayList();
-             for (Container c: typesOfContainers){
-              Container cont = new Container(c.getWeightLimit(), c.getVolumeLimit(), 
-                      new ArrayList<Item>());
-              workContainers.add(cont);
-          }
-              for (Container c : workContainers){
-                  List <Item> items = new ArrayList();
-                  items.addAll(stock.getList());
-                  workStock = new Stock(items);
-                  full = false;
+             typesOfContainers.stream().map((Container c) -> new Container(c.getWeightLimit(), c.getVolumeLimit(), 
+                     new ArrayList<>())).forEach((cont) -> {
+                         workContainers.add(cont);
+              });
+             workContainers.stream().map((c) -> {
+                 List <Item> items = new ArrayList();
+                 items.addAll(stock.getList());
+                 workStock = new Stock(items);
+                 full = false;
+                  return c;
+              }).map((c) -> {
                   while(!workStock.getList().isEmpty() && !full ){
                       double idealRatio;
                       if(c.getFreeWeight() != c.getWeightLimit() && c.getFreeVoolume() != c.getVolumeLimit()){
-                      idealRatio = c.getRatio();
+                          idealRatio = c.getRatio();
                       }else
                       {
-                      idealRatio = c.getFreeSpacetRatio();
+                          idealRatio = c.getFreeSpacetRatio();
                       }
-                  for (Item item: workStock.getList()){
-                      double itemRatio = item.getRatio();
-                      item.setRationDiff(idealRatio,c.getRatio2(),c.size2(), itemRatio);
-                  }
-                  full = true;//if nothing to put in container anymore
-                  notAdded = true; // check if item was added into container
-                  Collections.sort(workStock.getList(), new stockComparator());
-                  iterator = workStock.getList().iterator();
-                  while(iterator.hasNext() && notAdded){ 
-                  addItem(c, iterator, workStock);    
-                  }//end of third while loop
-                }//end of second while loop
-                sortedContainers.put(c, workStock);
-                minContainer = c;
-                minStock = workStock;
-               }//end of for loop
+                      for (Item item: workStock.getList()){
+                          double itemRatio = item.getRatio();
+                          item.setRationDiff(idealRatio,c.getRatio2(),c.size2(), itemRatio);
+                      }
+                      full = true;//if nothing to put in container anymore
+                      notAdded = true; // check if item was added into container
+                      Collections.sort(workStock.getList(), new stockComparator());
+                      iterator = workStock.getList().iterator();
+                      while(iterator.hasNext() && notAdded){
+                          addItem(c, iterator, workStock);
+                      }//end of third while loop
+                  }//end of second while loop
+                  return c;
+              }).map((c) -> {
+                  sortedContainers.put(c, workStock);
+                  return c;
+              }).map((c) -> {
+                  minContainer = c;
+                  return c;
+              }).forEach((_item) -> {
+                  minStock = workStock;
+              }); //end of for loop
              findMinLoad(sortedContainers);
              finalContainers.add(minContainer);
              stock = minStock;
