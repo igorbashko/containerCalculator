@@ -380,9 +380,18 @@ public class controller{
       setReport data = (parameter, parameterToFormat)->{
         parameter = String.valueOf(parameterToFormat);
      };
-  }
+      String stockWeight; //sum weight of the working stock
+      data.formatValue(stockWeight = new String(), stock.getWeight());
+      String stockVolume; //sum volume of the stock
+      data.formatValue(stockVolume = new String(), stock.getVolume());
+      String numberOfContainers;//number of containers
+      data.formatValue(numberOfContainers = new String(), finalContainers.size());
+      String report = "Было досичтано товаров весом, "+stockWeight +" Объемом "+
+              stockVolume+" и распределено в "+numberOfContainers+" контейнерах ";
+      return report;
+  };
   
   interface setReport{
-      void formatValueD(String parameter, Object parametrToFormat);
+      void formatValue(String parameter, Object parametrToFormat);
     }
 }

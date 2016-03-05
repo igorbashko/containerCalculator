@@ -226,6 +226,8 @@ public class view {
   * Sets main window view 
   * @return GridPane with main window
   */
+ TextArea reportWindow = new TextArea();
+ 
  private GridPane setMainWindow(){
  GridPane mainWindow = new GridPane();
  mainWindow.setHgap(10);
@@ -247,7 +249,6 @@ public class view {
  mainWindow.add(reportLabel, 0, 3, 2, 1);
  GridPane.setHalignment(reportLabel, HPos.CENTER);
  reportLabel.setFont(Font.font("Tahome", FontWeight.NORMAL, 20));
- TextArea reportWindow = new TextArea();
  reportWindow.setEditable(false);
  mainWindow.add(reportWindow, 0, 4, 2, 1);
  return mainWindow;
@@ -371,6 +372,7 @@ private void runCalculate(Button calculateButton){
          cont.readData(getColumns(), sourceTextField.getText(), sheetNumber);
          cont.setContainersTypes(list);
          cont.runSorting();
+         setReport();
          cont.writeOutput(outputFileField.getText());
      });
    }
@@ -400,4 +402,7 @@ private void setTextInColumns(){
  grossWeightOfPackF.setText("m");
  volumeOfPackF.setText("p");
  }
+private void setReport(){
+    reportWindow.setText(cont.getReport());
+}
 }
