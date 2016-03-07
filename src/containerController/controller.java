@@ -21,7 +21,9 @@ import static java.lang.Math.abs;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidParameterSpecException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -32,6 +34,7 @@ import javafx.stage.Stage;
 import licensegenerator.Generator;
 import org.apache.poi.*;
 import org.apache.poi.ss.util.CellReference;
+
     
 
 /**
@@ -59,8 +62,10 @@ public class controller{
     private Stock stock;
     private readWriter readWriter;//Stock variable where all of the items are sorted   
     private List<Container> finalContainers;
-    private Stock sortedStock;
+   // private Stock sortedStock;
     private List <Container> containers;
+    private List<containerInList> containersFromView;
+    private Map<String, Integer> containersReport;
   /**
    * Main constructor. 
    * Singleton pattern implementation
@@ -370,7 +375,9 @@ public class controller{
    */
   public void setContainersTypes(ObservableList<containerInList> containersTypes){
       this.containers = new ArrayList();
+      this.containersFromView = new ArrayList();
       containersTypes.forEach((container)->{
+          containersFromView.add(container);
           containers.add(
             new Container((double) container.getKg(),(double)container.getM3(),
             new ArrayList<>()));
@@ -378,20 +385,47 @@ public class controller{
   }
   public String getReport(){
       setReport data = (parameter, parameterToFormat)->{
-        parameter = String.valueOf(parameterToFormat);
+       return parameter = String.valueOf(parameterToFormat);
      };
-      String stockWeight; //sum weight of the working stock
-      data.formatValue(stockWeight = new String(), stock.getWeight());
-      String stockVolume; //sum volume of the stock
-      data.formatValue(stockVolume = new String(), stock.getVolume());
-      String numberOfContainers;//number of containers
-      data.formatValue(numberOfContainers = new String(), finalContainers.size());
+      //sum weight of the working stock
+      String stockWeight = data.formatValue(new String(), stock.getWeight());
+      //sum volume of the stock
+      String stockVolume = data.formatValue(new String(), stock.getVolume());
+      //number of containers
+      String numberOfContainers = data.formatValue(new String(), finalContainers.size());
+      //detail report about the containers
+      setContainersDetails();
+      String containersReport  = getContainersReport();
       String report = "Было досичтано товаров весом, "+stockWeight +" Объемом "+
-              stockVolume+" и распределено в "+numberOfContainers+" контейнерах ";
+              stockVolume+" и распределено в "+numberOfContainers+" контейнерах."+
+              "\n" + containersReport ;
       return report;
   };
-  
+  /**
+   * Interface for setting report method 
+   */
   interface setReport{
-      void formatValue(String parameter, Object parametrToFormat);
+      String formatValue(String parameter, Object parametrToFormat);
     }
+  private void setContainersDetails(){
+      this.containersReport = new HashMap<>();
+      containersFromView.forEach((container)->{
+          //containerS - container from sorted containers list
+          String containerName = container.getName();
+          // contN - number of container
+          int contN = 0;
+    for(Container containerS: finalContainers){
+        if(containerS.getWeightLimit() == container.getKg()&&
+                containerS.getVolumeLimit() == container.getM3())
+            contN++;
+    };
+     containersReport.put(containerName, contN);
+  });
+  }
+  private String getContainersReport(){
+      String s = new String();
+      for(Map.Entry<String, Integer> container:containersReport.entrySet())
+          s += container.getKey()+": " +container.getValue() +"\n";
+      return s;
+  }
 }
