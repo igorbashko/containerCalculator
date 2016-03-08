@@ -422,6 +422,11 @@ public class controller{
      containersReport.put(containerName, contN);
   });
   }
+  /**
+   * Forming string with detailed information about how many containers of 
+   * each type was arranged.
+   * @return containers detailed information
+   */
   private String getContainersReport(){
       String s = new String();
       for(Map.Entry<String, Integer> container:containersReport.entrySet())

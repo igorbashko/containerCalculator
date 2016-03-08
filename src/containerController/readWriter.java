@@ -78,7 +78,7 @@ public class readWriter {
                   pkg = OPCPackage.open(sourceFile);
                   XSSFWorkbook book = new XSSFWorkbook(pkg);
                   Sheet workSheet = book.getSheetAt(sheet);
-                  for (int n=firstItem ; n<lastItem; n++){
+                  for (int n=firstItem-1 ; n<lastItem; n++){
                      try{
                      Row row = workSheet.getRow(n);
                      Item item = new Item(row.getCell(cellCodes[0]).toString(),
@@ -95,6 +95,7 @@ public class readWriter {
                          System.out.println("Неправильный формат данных на строке " + n);
                      }
                }
+              pkg.close();
               }catch(IOException | InvalidFormatException ex){
                   ex.printStackTrace();
               }
@@ -223,6 +224,7 @@ public class readWriter {
          try{
               FileOutputStream outWriter = new FileOutputStream(outputPath);
              writeBook.write(outWriter);
+             writeBook.close();
           }catch(IOException ex){
            ex.printStackTrace();
           }

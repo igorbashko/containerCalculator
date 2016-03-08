@@ -155,10 +155,13 @@ public class Optimizer {
              double minSum = minContainer.getFreeVoolume()+ 
                      minContainer.getFreeWeight()/1000;//current minimum sum of
              //free space
-             if(sum<minSum){
+             if((entry.getValue().getSize() ==0 && minStock.getSize() !=0) || 
+                     (entry.getValue().getSize() !=0 && minStock.getSize() !=0 && sum<minSum)||
+                     (entry.getValue().getSize()==0 && minStock.getSize() ==0 &&
+                     sum<minSum)){
              minContainer = entry.getKey();
              minStock= entry.getValue();
-             }
+             }  
          }
       }
       /**
@@ -175,6 +178,5 @@ public class Optimizer {
       public List<Container> getContainers(){
           return finalContainers;
       }
-      
-       }
+}
 
