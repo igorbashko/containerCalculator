@@ -433,4 +433,13 @@ public class controller{
           s += container.getKey()+": " +container.getValue() +"\n";
       return s;
   }
+  /**
+   * Delete after use
+   * @return stock weight and volume
+   */
+  public String getInfo(){
+      String weight = String.valueOf(stock.getWeight())+"\n";
+      String volume = String.valueOf(stock.getVolume());
+      return weight + volume;
+  }
 }

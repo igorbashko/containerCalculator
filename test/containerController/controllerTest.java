@@ -123,10 +123,13 @@ public class controllerTest {
         demo = new crypto();
         demo.getUniqueId();
     }
-    @Ignore
-    public void testCore(){
-        controller cont = controller.getController();
-      //  cont.Run();
+    @Test
+        public void testCore(){
+      controller cont = controller.getController();
+      String [] cells = {"a","g","b","j","k","l","m","p"}; 
+      cont.rowsRangeProcessing("1-115");
+      cont.readData(cells, "/home/igor/Documents/test.xlsx", 0);
+      System.out.println(cont.getInfo());
     }
     @Ignore
     public void restRegx(){

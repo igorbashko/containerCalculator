@@ -18,7 +18,7 @@ public class Item implements Iterable {
     private String itemName;
     private double numOfItems;
     private double itemsInPack;
-    private int numOfPacks;
+    private double numOfPacks;
     private double grossWeightOfPack;
     private double sumWeight;
     private double volumeOfPack;
@@ -31,7 +31,7 @@ public class Item implements Iterable {
     private double ratioDiff;
 
     public Item(String itemName, double itemPrice, double numOfItems, double itemsInPack,
-            int numOfPacks, double netWeightOfPack, double grossWeightOfPack,
+            double numOfPacks, double netWeightOfPack, double grossWeightOfPack,
             double volumeOfPack){
         this.itemName = checkName(itemName);
         this.itemPrice = checkRest(itemPrice);
@@ -57,7 +57,7 @@ public class Item implements Iterable {
     public double getItemsInPack(){
         return itemsInPack;
     }
-    public int getNumOfPacks(){
+    public double getNumOfPacks(){
         return numOfPacks;
     }
     public double getWeightOfPack(){
@@ -112,7 +112,7 @@ public class Item implements Iterable {
     * @return number in case if everything is fine 
     * or 0 instead
     */
-   private int checkNumberOfPacks(int number){
+   private double checkNumberOfPacks(double number){
      try{
      return number;
      }catch(Exception ex){
@@ -129,6 +129,7 @@ public class Item implements Iterable {
        try{
            return number;
        }catch(Exception ex){
+          
            return 0;
        }
    }

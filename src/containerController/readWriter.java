@@ -85,7 +85,7 @@ public class readWriter {
                      row.getCell(cellCodes[1]).getNumericCellValue(),
                      row.getCell(cellCodes[2]).getNumericCellValue(),
                      row.getCell(cellCodes[3]).getNumericCellValue(),
-                     (int)row.getCell( cellCodes[4]).getNumericCellValue(),
+                     row.getCell( cellCodes[4]).getNumericCellValue(),
                      row.getCell(cellCodes[5]).getNumericCellValue(),
                      row.getCell(cellCodes[6]).getNumericCellValue(),
                      row.getCell(cellCodes[7]).getNumericCellValue());
