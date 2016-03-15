@@ -73,14 +73,14 @@ public class readWriter {
           public Stock readFile(int firstItem, int lastItem)throws IllegalStateException,
                   InvalidFormatException, IOException{
               List <Item> stockList = new ArrayList();
-              
-             
                   OPCPackage pkg;
                   pkg = OPCPackage.open(sourceFile);
                   XSSFWorkbook book = new XSSFWorkbook(pkg);
                   Sheet workSheet = book.getSheetAt(sheet);
+                  Item emptyItem = new Item("Системе не удалось разпознать элемент",
+                          0, 0, 0, 0, 0, 0, 0);
                   for (int n=firstItem-1 ; n<lastItem; n++){
-                     try{
+                    try{ 
                      Row row = workSheet.getRow(n);
                      Item item = new Item(row.getCell(cellCodes[0]).toString(),
                      row.getCell(cellCodes[1]).getNumericCellValue(),
@@ -91,14 +91,11 @@ public class readWriter {
                      row.getCell(cellCodes[6]).getNumericCellValue(),
                      row.getCell(cellCodes[7]).getNumericCellValue());
                      stockList.add(item);
-                     }catch(NullPointerException ex){
-                         
-                         System.out.println("Неправильный формат данных на строке " + n);
-                     }
-               }
+                    }catch(NullPointerException ex){
+                        stockList.add(emptyItem);
+                }
+              }
               pkg.close();
-          
-             
               Stock stock = new Stock(stockList);
               return stock;
           }

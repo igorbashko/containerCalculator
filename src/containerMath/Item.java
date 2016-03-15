@@ -127,10 +127,12 @@ public class Item implements Iterable {
     */
    private double checkRest(double number){
        try{
-           return number;
+           if(Double.isNaN(number))
+              return 0;
+           else
+               return number;
        }catch(Exception ex){
-          
-           return 0;
+          return 0;
        }
    }
        @Override
