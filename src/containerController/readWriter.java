@@ -70,10 +70,11 @@ public class readWriter {
      /**
      * Reads excel file and matches cells to values
      */
-          public Stock readFile(int firstItem, int lastItem){
+          public Stock readFile(int firstItem, int lastItem)throws IllegalStateException,
+                  InvalidFormatException, IOException{
               List <Item> stockList = new ArrayList();
               
-              try{
+             
                   OPCPackage pkg;
                   pkg = OPCPackage.open(sourceFile);
                   XSSFWorkbook book = new XSSFWorkbook(pkg);
@@ -96,9 +97,8 @@ public class readWriter {
                      }
                }
               pkg.close();
-              }catch(IOException | InvalidFormatException ex){
-                  ex.printStackTrace();
-              }
+          
+             
               Stock stock = new Stock(stockList);
               return stock;
           }

@@ -33,6 +33,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import licensegenerator.Generator;
 import org.apache.poi.*;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.util.CellReference;
 
     
@@ -84,8 +85,11 @@ public class controller{
      * @param sheetNumber number of excel sheet in input file
      * @param cellsNumbers range of rows with items info
      */
-    private void setReadWriter(String pathToInputFile, int sheetNumber,
-            String [] cellsNumbers){
+    private void setReadWriter (String pathToInputFile, int sheetNumber,
+            String [] cellsNumbers) throws NullPointerException{
+        if(pathToInputFile.trim().equals("")){
+        throw new NullPointerException();    
+        }
         this.readWriter = new readWriter(pathToInputFile, sheetNumber,
         cellsNumbers);
     }
@@ -341,12 +345,14 @@ public class controller{
     * stock variable
     */
    public void readData(String [] cells, String filePath, int sheetNumber){
-     try{
+    try{
     setReadWriter(filePath, sheetNumber, cells);
     this.stock = readWriter.readFile(this.firstNumber, this.secondNumber);
-     }catch(NullPointerException ex){
+     }catch(NullPointerException |IllegalStateException | InvalidFormatException |
+             IOException ex){
          errorMessage message = new errorMessage("Укажите входной файл");
-         ex.printStackTrace();
+        // ex.printStackTrace();
+        this.errorStage = new Stage();
          message.start(errorStage);
       }
    }
