@@ -341,14 +341,14 @@ public class controller{
     * stock variable
     */
    public void readData(String [] cells, String filePath, int sheetNumber){
-     //  try{
+     try{
     setReadWriter(filePath, sheetNumber, cells);
     this.stock = readWriter.readFile(this.firstNumber, this.secondNumber);
-     //}catch(NullPointerException ex){
-       //  errorMessage message = new errorMessage("Укажите входной файл");
-         //ex.printStackTrace();
-        // message.start(errorStage);
-      //}
+     }catch(NullPointerException ex){
+         errorMessage message = new errorMessage("Укажите входной файл");
+         ex.printStackTrace();
+         message.start(errorStage);
+      }
    }
    /**
     * Runs sorting of the stock and matching them with the containers
