@@ -161,8 +161,16 @@ public class controller{
             split[i] = split2;
             i++;
           }
+        try{
       this.firstNumber = Integer.parseInt(split[0]);
       this.secondNumber = Integer.parseInt(split[1]);
+        }catch(NumberFormatException ex){
+            errorMessage eMessage = new errorMessage("Проверьте диапазон строк");
+            eMessage.start(errorStage);
+        }
+   /**
+     * Returns the first number from rows range processing method 
+     */
     }
     public int getFirstNumber(){
         return this.firstNumber-1;
