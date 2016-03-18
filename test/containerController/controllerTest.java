@@ -128,8 +128,8 @@ public class controllerTest {
       controller cont = controller.getController();
       String [] cells = {"a","g","b","j","k","l","m","p"}; 
       cont.rowsRangeProcessing("");
-     // cont.readData(cells, "/home/igor/Documents/test.xlsx", 0); laptop
-      cont.readData(cells, "/home/igor/Documents/China/HDHardware/test.xlsx", 0); 
+     cont.readData(cells, "/home/igor/Documents/test.xlsx", 0); //laptop
+     //cont.readData(cells, "/home/igor/Documents/China/HDHardware/test.xlsx", 0); //office
       //cont.readData(cells, null, 0);
       System.out.println(cont.getInfo());
     }
