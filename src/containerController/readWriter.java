@@ -160,7 +160,7 @@ public class readWriter {
               for(int j = 1; j< values.length; j++){
                 Cell cell = row.createCell(j);
                 //checking type of number of packs variable it should be int
-                if(j==4) cell.setCellValue((int) values[j]); 
+                if(j==4) cell.setCellValue((double) values[j]); 
                         else
                 cell.setCellValue((double)values[j]);
              }

@@ -161,11 +161,12 @@ public class controller{
             split[i] = split2;
             i++;
           }
-        try{
+       try{
       this.firstNumber = Integer.parseInt(split[0]);
       this.secondNumber = Integer.parseInt(split[1]);
         }catch(NumberFormatException ex){
             errorMessage eMessage = new errorMessage("Проверьте диапазон строк");
+            this.errorStage = new Stage();
             eMessage.start(errorStage);
         }
    /**
