@@ -168,6 +168,7 @@ public class controller{
             errorMessage eMessage = new errorMessage("Проверьте диапазон строк");
             this.errorStage = new Stage();
             eMessage.start(errorStage);
+            return;
         }
    /**
      * Returns the first number from rows range processing method 

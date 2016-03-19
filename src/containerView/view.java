@@ -369,6 +369,9 @@ private void runCalculate(Button calculateButton){
      calculateButton.setOnAction((ActionEvent event) -> {
          int sheetNumber = Integer.parseInt(sheetNumberF.getText());
          cont.rowsRangeProcessing(rows.getText());
+     if(true){
+         return;
+     }
          cont.readData(getColumns(), sourceTextField.getText(), sheetNumber);
          cont.setContainersTypes(list);
          cont.runSorting();
