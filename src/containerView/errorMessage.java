@@ -19,11 +19,11 @@ import javafx.stage.Stage;
  * Pop up window to show errors if user inputs wrong items
  * @author igor 
  */
-public class errorMessage {
+public class errorMessage{
     private String message;
     
     public errorMessage(String message){
-        this.message = message;
+       this.message = message;
     }
     public void start(Stage stage){
         //main box with message

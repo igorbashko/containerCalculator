@@ -105,7 +105,7 @@ public class controllerTest {
         System.out.println("rowsRangeProcessing");
         String message = "123-456";
         controller instance = controller.getController();
-        instance.rowsRangeProcessing(message);
+//        instance.rowsRangeProcessing(message);
         assertEquals(455,instance.getSecondNumber());
         
     }
@@ -127,8 +127,8 @@ public class controllerTest {
         public void testCore(){
       controller cont = controller.getController();
       String [] cells = {"a","g","b","j","k","l","m","p"}; 
-      cont.rowsRangeProcessing("");
-     cont.readData(cells, "/home/igor/Documents/test.xlsx", 0); //laptop
+     // cont.rowsRangeProcessing("");
+    // cont.readData(cells, "/home/igor/Documents/test.xlsx", 0); //laptop
      //cont.readData(cells, "/home/igor/Documents/China/HDHardware/test.xlsx", 0); //office
       //cont.readData(cells, null, 0);
       System.out.println(cont.getInfo());

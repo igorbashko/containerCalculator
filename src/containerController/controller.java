@@ -63,12 +63,10 @@ public class controller{
     private Stock stock;
     private readWriter readWriter;//Stock variable where all of the items are sorted   
     private List<Container> finalContainers;
-   // private Stock sortedStock;
     private List <Container> containers;
     private List<containerInList> containersFromView;
     private Map<String, Integer> containersReport;
-    private Stage errorStage;
-  /**
+    /**
    * Main constructor. 
    * Singleton pattern implementation
    */   
@@ -85,13 +83,19 @@ public class controller{
      * @param sheetNumber number of excel sheet in input file
      * @param cellsNumbers range of rows with items info
      */
-    private void setReadWriter (String pathToInputFile, int sheetNumber,
-            String [] cellsNumbers) throws NullPointerException{
+    private void setReadWriter (String pathToInputFile, String sheetNumber,
+            String [] cellsNumbers) throws NullPointerException, ShowErrorMessageException{
         if(pathToInputFile.trim().equals("")){
         throw new NullPointerException();    
         }
-        this.readWriter = new readWriter(pathToInputFile, sheetNumber,
+        try{
+          int sheetN = Integer.parseInt(sheetNumber);
+          this.readWriter = new readWriter(pathToInputFile, sheetN,
         cellsNumbers);
+          }catch(Exception ex){
+            throw new ShowErrorMessageException("Проверьте номер листа с исходном "
+                    + "файле");
+     }
     }
     /*Method for formatting input strings to remove all the unwanted characters
     and letters from small to capital
@@ -154,7 +158,7 @@ public class controller{
   * x - the number of first row
   * y - the number of last row
   */   
-    public void rowsRangeProcessing(String message){
+    public void rowsRangeProcessing(String message) throws ShowErrorMessageException{
         String[] split = new String[2] ;
                int i=0;
         for (String split2:message.trim().split("-")) {
@@ -165,10 +169,8 @@ public class controller{
       this.firstNumber = Integer.parseInt(split[0]);
       this.secondNumber = Integer.parseInt(split[1]);
         }catch(NumberFormatException ex){
-            errorMessage eMessage = new errorMessage("Проверьте диапазон строк");
-            this.errorStage = new Stage();
-            eMessage.start(errorStage);
-            return;
+           String errorMessage = new String("Проверьте длину строк");
+           throw new ShowErrorMessageException(errorMessage);
         }
    /**
      * Returns the first number from rows range processing method 
@@ -354,16 +356,13 @@ public class controller{
     * Calls readWriter to read data from input file and sets
     * stock variable
     */
-   public void readData(String [] cells, String filePath, int sheetNumber){
+   public void readData(String [] cells, String filePath, String sheetNumber) throws ShowErrorMessageException{
     try{
     setReadWriter(filePath, sheetNumber, cells);
     this.stock = readWriter.readFile(this.firstNumber, this.secondNumber);
      }catch(NullPointerException |IllegalStateException | InvalidFormatException |
              IOException ex){
-         errorMessage message = new errorMessage("Укажите входной файл");
-        // ex.printStackTrace();
-        this.errorStage = new Stage();
-         message.start(errorStage);
+        throw new ShowErrorMessageException("Проверьте входной файл");
       }
    }
    /**

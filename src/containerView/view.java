@@ -66,6 +66,7 @@ public class view {
     private TextField containerName = new TextField();
     private TextField containerWeight = new TextField();
     private TextField containerVolume = new TextField();
+    private boolean error = false;
     
     public void start(Stage primaryStage){
         
@@ -367,16 +368,18 @@ interface leftColumn{
  */
 private void runCalculate(Button calculateButton){
      calculateButton.setOnAction((ActionEvent event) -> {
-         int sheetNumber = Integer.parseInt(sheetNumberF.getText());
+         try{
          cont.rowsRangeProcessing(rows.getText());
-     if(true){
-         return;
-     }
-         cont.readData(getColumns(), sourceTextField.getText(), sheetNumber);
+         cont.readData(getColumns(), sourceTextField.getText(), sheetNumberF.getText());
          cont.setContainersTypes(list);
          cont.runSorting();
          setReport();
          cont.writeOutput(outputFileField.getText());
+         }catch(ShowErrorMessageException ex){
+            Stage errorStage = new Stage();
+            errorMessage error = new errorMessage(ex.getMessage());
+            error.start(errorStage);
+         }
      });
    }
 /**
@@ -407,5 +410,5 @@ private void setTextInColumns(){
  }
 private void setReport(){
     reportWindow.setText(cont.getReport());
-}
+  }
 }

@@ -95,7 +95,7 @@ public class containerMath {
             String netWeight, String sumNetWeight, String grossWeight,
             String sumGrossWeight, String volumeOfPack, String sumVolume){
    //{
-        cont.rowsRangeProcessing(range);
+//        cont.rowsRangeProcessing(range);
         int itemName = CellReference.convertColStringToIndex(name);
         int itemsQuantity = CellReference.convertColStringToIndex(numberOfItems);
         int inPackIndex = CellReference.convertColStringToIndex(inPack);
