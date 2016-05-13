@@ -77,10 +77,7 @@ public class readWriter {
                   InvalidFormatException, IOException{
               List <Item> stockList = new ArrayList();
               Workbook book = WorkbookFactory.create(this.sourceFile);
-                  /*OPCPackage pkg;
-                  pkg = OPCPackage.open(sourceFile);*/
-              //    XSSFWorkbook book = new XSSFWorkbook(pkg);
-                  Sheet workSheet = book.getSheetAt(sheet);
+                   Sheet workSheet = book.getSheetAt(sheet);
                   Item emptyItem = new Item("Системе не удалось разпознать элемент",
                           0, 0, 0, 0, 0, 0, 0);
                   for (int n=firstItem-1 ; n<lastItem; n++){
