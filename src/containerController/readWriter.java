@@ -15,11 +15,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -73,9 +76,10 @@ public class readWriter {
           public Stock readFile(int firstItem, int lastItem)throws IllegalStateException,
                   InvalidFormatException, IOException{
               List <Item> stockList = new ArrayList();
-                  OPCPackage pkg;
-                  pkg = OPCPackage.open(sourceFile);
-                  XSSFWorkbook book = new XSSFWorkbook(pkg);
+              Workbook book = WorkbookFactory.create(this.sourceFile);
+                  /*OPCPackage pkg;
+                  pkg = OPCPackage.open(sourceFile);*/
+              //    XSSFWorkbook book = new XSSFWorkbook(pkg);
                   Sheet workSheet = book.getSheetAt(sheet);
                   Item emptyItem = new Item("Системе не удалось разпознать элемент",
                           0, 0, 0, 0, 0, 0, 0);
@@ -95,7 +99,7 @@ public class readWriter {
                         stockList.add(emptyItem);
                 }
               }
-              pkg.close();
+             // pkg.close();
               Stock stock = new Stock(stockList);
               return stock;
           }
